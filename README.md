@@ -435,7 +435,7 @@ It's also possible to create multi-line script in Blender text editor, or import
 </table>
 
 ### Vector Nodes
-</table>
+<table>
 <tr>
 <th>Node Name</th><th>Identifier</th><th>Input Count</th><th>Output Count</th>
 </tr>
