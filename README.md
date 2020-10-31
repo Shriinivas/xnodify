@@ -28,22 +28,22 @@ It's also possible to create multi-line script in Blender text editor, or import
 </tr>
 <tr>
 <tr>
-<td>Add</td><td>add</td><td>2</td><td>1</td>
+<td>Add</td><td>add (or +)</td><td>2</td><td>1</td>
 </tr>
 <tr>
-<td>Subtract</td><td>sub</td><td>2</td><td>1</td>
+<td>Subtract</td><td>sub (or -)</td><td>2</td><td>1</td>
 </tr>
 <tr>
-<td>Multiply</td><td>mult</td><td>2</td><td>1</td>
+<td>Multiply</td><td>mult (or *)</td><td>2</td><td>1</td>
 </tr>
 <tr>
-<td>Divide</td><td>div</td><td>2</td><td>1</td>
+<td>Divide</td><td>div (or /)</td><td>2</td><td>1</td>
 </tr>
 <tr>
 <td>Multiply_add</td><td>multadd</td><td>3</td><td>1</td>
 </tr>
 <tr>
-<td>Power</td><td>pow</td><td>2</td><td>1</td>
+<td>Power</td><td>pow (or **)</td><td>2</td><td>1</td>
 </tr>
 <tr>
 <td>Logarithm</td><td>log</td><td>2</td><td>1</td>
