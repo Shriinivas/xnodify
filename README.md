@@ -20,3 +20,5 @@ XNodify panel is available under Edit category in the side-bar of Node Editor.
 - Click Generate Nodes
 <br/>
 It's also possible to create multi-line script in Blender text editor, or import an external script file.
+
+### Detailed Video Tutorial: https://youtu.be/9CxG9mnyumw
