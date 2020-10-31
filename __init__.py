@@ -16,5 +16,6 @@ bl_info = {
     "version": (0, 5, 00),
     "location": "Shader Editor > Sidebar > Edit Tab",
     "category": "Object",
+    "wiki_url": "https://github.com/Shriinivas/xnodify/blob/master/README.md",
     "blender": (2, 80, 0),
 }
