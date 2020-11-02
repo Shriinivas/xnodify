@@ -157,7 +157,8 @@ class EqualsEvaluator(EvaluatorBase):
         rhsNodes = paramBus.rhsNodes
 
         # variable or redefined variable
-        if(lhsNode == None or varTable.get(paramBus.operand0.value) != None):
+        if(lhsNode == None or (varTable.get(paramBus.operand0.value) != None \
+            and operand0.sockIdx == None)):
             varTable[operand0.value] = (rhsNodes[0], operands1[0].sockIdx)
             return rhsNodes[0]
         elif(len(lhsNode.inputs) == 0):
