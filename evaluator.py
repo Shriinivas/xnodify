@@ -118,32 +118,32 @@ class VariableEvaluator(EvaluatorBase):
 
         varName = data.value
 
-        # ~ if(fnMap.get(varName) != None): # Allow this now
-            # ~ raise SyntaxError(varName, 'is a function, ' + \
-                         # ~ 'it can\'t be a variable name')
-
-        # Math functions are handled in evalParenthesis
         nodeInfo = fnMap.get(varName)
         if(nodeInfo != None):
             node = EvaluatorBase.getNode(nodeTree, \
                 nodeInfo[1], nodeInfo[2])
         else:
-            varTableInfo = varTable.get(varName)
-            if(varTableInfo != None):
-                node, sockIdx = varTableInfo
-                if(nodeTree != node.id_data):
-                    raise SyntaxError('Groups cannot contain ' + \
-                        'variables defined earlier')
-
-                if(sockIdx != None):
-                    paramBus.data.sockIdx = sockIdx
+            nodeInfo = mathFnMap.get(mathPrefix + varName)
+            if(nodeInfo != None):
+                node = EvaluatorBase.getNode(nodeTree, 'ShaderNodeMath', \
+                    nodeInfo[2])
+                node.operation = nodeInfo[1]
             else:
-                # LHS is handled in evalEquals
-                if(data.isLHS):
-                    return None
-                node = EvaluatorBase.getNode(nodeTree, \
-                    'ShaderNodeValue', data.value, 0)
-                varTable[varName] = (node, 0)
+                varTableInfo = varTable.get(varName)
+                if(varTableInfo != None):
+                    node, sockIdx = varTableInfo
+                    if(nodeTree != node.id_data):
+                        raise SyntaxError('Groups cannot contain variables')
+
+                    if(sockIdx != None):
+                        paramBus.data.sockIdx = sockIdx
+                else:
+                    # LHS is handled in evalEquals
+                    if(data.isLHS):
+                        return None
+                    node = EvaluatorBase.getNode(nodeTree, \
+                        'ShaderNodeValue', data.value, 0)
+                    varTable[varName] = (node, 0)
 
         return node
 
@@ -156,9 +156,10 @@ class EqualsEvaluator(EvaluatorBase):
         lhsNode = paramBus.lhsNode
         rhsNodes = paramBus.rhsNodes
 
-        if(lhsNode == None):# and operand0.isLHS):
+        # variable or redefined variable
+        if(lhsNode == None or varTable.get(paramBus.operand0.value) != None):
             varTable[operand0.value] = (rhsNodes[0], operands1[0].sockIdx)
-            return None
+            return rhsNodes[0]
         elif(len(lhsNode.inputs) == 0):
             raise SyntaxError('Left hand side should be ' + \
                 'a node type with at least one input')
