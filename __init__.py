@@ -13,7 +13,7 @@ from . xnodifyui import register, unregister
 bl_info = {
     "name": "XNodify",
     "author": "Shrinivas Kulkarni",
-    "version": (0, 5, 00),
+    "version": (0, 5, 10),
     "location": "Shader Editor > Sidebar > Edit Tab",
     "category": "Object",
     "wiki_url": "https://github.com/Shriinivas/xnodify/blob/master/README.md",

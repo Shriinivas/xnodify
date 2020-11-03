@@ -129,21 +129,22 @@ class VariableEvaluator(EvaluatorBase):
                     nodeInfo[2])
                 node.operation = nodeInfo[1]
             else:
+                # LHS is handled in evalEquals
+                if(data.isLHS):
+                    return None
                 varTableInfo = varTable.get(varName)
                 if(varTableInfo != None):
-                    node, sockIdx = varTableInfo
+                    node, sockIdx, usageCnt = varTableInfo
                     if(nodeTree != node.id_data):
                         raise SyntaxError('Groups cannot contain variables')
 
                     if(sockIdx != None):
                         paramBus.data.sockIdx = sockIdx
+                    varTable[varName][2] += 1
                 else:
-                    # LHS is handled in evalEquals
-                    if(data.isLHS):
-                        return None
                     node = EvaluatorBase.getNode(nodeTree, \
                         'ShaderNodeValue', data.value, 0)
-                    varTable[varName] = (node, 0)
+                    varTable[varName] = [node, 0, 0]
 
         return node
 
@@ -159,7 +160,7 @@ class EqualsEvaluator(EvaluatorBase):
         # variable or redefined variable
         if(lhsNode == None or (varTable.get(paramBus.operand0.value) != None \
             and operand0.sockIdx == None)):
-            varTable[operand0.value] = (rhsNodes[0], operands1[0].sockIdx)
+            varTable[operand0.value] = [rhsNodes[0], operands1[0].sockIdx, 0]
             return rhsNodes[0]
         elif(len(lhsNode.inputs) == 0):
             raise SyntaxError('Left hand side should be ' + \
@@ -185,7 +186,7 @@ class EqualsEvaluator(EvaluatorBase):
                 'a node type with at least one output')
 
         nodeTree.links.new(ip, op)
-        return None
+        return rhsNodes[0]
 
 
 class PlusEvaluator(EvaluatorBase):

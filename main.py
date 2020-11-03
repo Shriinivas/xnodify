@@ -1,6 +1,7 @@
 #
 # Main module of XNodify.
 # Includes classes that create and arrange nodes from parsed tokens.
+# TODO: Maybe 2 modules for processing and post-processing
 #
 # Copyright (C) 2020  Shrinivas Kulkarni
 #
@@ -175,113 +176,90 @@ class SymbolData(object):
 
         return node
 
+class VarInfo:
+    def __init__(self, nodeTreeTable):
+        self.nodeTreeTable = nodeTreeTable
+        self.usageLines = set()
+        self.isProcessed = False # Used at the time of processing
+        self.isLaidOut = False # Used at the time of post-processing
+
+    def __str__(self):
+        return '<' + str(self.nodeTreeTable) + '::' + str(self.usageLines) + '>'
+
+    def __repr__(self):
+        return str(self)
+
+# Post-processing...
+# At this point all nodes are already created and links established
 class NodeLayout:
     noodleWidth = 80
-    frameMargins = ((20, 40), (20, 20))
 
-    # Normalize the nodegraph to remove gaps in columns and rows
-    def __init__(self, tNodeGraph):
-        self.colHeights = []
-        self.colWidths = []
-        self.nodeGraph = []
-        for col in sorted(tNodeGraph.keys()):
-            self.nodeGraph.append([])
-            self.colHeights.append(0)
-            self.colWidths.append(0)
-            for row in range(len(tNodeGraph[col])):
-                node = tNodeGraph[col][row]
-                self.nodeGraph[-1].append(node)
-                dimensions = EvaluatorBase.getNodeDimensions(node)
-                self.colHeights[-1] += dimensions[1]
-                if(self.colWidths[-1] < dimensions[0]):
-                    self.colWidths[-1] = dimensions[0]
-
-        self.nodeCnt = len(self.colHeights)
-        self.totalHeight = max(self.colHeights) if(self.nodeCnt > 0) else 0
-        self.totalWidth = (sum(self.colWidths) + \
-            (self.nodeCnt - 1) * NodeLayout.noodleWidth) \
-                if(self.nodeCnt > 0) else 0
-
-# One per line
-class Controller:
-    def __init__(self, varNodeGraphs, currNodes):
-        self.nodeTreeTable = {}
-        self.varNodeGraphs = varNodeGraphs
-        self.currNodes = currNodes if currNodes != None else set()
-
-    def getGlobalNodes(self):
-        allNodes = set()
-        for nodeTree in self.nodeTreeTable.keys():
-            nodeGraph = self.nodeTreeTable[nodeTree]
-            for col in nodeGraph.keys():
-                allNodes = allNodes.union(nodeGraph[col])
-        allNodes = allNodes.union(self.currNodes)
-        return allNodes
-
-    def removeAllNodes(self, newNodes = None):
-        for node in self.getGlobalNodes():
-            node.id_data.nodes.remove(node)
-        # TODO : better way to delete all nodes on syntax error
-        if(newNodes != None):
-            for node in newNodes:
-                try:
-                    node.id_data.nodes.remove(node)
-                except:
-                    pass
-
-    # Callback method, creates and updates nodeTreeTable used by arrange.
-    # nodeTreeTable will have mulitple nodeGraphs only in case of group nodes.
-    def afterProcNode(self, colNo, node, params, varTable):
-        if(node != None and node not in self.getGlobalNodes()):
-            nodeTree = node.id_data
-            nodeGraph = self.nodeTreeTable.get(nodeTree)
-            if(nodeGraph == None):
-                self.nodeTreeTable[nodeTree] = {}
-                nodeGraph = self.nodeTreeTable[nodeTree]
-
-            # add varTable node (and its associated nodes) at its first usage
-            # TODO: Review
-            if(params.data.value in self.varNodeGraphs.keys()):
-                varTreeTable = self.varNodeGraphs[params.data.value]
-                for key in varTreeTable.keys():
-                    nodeInfo = varTable[params.data.value]
-                    if(key != nodeInfo[0].id_data):
-                        continue
-                    nodeLayout = NodeLayout(varTreeTable[key])
-                    colHeights, colWidths, varNodeGraph = \
-                        nodeLayout.colHeights, nodeLayout.colWidths, \
-                            nodeLayout.nodeGraph
-
-                    for col in range(len(varNodeGraph)):
-                        for row in reversed(range(len(varNodeGraph[col]))):
-                            varNode = varNodeGraph[col][row]
-                            if(varNode.bl_idname == 'ShaderNodeGroup'):
-                                self.nodeTreeTable[varNode.node_tree] = \
-                                    varTreeTable[varNode.node_tree]
-                            newCol = colNo + col
-                            nodeColumn = nodeGraph.get(newCol)
-                            if(nodeColumn == None):
-                                nodeGraph[newCol] = []
-                                nodeColumn = nodeGraph[newCol]
-                            nodeColumn.insert(0, varNode)
-                self.varNodeGraphs.pop(params.data.value)
-            else:
-                nodeColumn = nodeGraph.get(colNo)
-                if(nodeColumn == None):
-                    nodeGraph[colNo] = []
-                    nodeColumn = nodeGraph[colNo]
-                nodeColumn.append(node)
-
-    # At this point all nodes are already created and links established
+    # Go through each node of the parent graph and expand the var nodes
+    # into the corresponding row and column; i.e. insert nodes of the var
+    # node graph at its place.
+    # Mark the var node as processed only if the current line is being
+    # displayed, so that it won't be processed again.
+    # (Remember: this is just for arranging the nodes,
+    # linking happened already in evalSymbol)
+    # TODO: 1) linear search? 2) NodeGraph traversed & recreated too often
     @staticmethod
-    def arrangeNodes(nodeTreeTable, nodeTree, \
-        location, scale, alignment, nodeLayout = None):
+    def insertVarNodes(nodeTreeTable, parentNodeTree, varNodeGraphs, \
+        currLineNo, markProcessed):
+        parentNodeGraph = nodeTreeTable[parentNodeTree]
+        newNodeGraph = {}
+        colDiff = 0
+        for col in sorted(parentNodeGraph.keys()):
+            for row in range(len(parentNodeGraph[col])):
+                node = parentNodeGraph[col][row]
+                varInfo = varNodeGraphs.get(node)
+                if(varInfo != None and len(varInfo.usageLines) > 0 and \
+                    max(varInfo.usageLines) == currLineNo):
+                    varTreeTable = varInfo.nodeTreeTable
+                    for key in varTreeTable.keys():
+                        # There will be only one key == node.id_data
+                        if(key != node.id_data):
+                            # Node of a group, no variables allowed, so skip
+                            continue
+                        varNodeGraph = varTreeTable[key]
+                        for varColNo in sorted(varNodeGraph.keys()):
+                            varCol = varNodeGraph[varColNo]
+                            for varRowNo in reversed(range(len(varCol))):
+                                varNode = varNodeGraph[varColNo][varRowNo]
+                                if(varNode.bl_idname == 'ShaderNodeGroup' and \
+                                    varNode.node_tree in varTreeTable.keys()):
+                                    nodeTreeTable[varNode.node_tree] = \
+                                        varTreeTable[varNode.node_tree]
+                                prevVarInfo = varNodeGraphs.get(varNode)
+                                if(prevVarInfo == None or \
+                                    prevVarInfo.isLaidOut == False):
+                                    newColNo = col + colDiff + varColNo
+                                    nodeColumn = newNodeGraph.get(newColNo)
+                                    if(nodeColumn == None):
+                                        newNodeGraph[newColNo] = []
+                                        nodeColumn = newNodeGraph[newColNo]
+                                    nodeColumn.append(varNode)
+                                    if(prevVarInfo != None and markProcessed):
+                                        prevVarInfo.isLaidOut = True
+                        # ~ colDiff += len(varNodeGraph.keys())
+                    if(markProcessed):
+                        varInfo.isLaidOut = True
+                else:
+                    newColNo = col + colDiff
+                    nodeColumn = newNodeGraph.get(newColNo)
+                    if(nodeColumn == None):
+                        newNodeGraph[newColNo] = []
+                        nodeColumn = newNodeGraph[newColNo]
+                    nodeColumn.append(node)
+        return newNodeGraph
+
+    @staticmethod
+    def arrangeNodes(nodeTreeTable, nodeTree, location, scale, alignment):
 
         height = 0
         width = 0
+        augNodeGraph = nodeTreeTable[nodeTree]
 
-        if(nodeLayout == None):
-            nodeLayout = NodeLayout(nodeTreeTable[nodeTree])
+        nodeLayout = NodeLayout(augNodeGraph)
 
         colHeights, colWidths, totalHeight, totalWidth, nodeGraph = \
             nodeLayout.colHeights, nodeLayout.colWidths, \
@@ -309,11 +287,13 @@ class Controller:
                     location[1] + -scale[1] * y))
                 node.location = nodeLoc
 
-                if(node.bl_idname == 'ShaderNodeGroup'):
+                if(node.bl_idname == 'ShaderNodeGroup' and \
+                    node.node_tree in nodeTreeTable.keys()):
                     refLocation =  -node.id_data.view_center + nodeLoc
-                    gTotalWidth, gTotalHeight = \
-                        Controller.arrangeNodes(nodeTreeTable, node.node_tree, \
+                    newLayout = \
+                        NodeLayout.arrangeNodes(nodeTreeTable, node.node_tree, \
                             refLocation, scale, alignment)
+                    gTotalWidth = newLayout.totalWidth
                     nOut = node.node_tree.nodes['Group Output']
                     nOut.location = refLocation
                     nOut.location[0] += \
@@ -323,14 +303,97 @@ class Controller:
                     nIn.location[0] -= NodeLayout.noodleWidth + \
                         gTotalWidth / 2 + \
                             EvaluatorBase.getNodeDimensions(nIn)[0]
+        return nodeLayout
 
-        return totalWidth, totalHeight
+    def __init__(self, tNodeGraph):
+        self.colHeights = []
+        self.colWidths = []
+        self.nodeGraph = []
+
+        # Normalize the nodegraph to remove gaps in columns and rows
+        for col in sorted(tNodeGraph.keys()):
+            self.nodeGraph.append([])
+            self.colHeights.append(0)
+            self.colWidths.append(0)
+            for row in range(len(tNodeGraph[col])):
+                node = tNodeGraph[col][row]
+                self.nodeGraph[-1].append(node)
+                dimensions = EvaluatorBase.getNodeDimensions(node)
+                self.colHeights[-1] += dimensions[1]
+                if(self.colWidths[-1] < dimensions[0]):
+                    self.colWidths[-1] = dimensions[0]
+
+        self.nodeCnt = len(self.colHeights)
+        self.totalHeight = max(self.colHeights) if(self.nodeCnt > 0) else 0
+        self.totalWidth = (sum(self.colWidths) + \
+            (self.nodeCnt - 1) * NodeLayout.noodleWidth) \
+                if(self.nodeCnt > 0) else 0
+
+# One Controller per line
+class Controller:
+    def __init__(self, globalNodes, varNodeGraphs, currLineNo):
+        self.globalNodes = globalNodes
+
+        # varNodeGraphs is used in layout. here only usage count is updated
+        # based on currLineNo
+        self.varNodeGraphs = varNodeGraphs
+        self.currLineNo = currLineNo
+
+        # This will have nodegraphs for global as well as group node tree
+        self.nodeTreeTable = {}
+
+    def getGlobalNodes(self):
+        allNodes = set()
+        for nodeTree in self.nodeTreeTable.keys():
+            nodeGraph = self.nodeTreeTable[nodeTree]
+            for col in nodeGraph.keys():
+                allNodes = allNodes.union(nodeGraph[col])
+        allNodes = allNodes.union(self.globalNodes)
+        return allNodes
+
+    def removeAllNodes(self, newNodes = None):
+        for node in self.getGlobalNodes():
+            node.id_data.nodes.remove(node)
+        # TODO : better way to delete all nodes on syntax error
+        if(newNodes != None):
+            for node in newNodes:
+                try:
+                    node.id_data.nodes.remove(node)
+                except:
+                    pass
+
+    # Callback method, creates and updates nodeTreeTable used by arrange.
+    # nodeTreeTable will have mulitple nodeGraphs only in case of group nodes.
+    def afterProcNode(self, colNo, node, params, varTable):
+        varInfo = self.varNodeGraphs.get(node)
+        if(varInfo != None):
+            varInfo.usageLines.add(self.currLineNo)
+        # Add varNode only once in nodeGraph, so that it's locatable later
+        if((varInfo != None and not varInfo.isProcessed) or \
+            (node != None and node not in self.getGlobalNodes())):
+            nodeTree = node.id_data
+            nodeGraph = self.nodeTreeTable.get(nodeTree)
+            if(nodeGraph == None):
+                self.nodeTreeTable[nodeTree] = {}
+                nodeGraph = self.nodeTreeTable[nodeTree]
+            nodeColumn = nodeGraph.get(colNo)
+            if(nodeColumn == None):
+                nodeGraph[colNo] = []
+                nodeColumn = nodeGraph[colNo]
+            nodeColumn.append(node)
+            if(varInfo != None):
+                varInfo.isProcessed = True
 
     def createNodes(self, nodeTree, varTable, expression, depth = 0):
+
+        OUTPUT_ON_LHS = 'Deprecation Warning: output on LHS is deprecated, ' + \
+            'use output on RHS with incoming nodes as parameters instead.' + \
+            '(Layout won\'t be correct.)'
+        warnings = set()
         dataTree = parser.parse(expression, SymbolData)
 
         if(dataTree == None):
-            return None, None, None
+            return None, None, None, None, warnings
 
         datas = dataTree.getLinearList([])
         equalsOps = [t for t in datas if t.getMetaData().id == '=']
@@ -342,6 +405,7 @@ class Controller:
             if(op0.getMetaData().id != 'NAME'):
                 raise SyntaxError('LHS must be a variable or the output node')
             if(op0.value == 'output'):
+                warnings.add(OUTPUT_ON_LHS)
                 exprType = 'output'
             elif(op0.value in getCombinedMap().keys()):
                 raise SyntaxError('LHS cannot refer to a node ' + \
@@ -351,8 +415,15 @@ class Controller:
         elif(len(equalsOps) == 0):
             exprType = None
 
-        dataTree.evalSymbol(nodeTree, varTable, self.afterProcNode, depth)
-        return exprType, self.nodeTreeTable, self.getGlobalNodes()
+        evalNode = dataTree.evalSymbol(nodeTree, varTable, \
+            self.afterProcNode, depth)
+        varInfo = varTable.get(exprType)
+        if(varInfo != None and \
+            varInfo[0].bl_idname == 'ShaderNodeOutputMaterial'):
+            warnings.add(OUTPUT_ON_LHS)
+            exprType = 'output'
+        return evalNode, exprType, self.nodeTreeTable, \
+            self.getGlobalNodes(), warnings
 
 # Context for all the lines
 class XNodifyContext:
@@ -363,59 +434,81 @@ class XNodifyContext:
             expression = expression.replace('`'+key+'`', hardReplaceTable[key])
         return expression
 
+    @staticmethod
+    def isLineDisplayed(nType, varTable):
+        return nType == 'line' or (varTable.get(nType) != None and \
+        (varTable.get(nType)[2] == 0 or \
+            varTable.get(nType)[0].bl_idname == 'ShaderNodeOutputMaterial'))
+
     def __init__(self):
         pass
 
     def processExpressions(self, lineFeeder, nodeTree, \
         location, scale, alignment, addFrame, frameTitle = None):
+
         if(nodeTree == None):
             nodeTree = XNodifyContext.getActiveMatTree()
+
         actLineCnt = 1
-        varNodes = set()
+        warnings = {}
+        varNodeGraphs = {}
+        varTable = {}
+        hardReplaceTable = {}
+        allNodes = set()
+        lineNodeTables = []
+        lineCnt = 0
+
+        # TODO: Split in 3 different methods
         try:
             expression = next(lineFeeder)
-            varTable = {}
-            varNodeGraphs = {}
-            hardReplaceTable = {}
-            allNodes = set()
-            lineNodeTables = []
-            lineCnt = 0
             while(expression != None):
                 expression = expression.strip()
                 expression = XNodifyContext.hardReplace(expression, \
                     hardReplaceTable)
-                controller = Controller(varNodeGraphs, allNodes)
-                exprType, nodeTreeTable, newNodes = \
+                controller = Controller(allNodes, varNodeGraphs, lineCnt)
+                evalNode, exprType, nodeTreeTable, newNodes, newWarnings = \
                     controller.createNodes(nodeTree, varTable, expression)
+
+                if(len(newWarnings) > 0):
+                    warnings[actLineCnt] = newWarnings
 
                 if(exprType != None):
                     lhs, rhs = expression.split('=')
                     hardReplaceTable[lhs.strip()] = rhs.strip()
 
-                if(nodeTreeTable != None):
+                if(nodeTreeTable != None and len(nodeTreeTable) > 0):
                     if(exprType != None and exprType != 'output'):
-                        varNodes = varNodes.union(newNodes)
-                        varNodeGraphs[exprType] = nodeTreeTable
-                        nType = 'var'
+                        if(varNodeGraphs.get(evalNode) == None):
+                            varNodeGraphs[evalNode] = VarInfo(nodeTreeTable)
+                        else:
+                            nodeTreeTable = varNodeGraphs[evalNode].nodeTreeTable
+                        nType = exprType
                     else:
                         allNodes = allNodes.union(newNodes)
                         nType = 'line'
-                    lineNodeTables.append((nType, nodeTreeTable, actLineCnt))
+                    lineNodeTables.append((nType, nodeTreeTable, \
+                        actLineCnt, evalNode))
                     lineCnt += 1
                 expression = next(lineFeeder)
                 actLineCnt += 1
 
             height = 0
-            varTreeTables = varNodeGraphs.values()
+            varKeys = varNodeGraphs.keys()
             frameHeight = (70 if addFrame else 30) * scale[1]
 
             for i in range(lineCnt):
-                nType, nodeTreeTable, actLineCnt = lineNodeTables[i]
-                if(nType == 'line' or nodeTreeTable in varTreeTables):
-                    nodeLayout = NodeLayout(nodeTreeTable[nodeTree])
+                nType, nodeTreeTable, actLineCnt, evalNode = lineNodeTables[i]
+                isDisplayed = XNodifyContext.isLineDisplayed(nType, varTable)
+                augNodeGraph = NodeLayout.insertVarNodes(nodeTreeTable, \
+                    nodeTree, varNodeGraphs, i, isDisplayed)
+                nodeTreeTable[nodeTree] = augNodeGraph
+
+            for i in range(lineCnt):
+                nType, nodeTreeTable, actLineCnt, evalNode = lineNodeTables[i]
+                if(XNodifyContext.isLineDisplayed(nType, varTable)):
                     newLoc = Vector(location) + Vector((0, -height))
-                    Controller.arrangeNodes(nodeTreeTable, nodeTree, \
-                        newLoc, scale, alignment, nodeLayout)
+                    nodeLayout = NodeLayout.arrangeNodes(nodeTreeTable, \
+                        nodeTree, newLoc, scale, alignment)
                     if(addFrame):
                         frame = nodeTree.nodes.new(type='NodeFrame')
                         frame.label = frameTitle if frameTitle != None \
@@ -425,8 +518,10 @@ class XNodifyContext:
                                 nodeLayout.nodeGraph[col][row].parent = frame
                     height += nodeLayout.totalHeight + frameHeight
 
+            return warnings
+
         except Exception as e:
-            controller.removeAllNodes(varNodes)
+            controller.removeAllNodes(varNodeGraphs.keys())
             raise SyntaxError('Line: ' + str(actLineCnt) + ': ' + str(e))
 
 def getActiveMatTree():
@@ -446,7 +541,7 @@ def procScript(scriptName, location, scale, alignment, addFrame):
             yield line.body
         yield None
 
-    XNodifyContext().processExpressions(scriptLineFeeder(scriptName), \
+    return XNodifyContext().processExpressions(scriptLineFeeder(scriptName), \
         getActiveMatTree(), location, scale, alignment, addFrame)
 
 def procFile(filePath, location, scale, alignment, addFrame):
@@ -458,13 +553,13 @@ def procFile(filePath, location, scale, alignment, addFrame):
                 line = f.readline()
         yield None
 
-    XNodifyContext().processExpressions(fileLineFeeder(filePath), \
+    return XNodifyContext().processExpressions(fileLineFeeder(filePath), \
         getActiveMatTree(), location, scale, alignment, addFrame)
 
 def procSingleExpression(expression, location, scale, alignment, addFrame):
     def feeder():
         for e in [expression, None]:
             yield e
-    XNodifyContext().processExpressions(feeder(), getActiveMatTree(), \
+    return XNodifyContext().processExpressions(feeder(), getActiveMatTree(), \
         location, scale, alignment, addFrame, 'Expression')
 

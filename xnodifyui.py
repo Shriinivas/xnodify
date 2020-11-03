@@ -135,21 +135,25 @@ class XNodifyOp(Operator):
             params = context.window_manager.XNodifyParams
             if(params.singleMulti == 'SINGLE'):
                 expression = context.window_manager.XNodifyParams.expression
-                main.procSingleExpression(expression,\
+                warnings = main.procSingleExpression(expression,\
                     (params.xLocation, params.yLocation), \
                         (params.xScale, params.yScale), params.alignment, \
                             params.addFrame == 'ALWAYS')
             elif(params.internalExternal == 'INTERNAL'):
-                main.procScript(params.scriptName,\
+                warnings = main.procScript(params.scriptName,\
                     (params.xLocation, params.yLocation), \
                         (params.xScale, params.yScale), params.alignment, \
                             params.addFrame != 'NEVER')
             else:
                 filePath = bpy.path.abspath(params.filePath)
-                main.procFile(filePath,\
+                warnings = main.procFile(filePath,\
                     (params.xLocation, params.yLocation), \
                         (params.xScale, params.yScale), params.alignment, \
                             params.addFrame != 'NEVER')
+            for lineNo in warnings.keys():
+                warningLines = '; '.join(warnings[lineNo])
+                self.report({'WARNING'}, 'LINE: ' + str(lineNo) + \
+                    ' ' + warningLines)
         except Exception as e:
             self.report({'ERROR'}, str(e))
         return {'FINISHED'}
