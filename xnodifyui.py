@@ -11,12 +11,15 @@ import bpy
 from bpy.props import StringProperty, FloatProperty, EnumProperty, BoolProperty
 from bpy.types import PropertyGroup, Operator, Panel
 
-from . import main
-from . import lookups
+from .lookups import nodeGroups, getCombinedMap, mathPrefix, vmathPrefix
+from . main import procSingleExpression, procScript, procFile, NodeLayout
 
 # For debugging
+from . import main
+from . import lookups
 import importlib
 importlib.reload(main)
+importlib.reload(lookups)
 
 class XNodifyParams(PropertyGroup):
 
@@ -24,7 +27,7 @@ class XNodifyParams(PropertyGroup):
         return [(t.name, t.name, '') for t in bpy.data.texts]
 
     def getNodeGroups(dummy1, dummy2):
-        return [(t[0], t[1], t[2]) for t in lookups.nodeGroups]
+        return [(t[0], t[1], t[2]) for t in nodeGroups]
 
     def insertNodeDetails(self, context):
         if(self.singleMulti == 'MULTI'):
@@ -43,11 +46,11 @@ class XNodifyParams(PropertyGroup):
     def getNodes(self, dummy2):
         group = self.nodeGroup
         items = []
-        cMap = lookups.getCombinedMap()
+        cMap = getCombinedMap()
         keys = [key for key in cMap.keys() if cMap[key][0] == group]
         for key in keys:
-            if(group == '100'): fnName = key[len(lookups.mathPrefix):]
-            elif(group == '200'): fnName = key[len(lookups.vmathPrefix):]
+            if(group == '100'): fnName = key[len(mathPrefix):]
+            elif(group == '200'): fnName = key[len(vmathPrefix):]
             else: fnName = key
             value = cMap[key]
             ips = value[3]
@@ -130,30 +133,70 @@ class XNodifyOp(Operator):
     bl_label = 'Generate Nodes'
     bl_options = {'REGISTER', 'UNDO'}
 
+    def modal (self, context, event):
+        MAX_TRIES = 100
+        if(event.type == 'TIMER'):
+            dispTreeTables = self.displayParams.dispTreeTables
+            matNodeTree = self.displayParams.matNodeTree
+            location = self.displayParams.location
+            scale = self.displayParams.scale
+            alignment = self.displayParams.alignment
+            addFrame = self.displayParams.addFrame
+            frameTitle = self.displayParams.frameTitle
+
+            if(len(dispTreeTables) == 0):
+                context.window_manager.event_timer_remove(self._timer)
+                return {"FINISHED"}
+
+            dimensions = \
+                NodeLayout.testNodeDimension(dispTreeTables[0][1], matNodeTree)
+
+            if(dimensions[0] > 0 or self.tryCnt == MAX_TRIES):
+                NodeLayout.arrangeNodeLines(dispTreeTables, matNodeTree, \
+                    location, scale, alignment, addFrame, frameTitle)
+
+                context.window_manager.event_timer_remove(self._timer)
+                return {"FINISHED"}
+
+            self.tryCnt += 1
+
+        return {"PASS_THROUGH"}
+
     def execute(self, context):
+        self.tryCnt = 0
         try:
             params = context.window_manager.XNodifyParams
             if(params.singleMulti == 'SINGLE'):
                 expression = context.window_manager.XNodifyParams.expression
-                warnings = main.procSingleExpression(expression,\
+                displayParams = main.procSingleExpression(expression,\
                     (params.xLocation, params.yLocation), \
                         (params.xScale, params.yScale), params.alignment, \
                             params.addFrame == 'ALWAYS')
             elif(params.internalExternal == 'INTERNAL'):
-                warnings = main.procScript(params.scriptName,\
+                displayParams = main.procScript(params.scriptName,\
                     (params.xLocation, params.yLocation), \
                         (params.xScale, params.yScale), params.alignment, \
                             params.addFrame != 'NEVER')
             else:
                 filePath = bpy.path.abspath(params.filePath)
-                warnings = main.procFile(filePath,\
+                displayParams = main.procFile(filePath,\
                     (params.xLocation, params.yLocation), \
                         (params.xScale, params.yScale), params.alignment, \
                             params.addFrame != 'NEVER')
-            for lineNo in warnings.keys():
-                warningLines = '; '.join(warnings[lineNo])
+
+            for lineNo in displayParams.warnings.keys():
+                warningLines = '; '.join(displayParams.warnings[lineNo])
                 self.report({'WARNING'}, 'LINE: ' + str(lineNo) + \
                     ' ' + warningLines)
+
+            self.displayParams = displayParams
+            # Actual arranging is deferred
+            # as dimensions are not available right now
+            wm = context.window_manager
+            self._timer = wm.event_timer_add(time_step = 0.01, \
+                window = context.window)
+            wm.modal_handler_add(self)
+            return {'RUNNING_MODAL'}
         except Exception as e:
             self.report({'ERROR'}, str(e))
         return {'FINISHED'}

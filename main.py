@@ -305,6 +305,41 @@ class NodeLayout:
                             EvaluatorBase.getNodeDimensions(nIn)[0]
         return nodeLayout
 
+    # Just to confirm that Blender finished displaying the node and
+    # dimension values are populated
+    @staticmethod
+    def testNodeDimension(nodeTreeTable, nodeTree):
+        nodeGraph = nodeTreeTable[nodeTree]
+        dimensions = None
+        for col in sorted(nodeGraph.keys()):
+            for row in range(len(nodeGraph[col])):
+                node = nodeGraph[col][row]
+                dimensions = EvaluatorBase.getNodeDimensions(node, True)
+                break
+            break
+        return dimensions
+
+    @staticmethod
+    def arrangeNodeLines(dispTreeTables, matNodeTree, \
+        location, scale, alignment, addFrame, frameTitle):
+        height = 0
+        frameHeight = (70 if addFrame else 30) * scale[1]
+        for dispTreeTable in dispTreeTables:
+            lineNo = dispTreeTable[0]
+            nodeTreeTable = dispTreeTable[1]
+            newLoc = Vector(location) + Vector((0, -height))
+            nodeLayout = NodeLayout.arrangeNodes(nodeTreeTable, \
+                matNodeTree, newLoc, scale, alignment)
+            if(addFrame):
+                frame = matNodeTree.nodes.new(type='NodeFrame')
+                frame.label = frameTitle if frameTitle != None \
+                    else 'Line ' + str((lineNo))
+                for col in range(len(nodeLayout.nodeGraph)):
+                    for row in range(len(nodeLayout.nodeGraph[col])):
+                        nodeLayout.nodeGraph[col][row].parent = frame
+            height += nodeLayout.totalHeight + frameHeight
+
+
     def __init__(self, tNodeGraph):
         self.colHeights = []
         self.colWidths = []
@@ -425,6 +460,19 @@ class Controller:
         return evalNode, exprType, self.nodeTreeTable, \
             self.getGlobalNodes(), warnings
 
+class DisplayParams:
+    def __init__(self, dispTreeTables, matNodeTree, \
+        location, scale, alignment, addFrame, frameTitle, warnings):
+
+        self.dispTreeTables = dispTreeTables
+        self.matNodeTree = matNodeTree
+        self.location = location
+        self.scale = scale
+        self.alignment= alignment
+        self.addFrame = addFrame
+        self.frameTitle = frameTitle
+        self.warnings = warnings
+
 # Context for all the lines
 class XNodifyContext:
 
@@ -443,11 +491,11 @@ class XNodifyContext:
     def __init__(self):
         pass
 
-    def processExpressions(self, lineFeeder, nodeTree, \
+    def processExpressions(self, lineFeeder, matNodeTree, \
         location, scale, alignment, addFrame, frameTitle = None):
 
-        if(nodeTree == None):
-            nodeTree = XNodifyContext.getActiveMatTree()
+        if(matNodeTree == None):
+            matNodeTree = XNodifyContext.getActiveMatTree()
 
         actLineCnt = 1
         warnings = {}
@@ -467,7 +515,7 @@ class XNodifyContext:
                     hardReplaceTable)
                 controller = Controller(allNodes, varNodeGraphs, lineCnt)
                 evalNode, exprType, nodeTreeTable, newNodes, newWarnings = \
-                    controller.createNodes(nodeTree, varTable, expression)
+                    controller.createNodes(matNodeTree, varTable, expression)
 
                 if(len(newWarnings) > 0):
                     warnings[actLineCnt] = newWarnings
@@ -492,33 +540,24 @@ class XNodifyContext:
                 expression = next(lineFeeder)
                 actLineCnt += 1
 
-            height = 0
             varKeys = varNodeGraphs.keys()
-            frameHeight = (70 if addFrame else 30) * scale[1]
 
+            dispTreeTables = []
             for i in range(lineCnt):
                 nType, nodeTreeTable, actLineCnt, evalNode = lineNodeTables[i]
                 isDisplayed = XNodifyContext.isLineDisplayed(nType, varTable)
                 augNodeGraph = NodeLayout.insertVarNodes(nodeTreeTable, \
-                    nodeTree, varNodeGraphs, i, isDisplayed)
-                nodeTreeTable[nodeTree] = augNodeGraph
+                    matNodeTree, varNodeGraphs, i, isDisplayed)
+                nodeTreeTable[matNodeTree] = augNodeGraph
+                if(isDisplayed):
+                    dispTreeTables.append((actLineCnt, nodeTreeTable))
 
-            for i in range(lineCnt):
-                nType, nodeTreeTable, actLineCnt, evalNode = lineNodeTables[i]
-                if(XNodifyContext.isLineDisplayed(nType, varTable)):
-                    newLoc = Vector(location) + Vector((0, -height))
-                    nodeLayout = NodeLayout.arrangeNodes(nodeTreeTable, \
-                        nodeTree, newLoc, scale, alignment)
-                    if(addFrame):
-                        frame = nodeTree.nodes.new(type='NodeFrame')
-                        frame.label = frameTitle if frameTitle != None \
-                            else 'Line ' + str((actLineCnt))
-                        for col in range(len(nodeLayout.nodeGraph)):
-                            for row in range(len(nodeLayout.nodeGraph[col])):
-                                nodeLayout.nodeGraph[col][row].parent = frame
-                    height += nodeLayout.totalHeight + frameHeight
+            # ~ NodeLayout.arrangeNodeLines(dispTreeTables, matNodeTree, \
+                # ~ location, scale, alignment, addFrame, frameTitle)
+            displayParams = DisplayParams(dispTreeTables, matNodeTree, \
+                location, scale, alignment, addFrame, frameTitle, warnings)
 
-            return warnings
+            return displayParams
 
         except Exception as e:
             controller.removeAllNodes(varNodeGraphs.keys())

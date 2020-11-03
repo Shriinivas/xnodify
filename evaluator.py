@@ -43,9 +43,12 @@ class EvaluatorBase:
         return None
 
     @staticmethod
-    def getNodeDimensions(node):
+    def getNodeDimensions(node, actual = False):
 
-        # TODO!!
+        if(node.dimensions[0] > 0 or actual == True):
+            return node.dimensions
+
+        # TODO
         def getCntForType(socket):
             if(socket.type == 'VECTOR'): return 1
             else: return 1
