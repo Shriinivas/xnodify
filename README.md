@@ -1,7 +1,7 @@
 <p align="center"><img src="https://github.com/Shriinivas/etc/blob/master/xnodify/logo.png" alt="logo"/></p><br/>
 This Blender Add-on lets user generate material nodes from text expression.
 
-### Version: 0.5 alpha
+### Version: 0.5.10 beta
 
 # Installation
 - Download the zip file
