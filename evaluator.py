@@ -11,7 +11,7 @@ import bpy
 from mathutils import Vector
 
 from .lookups import fnMap, mathFnMap, vmathFnMap, mathPrefix, vmathPrefix
-from .lookups import reverseLookup
+from .lookups import reverseLookup, SHADER_GROUP, SHADER_MATH, SHADER_VMATH
 
 class EvaluatorBase:
 
@@ -53,7 +53,7 @@ class EvaluatorBase:
             if(socket.type == 'VECTOR'): return 1
             else: return 1
 
-        if(node.bl_idname in {'ShaderNodeMath', 'ShaderNodeVectorMath'}):
+        if(node.bl_idname in {SHADER_MATH, SHADER_VMATH}):
             lookupKey = node.bl_idname + '_' + node.operation
         else:
             lookupKey = node.bl_idname
@@ -65,7 +65,7 @@ class EvaluatorBase:
         else:
             fnInfo = fnMap.get(customName)
         dimensions = fnInfo[5]
-        if(node.bl_idname == 'ShaderNodeGroup'):
+        if(node.bl_idname == SHADER_GROUP):
             socketHeight = 22
             opCnts = sum([getCntForType(o) for o in node.outputs \
                 if o.enabled == True and o.hide == False])
@@ -87,7 +87,7 @@ class EvaluatorBase:
 
     @staticmethod
     def getPrimitiveMathNode(nodeTree, operation, label, op0, op1):
-        node = EvaluatorBase.getNode(nodeTree, 'ShaderNodeMath', label)
+        node = EvaluatorBase.getNode(nodeTree, SHADER_MATH, label)
         node.operation = operation
         nodeTree.links.new(op0, node.inputs[0])
         nodeTree.links.new(op1, node.inputs[1])
@@ -127,13 +127,11 @@ class VariableEvaluator(EvaluatorBase):
                 nodeInfo[1], nodeInfo[2])
         elif(mathFnMap.get(mathPrefix + varName) != None):
             nodeInfo = mathFnMap[mathPrefix + varName]
-            node = EvaluatorBase.getNode(nodeTree, 'ShaderNodeMath', \
-                nodeInfo[2])
+            node = EvaluatorBase.getNode(nodeTree, SHADER_MATH, nodeInfo[2])
             node.operation = nodeInfo[1]
         elif(vmathFnMap.get(vmathPrefix + varName) != None):
             nodeInfo = vmathFnMap[vmathPrefix + varName]
-            node = EvaluatorBase.getNode(nodeTree, 'ShaderNodeVectorMath', \
-                nodeInfo[2])
+            node = EvaluatorBase.getNode(nodeTree, SHADER_VMATH, nodeInfo[2])
             node.operation = nodeInfo[1]
         else:
             # LHS is handled in evalEquals
@@ -237,14 +235,13 @@ class ParenthesisEvaluator(EvaluatorBase):
         else:
             fn = mathFnMap.get(mathPrefix + fnName)
             if(fn != None):
-                node = EvaluatorBase.getNode(nodeTree, 'ShaderNodeMath', fn[2])
+                node = EvaluatorBase.getNode(nodeTree, SHADER_MATH, fn[2])
                 node.operation = fn[1]
                 customName = mathPrefix + fnName
             else:
                 fn = vmathFnMap.get(vmathPrefix + fnName)
                 if(fn != None):
-                    node = EvaluatorBase.getNode(nodeTree, \
-                        'ShaderNodeVectorMath', fn[2])
+                    node = EvaluatorBase.getNode(nodeTree, SHADER_VMATH, fn[2])
                     node.operation = fn[1]
                     customName = vmathPrefix + fnName
         if(node != None):
@@ -263,7 +260,7 @@ class BraceEvaluator(EvaluatorBase):
             groupName = 'XNodifyNodeGroup'
         else:
             groupName = paramBus.operand0.value
-        group = nodeTree.nodes.new('ShaderNodeGroup')
+        group = nodeTree.nodes.new(SHADER_GROUP)
         group.name = groupName
         gNodeTree = bpy.data.node_groups.new(groupName, 'ShaderNodeTree')
         group.node_tree = gNodeTree

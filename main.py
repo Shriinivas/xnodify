@@ -11,7 +11,7 @@
 import bpy
 from mathutils import Vector
 
-from .lookups import getCombinedMap
+from .lookups import getCombinedMap, SHADER_GROUP
 
 # For debug
 from . import parser, lookups, evaluator
@@ -225,7 +225,7 @@ class NodeLayout:
                             varCol = varNodeGraph[varColNo]
                             for varRowNo in reversed(range(len(varCol))):
                                 varNode = varNodeGraph[varColNo][varRowNo]
-                                if(varNode.bl_idname == 'ShaderNodeGroup' and \
+                                if(varNode.bl_idname == SHADER_GROUP and \
                                     varNode.node_tree in varTreeTable.keys()):
                                     nodeTreeTable[varNode.node_tree] = \
                                         varTreeTable[varNode.node_tree]
@@ -287,7 +287,7 @@ class NodeLayout:
                     location[1] + -scale[1] * y))
                 node.location = nodeLoc
 
-                if(node.bl_idname == 'ShaderNodeGroup' and \
+                if(node.bl_idname == SHADER_GROUP and \
                     node.node_tree in nodeTreeTable.keys()):
                     refLocation =  -node.id_data.view_center + nodeLoc
                     newLayout = \

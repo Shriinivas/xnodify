@@ -8,6 +8,11 @@
 # License: GPL (https://github.com/Shriinivas/xnodify/blob/master/LICENSE)
 #
 
+# Constants
+SHADER_MATH = 'ShaderNodeMath'
+SHADER_VMATH = 'ShaderNodeVectorMath'
+SHADER_GROUP = 'ShaderNodeGroup'
+
 nodeGroups = [None] * 9
 nodeGroups[0] = ('0', 'Input', 'Category Input Node')
 nodeGroups[1] = ('1', 'Output', 'Category Output Node')
@@ -206,7 +211,7 @@ fnMap['wvlngth'] = ('6', 'ShaderNodeWavelength', 'Wavelength', 1, 1, (164.58, 80
 #fnMap['math'] = ('6', 'ShaderNodeMath', 'Math', 3, 1, (153.61, 164.53)),
 #fnMap['vctmth'] = ('6', 'ShaderNodeVectorMath', 'Vector Math', 4, 2, (153.61, 270.53))
 
-fnMap['nodegrp'] = ('7', 'ShaderNodeGroup', 'Node Group', 0, 1, (153.61, 65.0))
+fnMap['nodegrp'] = ('7', SHADER_GROUP, 'Node Group', 0, 1, (153.61, 65.0))
 fnMap['nodeip'] = ('7', 'NodeGroupInput', 'Group Input', 0, 1, (153.61, 122.77))
 fnMap['nodeop'] = ('7', 'NodeGroupOutput', 'Group Output', 0, 1, (153.61, 122.77))
 
@@ -226,10 +231,9 @@ def reverseLookup(revKey):
         return val
 
     # TODO: Uniform reverse lookup as much as possible
-    if(revKey.startswith('ShaderNodeMath') or \
-        revKey.startswith('ShaderNodeVectorMath')):
+    if(revKey.startswith(SHADER_MATH) or revKey.startswith(SHADER_VMATH)):
         shaderName, operation = revKey.split('_')
-        mp = mathFnMap if revKey.startswith('ShaderNodeMath') \
+        mp = mathFnMap if revKey.startswith(SHADER_MATH) \
             else vmathFnMap
         for customName in mp.keys():
             revKey = shaderName + '_' + mp[customName][1]
