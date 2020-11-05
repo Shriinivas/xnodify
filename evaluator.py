@@ -30,6 +30,8 @@ class EvaluatorBase:
             return PowerEvaluator()
         elif(id == '/'):
             return DivisionEvaluator()
+        elif(id == '%'):
+            return ModuloEvaluator()
         elif(id == '('):
             return ParenthesisEvaluator()
         # ~ elif(id == '['): # Taken care in parser
@@ -216,6 +218,12 @@ class DivisionEvaluator(EvaluatorBase):
     def evaluate(self, nodeTree, paramBus, varTable):
         return EvaluatorBase.getPrimitiveMathNode(nodeTree, \
             'DIVIDE', 'Divide', paramBus.getDefLHSOutput(), \
+                paramBus.getDefRHSOutput())
+
+class ModuloEvaluator(EvaluatorBase):
+    def evaluate(self, nodeTree, paramBus, varTable):
+        return EvaluatorBase.getPrimitiveMathNode(nodeTree, \
+            'MODULO', 'Modulo', paramBus.getDefLHSOutput(), \
                 paramBus.getDefRHSOutput())
 
 class PowerEvaluator(EvaluatorBase):

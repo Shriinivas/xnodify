@@ -198,6 +198,7 @@ class XNodifyOp(Operator):
             wm.modal_handler_add(self)
             return {'RUNNING_MODAL'}
         except Exception as e:
+            # ~ traceback.print_exc()
             self.report({'ERROR'}, str(e))
         return {'FINISHED'}
 

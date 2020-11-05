@@ -12,6 +12,7 @@
 SHADER_MATH = 'ShaderNodeMath'
 SHADER_VMATH = 'ShaderNodeVectorMath'
 SHADER_GROUP = 'ShaderNodeGroup'
+SHADER_VALUE = 'ShaderNodeValue'
 
 nodeGroups = [None] * 9
 nodeGroups[0] = ('0', 'Input', 'Category Input Node')
@@ -124,7 +125,7 @@ fnMap['shadrgb'] = ('0', 'ShaderNodeRGB', 'RGB', 0, 1, (153.61, 197.77))
 fnMap['tangent'] = ('0', 'ShaderNodeTangent', 'Tangent', 0, 1, (164.58, 85.77))
 fnMap['texco'] = ('0', 'ShaderNodeTexCoord', 'Texture Coordinate', 0, 7, (153.61, 250.77))
 fnMap['uvmap'] = ('0', 'ShaderNodeUVMap', 'UV Map', 0, 1, (164.58, 112.77))
-fnMap['value'] = ('0', 'ShaderNodeValue', 'Value', 0, 1, (153.61, 85.77))
+fnMap['value'] = ('0', SHADER_VALUE, 'Value', 0, 1, (153.61, 85.77))
 fnMap['vertcol'] = ('0', 'ShaderNodeVertexColor', 'Vertex Color', 0, 2, (153.61, 108.77))
 fnMap['volinf'] = ('0', 'ShaderNodeVolumeInfo', 'Volume Info', 0, 4, (153.61, 122.77))
 

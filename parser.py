@@ -57,7 +57,8 @@ class PrefixInfixSymbol(SymbolBase):
     def procPrefix(self, sdata):
         sdata.operand0 = parseExpression(self.pPriority)
 
-        # Making exceptions to ther rule to avoid additional coding
+        # Ideally these should be separate classes, but...
+        # making exceptions to the rule to avoid extra coding
         if(sdata.getMetaData().id == '+'):
             return sdata.operand0
         elif(sdata.getMetaData().id == '-'):
@@ -154,6 +155,8 @@ def getSymbolMeta(id):
             c = InfixSymbol(id, 120)
         elif(id == '**'):
             c = InfixSymbol(id, 140)
+        elif(id == '%'):
+            c = InfixSymbol(id, 120)
         elif(id == '/'):
             c = InfixSymbol(id, 120)
         elif(id == '('):
@@ -196,7 +199,11 @@ def getToken(expression, dataclass):
             if(t[0] == tokenize.ENDMARKER or t[1].startswith(COMMENT_MARKER)):
                 break
             else:
-                raise SyntaxError('Syntax error')
+                if(len(t) <= 1):
+                    raise SyntaxError('Syntax error')
+                else:
+                    raise SyntaxError('Syntax error, unknown token: ' + t[1])
+
         if(id in {'NUMBER', 'NAME'}):
             meta = getSymbolMeta(id)
             sdata = dataclass(id, meta, value)
