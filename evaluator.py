@@ -121,33 +121,37 @@ class VariableEvaluator(EvaluatorBase):
 
         varName = data.value
 
-        nodeInfo = fnMap.get(varName)
-        if(nodeInfo != None):
+        if(fnMap.get(varName) != None):
+            nodeInfo = fnMap[varName]
             node = EvaluatorBase.getNode(nodeTree, \
                 nodeInfo[1], nodeInfo[2])
+        elif(mathFnMap.get(mathPrefix + varName) != None):
+            nodeInfo = mathFnMap[mathPrefix + varName]
+            node = EvaluatorBase.getNode(nodeTree, 'ShaderNodeMath', \
+                nodeInfo[2])
+            node.operation = nodeInfo[1]
+        elif(vmathFnMap.get(vmathPrefix + varName) != None):
+            nodeInfo = vmathFnMap[vmathPrefix + varName]
+            node = EvaluatorBase.getNode(nodeTree, 'ShaderNodeVectorMath', \
+                nodeInfo[2])
+            node.operation = nodeInfo[1]
         else:
-            nodeInfo = mathFnMap.get(mathPrefix + varName)
-            if(nodeInfo != None):
-                node = EvaluatorBase.getNode(nodeTree, 'ShaderNodeMath', \
-                    nodeInfo[2])
-                node.operation = nodeInfo[1]
-            else:
-                # LHS is handled in evalEquals
-                if(data.isLHS):
-                    return None
-                varTableInfo = varTable.get(varName)
-                if(varTableInfo != None):
-                    node, sockIdx, usageCnt = varTableInfo
-                    if(nodeTree != node.id_data):
-                        raise SyntaxError('Groups cannot contain variables')
+            # LHS is handled in evalEquals
+            if(data.isLHS):
+                return None
+            varTableInfo = varTable.get(varName)
+            if(varTableInfo != None):
+                node, sockIdx, usageCnt = varTableInfo
+                if(nodeTree != node.id_data):
+                    raise SyntaxError('Groups cannot contain variables')
 
-                    if(sockIdx != None):
-                        paramBus.data.sockIdx = sockIdx
-                    varTable[varName][2] += 1
-                else:
-                    node = EvaluatorBase.getNode(nodeTree, \
-                        'ShaderNodeValue', data.value, 0)
-                    varTable[varName] = [node, 0, 0]
+                if(sockIdx != None):
+                    paramBus.data.sockIdx = sockIdx
+                varTable[varName][2] += 1
+            else:
+                node = EvaluatorBase.getNode(nodeTree, \
+                    'ShaderNodeValue', data.value, 0)
+                varTable[varName] = [node, 0, 0]
 
         return node
 
