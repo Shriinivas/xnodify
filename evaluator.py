@@ -161,8 +161,8 @@ class EqualsEvaluator(EvaluatorBase):
         operand0 = paramBus.operand0
         operands1 = paramBus.operands1
 
-        lhsNode = paramBus.lhsNode
-        rhsNodes = paramBus.rhsNodes
+        lhsNode = paramBus.getLHSNode()
+        rhsNodes = paramBus.getRHSNodes() # len check already done
 
         # variable or redefined variable
         if(lhsNode == None or (varTable.get(paramBus.operand0.value) != None \
@@ -234,7 +234,7 @@ class PowerEvaluator(EvaluatorBase):
 
 class DollarEvaluator(EvaluatorBase):
     def evaluate(self, nodeTree, paramBus, varTable):
-        def setDefVal(val, inpIdx, valIdx, isInput):
+        def setDefVal(node, val, inpIdx, valIdx, isInput):
             if(val != None):
                 try:
                     socket = node.inputs[inpIdx] \
@@ -250,29 +250,32 @@ class DollarEvaluator(EvaluatorBase):
                     traceback.print_exc()
                     pass
 
-        node = paramBus.lhsNode
+        node = paramBus.getLHSNode()
+        if(node == None):
+            raise SyntaxError('$ should be preceded by value node name')
+
         dataValue = paramBus.data.value
 
         if(paramBus.data.symbolType == 'input'):
             for inpIdx, ipVals in enumerate(dataValue):
                 if(isinstance(ipVals, list)):
                     for valIdx, ipVal in enumerate(ipVals):
-                        setDefVal(ipVal, inpIdx, valIdx, True)
+                        setDefVal(node, ipVal, inpIdx, valIdx, True)
                 else:
-                    setDefVal(ipVals, inpIdx, 0, True)
+                    setDefVal(node, ipVals, inpIdx, 0, True)
 
         elif(paramBus.data.symbolType == 'output'):
             for opIdx, opVals in enumerate(dataValue):
                 if(isinstance(opVals, list)):
                     for valIdx, opVal in enumerate(opVals):
-                        setDefVal(opVal, opIdx, valIdx, False)
+                        setDefVal(node, opVal, opIdx, valIdx, False)
                 else:
-                    setDefVal(opVals, opIdx, 0, False)
+                    setDefVal(node, opVals, opIdx, 0, False)
 
         else:
             assert(False) # Should never happen
 
-        return paramBus.lhsNode
+        return node
 
 class ParenthesisEvaluator(EvaluatorBase):
     def evaluate(self, nodeTree, paramBus, varTable):
@@ -327,14 +330,16 @@ class BraceEvaluator(EvaluatorBase):
         gOutput = nodes[0]
         gInput = nodes[1]
 
-        for node in paramBus.rhsNodes:
+        rhsNodes = paramBus.getRHSNodes()
+        for node in rhsNodes:
             outputs = [o for o in node.outputs \
                 if o.enabled == True and o.hide == False]
             for op in outputs:
                 if(len(op.links) == 0):
                     gIp = gOutput.inputs.new(op.bl_idname, op.name)
                     links.new(gIp, op)
-        for node in paramBus.rhsNodes:
+
+        for node in rhsNodes:
             inputs = [i for i in node.inputs \
                 if i.enabled == True and i.hide == False]
             for ip in inputs:

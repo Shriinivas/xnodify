@@ -27,9 +27,10 @@ from . evaluator import PowerEvaluator, ParenthesisEvaluator, EvaluatorBase
 # Message bus to exchange data between objects
 class EvalParamsBus:
     @staticmethod
-    def getNodeSocket(data, node, out = True, defaultIdx = 0):
-        if(data == None or node == None):
+    def getNodeSocket(data, out = True, defaultIdx = 0):
+        if(data == None or data.node == None):
             return None
+        node = data.node
         if(out):
             sockets = [o for o in node.outputs \
                 if o.enabled == True and o.hide == False]
@@ -58,26 +59,33 @@ class EvalParamsBus:
         self.data = data
         self.operand0 = operand0
         self.operands1 = operands1
-        self.lhsNode = None
-        self.rhsNodes = None
 
-    def setLHSNode(self, lhsNode):
-        self.lhsNode = lhsNode
+    def getLHSNode(self):
+        if(self.operand0 != None):
+            return self.operand0.node
+        return None
 
-    def setRHSNodes(self, rhsNodes):
-        self.rhsNodes = rhsNodes
+    def getRHSNodes(self):
+        if(self.operands1 == None):
+            return None
+
+        nodes = []
+        for op in self.operands1:
+            if(op != None):
+                nodes.append(op.node)
+            else:
+                nodes.append(None)
+        return nodes
 
     def getDefLHSOutput(self):
-        if(self.lhsNode != None and self.operand0 != None):
-           return EvalParamsBus.getNodeSocket(self.operand0, self.lhsNode, True)
-        return None
+        return EvalParamsBus.getNodeSocket(self.operand0, True)
 
     def getRHSOutputs(self):
         if(self.operands1 == None):
             return None
         outputs = []
         for i, s in enumerate(self.operands1):
-            socket = EvalParamsBus.getNodeSocket(s, self.rhsNodes[i])
+            socket = EvalParamsBus.getNodeSocket(s)
             outputs.append(socket)
         return outputs
 
@@ -97,6 +105,7 @@ class SymbolData(object):
         self.isLHS = False # TODO: Separate class?
         self.symbolType = None # For default values i.e. $ & { symbols
         self.evaluator = EvaluatorBase.getEvaluator(id)
+        self.node = None # Is set during evalSymbol
 
     def __repr__(self):
         return str(self.value) + ' ' + str(self.meta.id)
@@ -141,10 +150,7 @@ class SymbolData(object):
                 nextColNo = colNo
             else:
                 nextColNo = colNo + 1
-            lhsNode = operand0.evalSymbol(nodeTree, varTable, \
-                afterProcNode, nextColNo)
-        else:
-            lhsNode = None
+            operand0.evalSymbol(nodeTree, varTable, afterProcNode, nextColNo)
 
         if isinstance(self.operand1,  SymbolData):
             operands1 = [self.operand1]
@@ -155,29 +161,20 @@ class SymbolData(object):
 
 
         paramBus = EvalParamsBus(self, operand0, operands1)
-        paramBus.setLHSNode(lhsNode)
 
         nodeTree = self.evaluator.beforeOperand1(nodeTree, paramBus)
 
         nextColNo = colNo + 1
-        if(operands1 == None):
-            rhsNodes = None
-        else:
-            rhsNodes = []
+        if(operands1 != None):
             for s in operands1:
                 if(s != None):
-                    rhsNode = s.evalSymbol(nodeTree, varTable, \
-                        afterProcNode, nextColNo)
-                    rhsNodes.append(rhsNode)
-                else:
-                    rhsNodes.append(None)
-
-        paramBus.setRHSNodes(rhsNodes)
+                    s.evalSymbol(nodeTree, varTable, afterProcNode, nextColNo)
 
         node = self.evaluator.evaluate(nodeTree, paramBus, varTable)
 
         # afterProcNode: callback after processing each token
         afterProcNode(colNo, node, paramBus, varTable)
+        self.node = node
 
         return node
 
@@ -442,6 +439,10 @@ class Controller:
             raise SyntaxError('Only one assignment allowed in a line.')
         elif(len(equalsOps) == 1):
             op0 = equalsOps[0].operand0
+            op1 = equalsOps[0].operand0
+            if(op0 == None or op1 == None):
+                raise SyntaxError('Values needed on both sides of =')
+
             if(op0.getMetaData().id != 'NAME'):
                 raise SyntaxError('LHS must be a variable or the output node')
             if(op0.value == 'output'):
