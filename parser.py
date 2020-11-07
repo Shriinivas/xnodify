@@ -9,7 +9,7 @@
 # License: GPL (https://github.com/Shriinivas/xnodify/blob/master/LICENSE)
 #
 
-import tokenize
+import tokenize, traceback
 from io import StringIO
 
 def validateNext(id = None):
@@ -74,15 +74,36 @@ class PrefixInfixSymbol(SymbolBase):
         return sdata
 
 class PairedSymbol(SymbolBase):
-    def __init__(self, id, precedence, startChar, endChar):
+    def __init__(self, id, precedence, startChar, endChar, symbolType):
         super(PairedSymbol, self).__init__(id, precedence)
         self.startChar = startChar
         self.endChar = endChar
+        self.symbolType = symbolType
 
     def procPrefix(self, sdata):
-        d = parseExpression()
+        sdata.operand0 = []
+        if _gNextData.getMetaData().id != self.endChar:
+            while 1:
+                # For XNodify: Allow blanks before and after ,
+                if(_gNextData.getMetaData().id == ','):
+                    sdata.operand0.append(None)
+                elif(_gNextData.getMetaData().id == self.endChar):
+                    sdata.operand0.append(None)
+                    break
+                else:
+                    parsedExp = parseExpression()
+                    sdata.operand0.append(parsedExp)
+                    if _gNextData.getMetaData().id != ',':
+                        break
+                validateNext(',')
         validateNext(self.endChar)
-        return d
+        # evalSymbol always expect a single operand0, list is only allowed
+        # after $, which is converted to data.value in DollarSymbol
+        if(len(sdata.operand0) == 1):
+            sdata.operand0[0].symbolType = self.symbolType
+            return sdata.operand0[0]
+        else:
+            return sdata
 
     def procInfix(self, sdata, left):
         sdata.operand0 = left
@@ -105,7 +126,8 @@ class PairedSymbol(SymbolBase):
 
 class ParenthesisSymbol(PairedSymbol):
     def __init__(self, id, precedence = 0):
-        super(ParenthesisSymbol, self).__init__(id, precedence, '(', ')')
+        super(ParenthesisSymbol, self).__init__(id, precedence, \
+            '(', ')', 'input')
 
     def procInfix(self, sdata, left):
         retVal = super(ParenthesisSymbol, self).procInfix(sdata, left)
@@ -114,7 +136,7 @@ class ParenthesisSymbol(PairedSymbol):
 
 class BracketSymbol(PairedSymbol):
     def __init__(self, id, precedence = 0):
-        super(BracketSymbol, self).__init__(id, precedence, '[', ']')
+        super(BracketSymbol, self).__init__(id, precedence, '[', ']', 'output')
 
     def procInfix(self, sdata, left):
         retVal = super(BracketSymbol, self).procInfix(sdata, left)
@@ -123,11 +145,55 @@ class BracketSymbol(PairedSymbol):
 
 class BraceSymbol(PairedSymbol):
     def __init__(self, id, precedence = 0):
-        super(BraceSymbol, self).__init__(id, precedence, '{', '}')
+        super(BraceSymbol, self).__init__(id, precedence, '{', '}', 'group')
+
+    def procPrefix(self, sdata):
+        super(BraceSymbol, self).procPrefix(sdata)
+        if(isinstance(sdata.operand0, list)):
+            sdata.operand1 = sdata.operand0
+        else:
+            sdata.operand1 = [sdata.operand0]
+        sdata.operand0 = None
+        return sdata
 
     def procInfix(self, sdata, left):
         retVal = super(BraceSymbol, self).procInfix(sdata, left)
         sdata.operand0.isGroup = True
+        return retVal
+
+class DollarSymbol(InfixSymbol):
+    def __init__(self, id, precedence = 0):
+        super(DollarSymbol, self).__init__(id, precedence)
+
+    def procInfix(self, sdata, left):
+        retVal = super(DollarSymbol, self).procInfix(sdata, left)
+        symbolType = sdata.operand1.symbolType
+        # operand1 is either a single number (procPrefix of PairedSymbol
+        # made it operand1 of $) or a list with metadata,id == '(' or '['
+        if(sdata.operand1.getMetaData().id == '(' or symbolType == 'input'):
+            sdata.symbolType = 'input'
+        elif(sdata.operand1.getMetaData().id == '[' or symbolType == 'output'):
+            sdata.symbolType = 'output'
+        else:
+            raise SyntaxError('$ can be follwed only by () or []')
+
+        # TODO: Making an exception.. data.value is normally a string
+        sdata.value = []
+        if(sdata.operand1.symbolType in {'input', 'output'}):
+            op1 = [sdata.operand1]
+        else:
+            op1 = sdata.operand1.operand0
+        for op in op1:
+            if(isinstance(op.operand0, list)):
+                newVal = []
+                sdata.value.append(newVal)
+                for innerOp in op.operand0:
+                    newVal.append(innerOp.value)
+            else:
+                sdata.value.append(op.value)
+
+        # All the rest of the validations are done in Evaluator
+        sdata.operand1 = None
         return retVal
 
 class EqualsSymbol(InfixSymbol):
@@ -159,6 +225,8 @@ def getSymbolMeta(id):
             c = InfixSymbol(id, 120)
         elif(id == '/'):
             c = InfixSymbol(id, 120)
+        elif(id == '$'):
+            c = DollarSymbol(id, 160)
         elif(id == '('):
             c = ParenthesisSymbol(id, 150)
         elif(id == '['):
@@ -184,7 +252,8 @@ def getSymbolMeta(id):
 
 def getToken(expression, dataclass):
     TYPE_MAP = {tokenize.NUMBER: 'NUMBER', tokenize.STRING: 'STRING', \
-        tokenize.OP: 'OPERATOR', tokenize.NAME: 'NAME'}
+        tokenize.OP: 'OPERATOR', tokenize.NAME: 'NAME', \
+            tokenize.ERRORTOKEN: 'DOLLAR'} # TODO: ERRORTOKEN?
     COMMENT_MARKER = '#'
 
     ioprog = StringIO(expression)

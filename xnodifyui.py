@@ -7,7 +7,7 @@
 # License: GPL (https://github.com/Shriinivas/xnodify/blob/master/LICENSE)
 #
 
-import bpy
+import bpy, traceback
 from bpy.props import StringProperty, FloatProperty, EnumProperty, BoolProperty
 from bpy.types import PropertyGroup, Operator, Panel
 
@@ -198,7 +198,7 @@ class XNodifyOp(Operator):
             wm.modal_handler_add(self)
             return {'RUNNING_MODAL'}
         except Exception as e:
-            # ~ traceback.print_exc()
+            traceback.print_exc()
             self.report({'ERROR'}, str(e))
         return {'FINISHED'}
 

@@ -7,11 +7,12 @@
 # License: GPL (https://github.com/Shriinivas/xnodify/blob/master/LICENSE)
 #
 
-import bpy
+import bpy, traceback
 from mathutils import Vector
 
 from .lookups import fnMap, mathFnMap, vmathFnMap, mathPrefix, vmathPrefix
-from .lookups import reverseLookup, SHADER_GROUP, SHADER_MATH, SHADER_VMATH
+from .lookups import reverseLookup
+from .lookups import SHADER_GROUP, SHADER_MATH, SHADER_VMATH, SHADER_VALUE
 
 class EvaluatorBase:
 
@@ -34,6 +35,8 @@ class EvaluatorBase:
             return ModuloEvaluator()
         elif(id == '('):
             return ParenthesisEvaluator()
+        elif(id == '$'):
+            return DollarEvaluator()
         # ~ elif(id == '['): # Taken care in parser
             # ~ return BracketSymbol()
         elif(id == '{'):
@@ -98,9 +101,6 @@ class EvaluatorBase:
     def __init__(self):
         pass
 
-    def beforeOperand0(self, nodeTree, paramBus):
-        return nodeTree
-
     def beforeOperand1(self, nodeTree, paramBus):
         return nodeTree
 
@@ -149,8 +149,8 @@ class VariableEvaluator(EvaluatorBase):
                     paramBus.data.sockIdx = sockIdx
                 varTable[varName][2] += 1
             else:
-                node = EvaluatorBase.getNode(nodeTree, \
-                    'ShaderNodeValue', data.value, 0)
+                node = EvaluatorBase.getNode(nodeTree, SHADER_VALUE, \
+                    data.value, 0)
                 varTable[varName] = [node, 0, 0]
 
         return node
@@ -232,6 +232,48 @@ class PowerEvaluator(EvaluatorBase):
             'POWER', 'Power', paramBus.getDefLHSOutput(), \
                 paramBus.getDefRHSOutput())
 
+class DollarEvaluator(EvaluatorBase):
+    def evaluate(self, nodeTree, paramBus, varTable):
+        def setDefVal(val, inpIdx, valIdx, isInput):
+            if(val != None):
+                try:
+                    socket = node.inputs[inpIdx] \
+                        if isInput else node.outputs[inpIdx]
+                except:
+                    raise SyntaxError('Incorrect default value assignment')
+                try:
+                    try:
+                        socket.default_value[valIdx] = float(val)
+                    except:
+                        socket.default_value = float(val)
+                except:
+                    traceback.print_exc()
+                    pass
+
+        node = paramBus.lhsNode
+        dataValue = paramBus.data.value
+
+        if(paramBus.data.symbolType == 'input'):
+            for inpIdx, ipVals in enumerate(dataValue):
+                if(isinstance(ipVals, list)):
+                    for valIdx, ipVal in enumerate(ipVals):
+                        setDefVal(ipVal, inpIdx, valIdx, True)
+                else:
+                    setDefVal(ipVals, inpIdx, 0, True)
+
+        elif(paramBus.data.symbolType == 'output'):
+            for opIdx, opVals in enumerate(dataValue):
+                if(isinstance(opVals, list)):
+                    for valIdx, opVal in enumerate(opVals):
+                        setDefVal(opVal, opIdx, valIdx, False)
+                else:
+                    setDefVal(opVals, opIdx, 0, False)
+
+        else:
+            assert(False) # Should never happen
+
+        return paramBus.lhsNode
+
 class ParenthesisEvaluator(EvaluatorBase):
     def evaluate(self, nodeTree, paramBus, varTable):
         node = customName = None
@@ -265,7 +307,7 @@ class BraceEvaluator(EvaluatorBase):
 
     def beforeOperand1(self, nodeTree, paramBus):
         if(paramBus.operand0 == None):
-            groupName = 'XNodifyNodeGroup'
+            groupName = 'XNGroup'
         else:
             groupName = paramBus.operand0.value
         group = nodeTree.nodes.new(SHADER_GROUP)

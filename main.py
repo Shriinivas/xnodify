@@ -95,7 +95,11 @@ class SymbolData(object):
         self.isGroup = False # TODO: Separate class? (part of meta actually)
         self.sockIdx = None # Index in [] operator TODO: separate class?
         self.isLHS = False # TODO: Separate class?
+        self.symbolType = None # For default values i.e. $ & { symbols
         self.evaluator = EvaluatorBase.getEvaluator(id)
+
+    def __repr__(self):
+        return str(self.value) + ' ' + str(self.meta.id)
 
     def getLinearList(self, items):
         items.append(self)
@@ -128,18 +132,10 @@ class SymbolData(object):
 
         operand0 = self.operand0
 
-        if isinstance(self.operand1,  SymbolData):
-            operands1 = [self.operand1]
-        elif isinstance(self.operand1,  list):
-            operands1 = self.operand1
-        else:
-            operands1 = None
-
-        paramBus = EvalParamsBus(self, operand0, operands1)
-
-        nodeTree = self.evaluator.beforeOperand0(nodeTree, paramBus)
-
-        if isinstance(operand0,  SymbolData):
+        if isinstance(operand0,  list):
+            raise SyntaxError(self.getMetaData().id + \
+                ' expression does not evaluate to a node')
+        elif isinstance(operand0,  SymbolData):
             # TODO: Hack...a better way to achieve this
             if(self.getMetaData().id in {'='}):
                 nextColNo = colNo
@@ -150,6 +146,15 @@ class SymbolData(object):
         else:
             lhsNode = None
 
+        if isinstance(self.operand1,  SymbolData):
+            operands1 = [self.operand1]
+        elif isinstance(self.operand1,  list):
+            operands1 = self.operand1
+        else:
+            operands1 = None
+
+
+        paramBus = EvalParamsBus(self, operand0, operands1)
         paramBus.setLHSNode(lhsNode)
 
         nodeTree = self.evaluator.beforeOperand1(nodeTree, paramBus)
