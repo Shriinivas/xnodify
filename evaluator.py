@@ -173,7 +173,7 @@ class EqualsEvaluator(EvaluatorBase):
             raise SyntaxError('Left hand side should be ' + \
                 'a node type with at least one input')
 
-        ip = paramBus.getNodeSocket(operand0, lhsNode, out = False)
+        ip = paramBus.getNodeSocket(operand0, out = False)
 
         # Get the first free input of lhs
         i = 0
@@ -187,7 +187,7 @@ class EqualsEvaluator(EvaluatorBase):
             raise SyntaxError('Left hand side of "=" should be ' + \
                 'a node type with at least one free input')
 
-        op = paramBus.getNodeSocket(operands1[0], rhsNodes[0])
+        op = paramBus.getNodeSocket(operands1[0])
         if(op == None):
             raise SyntaxError('Right hand side of "=" should be ' + \
                 'a node type with at least one output')
