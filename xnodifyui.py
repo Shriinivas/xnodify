@@ -120,6 +120,9 @@ class XNodifyParams(PropertyGroup):
         default = 'MULTILINE', \
         description='Option to add frame to newly created nodes')
 
+    minimized : BoolProperty(name='Show Minimized', default = False, \
+        description='Display nodes in minimized form')
+
     nodeGroup : EnumProperty(name='Node Category', \
         items = getNodeGroups, description='Select node category')
 
@@ -171,18 +174,18 @@ class XNodifyOp(Operator):
                 displayParams = main.procSingleExpression(expression,\
                     (params.xLocation, params.yLocation), \
                         (params.xScale, params.yScale), params.alignment, \
-                            params.addFrame == 'ALWAYS')
+                            params.addFrame == 'ALWAYS', params.minimized)
             elif(params.internalExternal == 'INTERNAL'):
                 displayParams = main.procScript(params.scriptName,\
                     (params.xLocation, params.yLocation), \
                         (params.xScale, params.yScale), params.alignment, \
-                            params.addFrame != 'NEVER')
+                            params.addFrame != 'NEVER', params.minimized)
             else:
                 filePath = bpy.path.abspath(params.filePath)
                 displayParams = main.procFile(filePath,\
                     (params.xLocation, params.yLocation), \
                         (params.xScale, params.yScale), params.alignment, \
-                            params.addFrame != 'NEVER')
+                            params.addFrame != 'NEVER', params.minimized)
 
             for lineNo in displayParams.warnings.keys():
                 warningLines = '; '.join(displayParams.warnings[lineNo])
@@ -246,6 +249,7 @@ class XNodifyPanel(Panel):
             row.prop(params, 'yLocation', text = '')
             col.prop(params, 'alignment', text = 'Alignment')
             col.prop(params, 'addFrame', text = 'Add Frame')
+            col.prop(params, 'minimized', text = 'Show Minimized')
 
         row = col.row()
         row.prop(params, 'lookupExpanded',
