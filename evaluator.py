@@ -330,8 +330,14 @@ class BraceEvaluator(EvaluatorBase):
         gOutput = nodes[0]
         gInput = nodes[1]
 
-        rhsNodes = paramBus.getRHSNodes()
-        for node in rhsNodes:
+        childNodes = set()
+        for op in paramBus.operands1:
+            childOps = []
+            op.getLinearList(childOps)
+            childNodes = childNodes.union([o.node for o in childOps \
+                if o != None and o.node != None])
+
+        for node in childNodes:
             outputs = [o for o in node.outputs \
                 if o.enabled == True and o.hide == False]
             for op in outputs:
@@ -339,7 +345,7 @@ class BraceEvaluator(EvaluatorBase):
                     gIp = gOutput.inputs.new(op.bl_idname, op.name)
                     links.new(gIp, op)
 
-        for node in rhsNodes:
+        for node in childNodes:
             inputs = [i for i in node.inputs \
                 if i.enabled == True and i.hide == False]
             for ip in inputs:
