@@ -282,7 +282,9 @@ class NodeLayout:
                 x = totalWidth / 2 -  sum(colWidths[:col + 1]) - \
                     col * NodeLayout.noodleWidth + \
                         (colWidths[col] - dimensions[0]) / 2
-                y =  prevHeight + yOffset
+                y =  prevHeight + yOffset + (dimensions[1] / 2 \
+                    if node.hide else 0)
+
                 prevHeight += dimensions[1]
 
                 nodeLoc = Vector((location[0] + scale[0] * x, \
@@ -368,7 +370,7 @@ class NodeLayout:
 
 # One Controller per line
 class Controller:
-    def __init__(self, globalNodes, varNodeGraphs, currLineNo):
+    def __init__(self, globalNodes, varNodeGraphs, currLineNo, minimized):
         self.globalNodes = globalNodes
 
         # varNodeGraphs is used in layout. here only usage count is updated
@@ -378,6 +380,7 @@ class Controller:
 
         # This will have nodegraphs for global as well as group node tree
         self.nodeTreeTable = {}
+        self.minimized = minimized
 
     def getGlobalNodes(self):
         allNodes = set()
@@ -420,6 +423,8 @@ class Controller:
             nodeColumn.append(node)
             if(varInfo != None):
                 varInfo.isProcessed = True
+            if(self.minimized):
+                node.hide = True
 
     def createNodes(self, nodeTree, varTable, expression, depth = 0):
 
@@ -498,7 +503,7 @@ class XNodifyContext:
         pass
 
     def processExpressions(self, lineFeeder, matNodeTree, \
-        location, scale, alignment, addFrame, frameTitle = None):
+        location, scale, alignment, addFrame, minimized, frameTitle = None):
 
         if(matNodeTree == None):
             matNodeTree = XNodifyContext.getActiveMatTree()
@@ -519,7 +524,8 @@ class XNodifyContext:
                 expression = expression.strip()
                 expression = XNodifyContext.hardReplace(expression, \
                     hardReplaceTable)
-                controller = Controller(allNodes, varNodeGraphs, lineCnt)
+                controller = Controller(allNodes, varNodeGraphs, \
+                    lineCnt, minimized)
                 evalNode, exprType, nodeTreeTable, newNodes, newWarnings = \
                     controller.createNodes(matNodeTree, varTable, expression)
 
@@ -527,6 +533,8 @@ class XNodifyContext:
                     warnings[actLineCnt] = newWarnings
 
                 if(exprType != None):
+                    tmp = expression.split('#')
+                    expression = tmp[0]
                     lhs, rhs = expression.split('=')
                     hardReplaceTable[lhs.strip()] = rhs.strip()
 
@@ -580,16 +588,16 @@ def getActiveMatTree():
     mat.use_nodes = True
     return mat.node_tree
 
-def procScript(scriptName, location, scale, alignment, addFrame):
+def procScript(scriptName, location, scale, alignment, addFrame, minimized):
     def scriptLineFeeder(scriptName):
         for line in bpy.data.texts[scriptName].lines:
             yield line.body
         yield None
 
     return XNodifyContext().processExpressions(scriptLineFeeder(scriptName), \
-        getActiveMatTree(), location, scale, alignment, addFrame)
+        getActiveMatTree(), location, scale, alignment, addFrame, minimized)
 
-def procFile(filePath, location, scale, alignment, addFrame):
+def procFile(filePath, location, scale, alignment, addFrame, minimized):
     def fileLineFeeder(filePath):
         with open(filePath) as f:
             line = f.readline()
@@ -599,12 +607,13 @@ def procFile(filePath, location, scale, alignment, addFrame):
         yield None
 
     return XNodifyContext().processExpressions(fileLineFeeder(filePath), \
-        getActiveMatTree(), location, scale, alignment, addFrame)
+        getActiveMatTree(), location, scale, alignment, addFrame, minimized)
 
-def procSingleExpression(expression, location, scale, alignment, addFrame):
+def procSingleExpression(expression, location, scale, alignment, \
+    addFrame, minimized):
     def feeder():
         for e in [expression, None]:
             yield e
     return XNodifyContext().processExpressions(feeder(), getActiveMatTree(), \
-        location, scale, alignment, addFrame, 'Expression')
+        location, scale, alignment, addFrame, minimized, 'Expression')
 
