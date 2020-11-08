@@ -12,7 +12,7 @@ from bpy.props import StringProperty, FloatProperty, EnumProperty, BoolProperty
 from bpy.types import PropertyGroup, Operator, Panel
 
 from .lookups import nodeGroups, getCombinedMap, mathPrefix, vmathPrefix
-from . main import procSingleExpression, procScript, procFile, NodeLayout
+from . main import procStringExpression, procScript, procFile, NodeLayout
 
 # For debugging
 from . import main
@@ -171,7 +171,7 @@ class XNodifyOp(Operator):
             params = context.window_manager.XNodifyParams
             if(params.singleMulti == 'SINGLE'):
                 expression = context.window_manager.XNodifyParams.expression
-                displayParams = main.procSingleExpression(expression,\
+                displayParams = main.procStringExpression(expression,\
                     (params.xLocation, params.yLocation), \
                         (params.xScale, params.yScale), params.alignment, \
                             params.addFrame == 'ALWAYS', params.minimized)

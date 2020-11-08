@@ -10,6 +10,7 @@
 
 import bpy
 from mathutils import Vector
+from io import StringIO
 
 from .lookups import getCombinedMap, SHADER_GROUP
 
@@ -609,11 +610,17 @@ def procFile(filePath, location, scale, alignment, addFrame, minimized):
     return XNodifyContext().processExpressions(fileLineFeeder(filePath), \
         getActiveMatTree(), location, scale, alignment, addFrame, minimized)
 
-def procSingleExpression(expression, location, scale, alignment, \
+def procStringExpression(expression, location, scale, alignment, \
     addFrame, minimized):
     def feeder():
-        for e in [expression, None]:
-            yield e
+        f = StringIO(expression)
+        line = f.readline()
+        while(line):
+            yield line
+            line = f.readline()
+        yield None
+
+
     return XNodifyContext().processExpressions(feeder(), getActiveMatTree(), \
         location, scale, alignment, addFrame, minimized, 'Expression')
 
