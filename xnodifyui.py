@@ -131,68 +131,31 @@ class XNodifyParams(PropertyGroup):
         update = insertNodeDetails)
 
 
-class XNodifyOp(Operator):
-    bl_idname = 'object.xnodify'
-    bl_label = 'Generate Nodes'
-    bl_options = {'REGISTER', 'UNDO'}
-
+class XNodifyBaseOp(Operator):
     def modal (self, context, event):
         MAX_TRIES = 100
         if(event.type == 'TIMER'):
-            dispTreeTables = self.displayParams.dispTreeTables
-            matNodeTree = self.displayParams.matNodeTree
-            location = self.displayParams.location
-            scale = self.displayParams.scale
-            alignment = self.displayParams.alignment
-            addFrame = self.displayParams.addFrame
-            frameTitle = self.displayParams.frameTitle
-
-            if(len(dispTreeTables) == 0):
+            done = NodeLayout.arrangeNodeLines(self.displayParams, \
+                testDimensions = self.tryCnt < MAX_TRIES)
+            if(done):
                 context.window_manager.event_timer_remove(self._timer)
                 return {"FINISHED"}
-
-            dimensions = \
-                NodeLayout.testNodeDimension(dispTreeTables[0][1], matNodeTree)
-
-            if(dimensions[0] > 0 or self.tryCnt == MAX_TRIES):
-                NodeLayout.arrangeNodeLines(dispTreeTables, matNodeTree, \
-                    location, scale, alignment, addFrame, frameTitle)
-
-                context.window_manager.event_timer_remove(self._timer)
-                return {"FINISHED"}
-
             self.tryCnt += 1
-
         return {"PASS_THROUGH"}
+
+    def _execute(self, context):
+        raise NotImplementedError('Call to abstract method')
 
     def execute(self, context):
         self.tryCnt = 0
         try:
-            params = context.window_manager.XNodifyParams
-            if(params.singleMulti == 'SINGLE'):
-                expression = context.window_manager.XNodifyParams.expression
-                displayParams = main.procStringExpression(expression,\
-                    (params.xLocation, params.yLocation), \
-                        (params.xScale, params.yScale), params.alignment, \
-                            params.addFrame == 'ALWAYS', params.minimized)
-            elif(params.internalExternal == 'INTERNAL'):
-                displayParams = main.procScript(params.scriptName,\
-                    (params.xLocation, params.yLocation), \
-                        (params.xScale, params.yScale), params.alignment, \
-                            params.addFrame != 'NEVER', params.minimized)
-            else:
-                filePath = bpy.path.abspath(params.filePath)
-                displayParams = main.procFile(filePath,\
-                    (params.xLocation, params.yLocation), \
-                        (params.xScale, params.yScale), params.alignment, \
-                            params.addFrame != 'NEVER', params.minimized)
+            self.displayParams = self._execute(context)
 
-            for lineNo in displayParams.warnings.keys():
+            for lineNo in self.displayParams.warnings.keys():
                 warningLines = '; '.join(displayParams.warnings[lineNo])
                 self.report({'WARNING'}, 'LINE: ' + str(lineNo) + \
                     ' ' + warningLines)
 
-            self.displayParams = displayParams
             # Actual arranging is deferred
             # as dimensions are not available right now
             wm = context.window_manager
@@ -204,6 +167,31 @@ class XNodifyOp(Operator):
             traceback.print_exc()
             self.report({'ERROR'}, str(e))
         return {'FINISHED'}
+
+class XNodifyOp(XNodifyBaseOp):
+    bl_idname = 'object.xnodify'
+    bl_label = 'Generate Nodes'
+    bl_options = {'REGISTER', 'UNDO'}
+
+    def _execute(self, context):
+        params = context.window_manager.XNodifyParams
+        if(params.singleMulti == 'SINGLE'):
+            expression = context.window_manager.XNodifyParams.expression
+            return main.procStringExpression(expression,\
+                (params.xLocation, params.yLocation), \
+                    (params.xScale, params.yScale), params.alignment, \
+                        params.addFrame == 'ALWAYS', params.minimized)
+        elif(params.internalExternal == 'INTERNAL'):
+            return main.procScript(params.scriptName,\
+                (params.xLocation, params.yLocation), \
+                    (params.xScale, params.yScale), params.alignment, \
+                        params.addFrame != 'NEVER', params.minimized)
+        else:
+            return bpy.path.abspath(params.filePath)
+            self.displayParams = main.procFile(filePath,\
+                (params.xLocation, params.yLocation), \
+                    (params.xScale, params.yScale), params.alignment, \
+                        params.addFrame != 'NEVER', params.minimized)
 
 class XNodifyPanel(Panel):
     bl_label = 'XNodify'
