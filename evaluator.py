@@ -82,12 +82,14 @@ class EvaluatorBase:
         return Vector(dimensions)
 
     @staticmethod
-    def getNode(nodeTree, customName, label = None, value = None):
+    def getNode(nodeTree, customName, label = None, value = None, name = None):
         node = nodeTree.nodes.new(customName)
         if(value != None):
             node.outputs[0].default_value = float(value)
         if(label != None):
             node.label = label
+        if(name != None):
+            node.name = name
         return node
 
     @staticmethod
@@ -150,7 +152,7 @@ class VariableEvaluator(EvaluatorBase):
                 varTable[varName][2] += 1
             else:
                 node = EvaluatorBase.getNode(nodeTree, SHADER_VALUE, \
-                    data.value, 0)
+                    data.value, 0, data.value)
                 varTable[varName] = [node, 0, 0]
 
         return node
