@@ -325,8 +325,24 @@ class NodeLayout:
         return dimensions
 
     @staticmethod
-    def arrangeNodeLines(dispTreeTables, matNodeTree, \
-        location, scale, alignment, addFrame, frameTitle):
+    def arrangeNodeLines(displayParams, testDimensions = True):
+        dispTreeTables = displayParams.dispTreeTables
+        matNodeTree = displayParams.matNodeTree
+        location = displayParams.location
+        scale = displayParams.scale
+        alignment = displayParams.alignment
+        addFrame = displayParams.addFrame
+        frameTitle = displayParams.frameTitle
+
+        if(len(dispTreeTables) == 0):
+            return True
+
+        if(testDimensions):
+            dimensions = \
+                NodeLayout.testNodeDimension(dispTreeTables[0][1], matNodeTree)
+            if(dimensions[0] == 0):
+                return False
+
         height = 0
         frameHeight = (70 if addFrame else 30) * scale[1]
         for dispTreeTable in dispTreeTables:
@@ -344,6 +360,7 @@ class NodeLayout:
                         nodeLayout.nodeGraph[col][row].parent = frame
             height += nodeLayout.totalHeight + frameHeight
 
+        return True
 
     def __init__(self, tNodeGraph):
         self.colHeights = []
@@ -567,8 +584,6 @@ class XNodifyContext:
                 if(isDisplayed):
                     dispTreeTables.append((actLineCnt, nodeTreeTable))
 
-            # ~ NodeLayout.arrangeNodeLines(dispTreeTables, matNodeTree, \
-                # ~ location, scale, alignment, addFrame, frameTitle)
             displayParams = DisplayParams(dispTreeTables, matNodeTree, \
                 location, scale, alignment, addFrame, frameTitle, warnings)
 
