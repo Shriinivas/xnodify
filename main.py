@@ -179,6 +179,7 @@ class SymbolData(object):
 
         return node
 
+
 class VarInfo:
     def __init__(self, nodeTreeTable):
         self.nodeTreeTable = nodeTreeTable
@@ -191,6 +192,110 @@ class VarInfo:
 
     def __repr__(self):
         return str(self)
+
+
+# One Controller per line (Actual processing here, i.e. node creation)
+class Controller:
+    def __init__(self, globalNodes, varNodeGraphs, currLineNo, minimized):
+        self.globalNodes = globalNodes
+
+        # varNodeGraphs is used in layout. here only usage count is updated
+        # based on currLineNo
+        self.varNodeGraphs = varNodeGraphs
+        self.currLineNo = currLineNo
+
+        # This will have nodegraphs for global as well as group node tree
+        self.nodeTreeTable = {}
+        self.minimized = minimized
+
+    def getGlobalNodes(self):
+        allNodes = set()
+        for nodeTree in self.nodeTreeTable.keys():
+            nodeGraph = self.nodeTreeTable[nodeTree]
+            for col in nodeGraph.keys():
+                allNodes = allNodes.union(nodeGraph[col])
+        allNodes = allNodes.union(self.globalNodes)
+        return allNodes
+
+    def removeAllNodes(self, newNodes = None):
+        for node in self.getGlobalNodes():
+            node.id_data.nodes.remove(node)
+        # TODO : better way to delete all nodes on syntax error
+        if(newNodes != None):
+            for node in newNodes:
+                try:
+                    node.id_data.nodes.remove(node)
+                except:
+                    pass
+
+    # Callback method, creates and updates nodeTreeTable used by arrange.
+    # nodeTreeTable will have mulitple nodeGraphs only in case of group nodes.
+    def afterProcNode(self, colNo, node, params, varTable):
+        varInfo = self.varNodeGraphs.get(node)
+        if(varInfo != None):
+            varInfo.usageLines.add(self.currLineNo)
+        # Add varNode only once in nodeGraph, so that it's locatable later
+        if((varInfo != None and not varInfo.isProcessed) or \
+            (node != None and node not in self.getGlobalNodes())):
+            nodeTree = node.id_data
+            nodeGraph = self.nodeTreeTable.get(nodeTree)
+            if(nodeGraph == None):
+                self.nodeTreeTable[nodeTree] = {}
+                nodeGraph = self.nodeTreeTable[nodeTree]
+            nodeColumn = nodeGraph.get(colNo)
+            if(nodeColumn == None):
+                nodeGraph[colNo] = []
+                nodeColumn = nodeGraph[colNo]
+            nodeColumn.append(node)
+            if(varInfo != None):
+                varInfo.isProcessed = True
+            if(self.minimized):
+                node.hide = True
+
+    def createNodes(self, nodeTree, varTable, expression, depth = 0):
+
+        OUTPUT_ON_LHS = 'Deprecation Warning: output on LHS is deprecated, ' + \
+            'use output on RHS with incoming nodes as parameters instead.' + \
+            '(Layout won\'t be correct.)'
+        warnings = set()
+        dataTree = parser.parse(expression, SymbolData)
+
+        if(dataTree == None):
+            return None, None, None, None, warnings
+
+        datas = dataTree.getLinearList([])
+        equalsOps = [t for t in datas if t.getMetaData().id == '=']
+
+        if(len(equalsOps) > 1):
+            raise SyntaxError('Only one assignment allowed in a line.')
+        elif(len(equalsOps) == 1):
+            op0 = equalsOps[0].operand0
+            op1 = equalsOps[0].operand0
+            if(op0 == None or op1 == None):
+                raise SyntaxError('Values needed on both sides of =')
+
+            if(op0.getMetaData().id != 'NAME'):
+                raise SyntaxError('LHS must be a variable or the output node')
+            if(op0.value == 'output'):
+                warnings.add(OUTPUT_ON_LHS)
+                exprType = 'output'
+            elif(op0.value in getCombinedMap().keys()):
+                raise SyntaxError('LHS cannot refer to a node ' + \
+                    'other than output')
+            else:
+                exprType = op0.value
+        elif(len(equalsOps) == 0):
+            exprType = None
+
+        evalNode = dataTree.evalSymbol(nodeTree, varTable, \
+            self.afterProcNode, depth)
+        varInfo = varTable.get(exprType)
+        if(varInfo != None and \
+            varInfo[0].bl_idname == 'ShaderNodeOutputMaterial'):
+            warnings.add(OUTPUT_ON_LHS)
+            exprType = 'output'
+        return evalNode, exprType, self.nodeTreeTable, \
+            self.getGlobalNodes(), warnings
 
 # Post-processing...
 # At this point all nodes are already created and links established
@@ -385,109 +490,6 @@ class NodeLayout:
         self.totalWidth = (sum(self.colWidths) + \
             (self.nodeCnt - 1) * NodeLayout.noodleWidth) \
                 if(self.nodeCnt > 0) else 0
-
-# One Controller per line
-class Controller:
-    def __init__(self, globalNodes, varNodeGraphs, currLineNo, minimized):
-        self.globalNodes = globalNodes
-
-        # varNodeGraphs is used in layout. here only usage count is updated
-        # based on currLineNo
-        self.varNodeGraphs = varNodeGraphs
-        self.currLineNo = currLineNo
-
-        # This will have nodegraphs for global as well as group node tree
-        self.nodeTreeTable = {}
-        self.minimized = minimized
-
-    def getGlobalNodes(self):
-        allNodes = set()
-        for nodeTree in self.nodeTreeTable.keys():
-            nodeGraph = self.nodeTreeTable[nodeTree]
-            for col in nodeGraph.keys():
-                allNodes = allNodes.union(nodeGraph[col])
-        allNodes = allNodes.union(self.globalNodes)
-        return allNodes
-
-    def removeAllNodes(self, newNodes = None):
-        for node in self.getGlobalNodes():
-            node.id_data.nodes.remove(node)
-        # TODO : better way to delete all nodes on syntax error
-        if(newNodes != None):
-            for node in newNodes:
-                try:
-                    node.id_data.nodes.remove(node)
-                except:
-                    pass
-
-    # Callback method, creates and updates nodeTreeTable used by arrange.
-    # nodeTreeTable will have mulitple nodeGraphs only in case of group nodes.
-    def afterProcNode(self, colNo, node, params, varTable):
-        varInfo = self.varNodeGraphs.get(node)
-        if(varInfo != None):
-            varInfo.usageLines.add(self.currLineNo)
-        # Add varNode only once in nodeGraph, so that it's locatable later
-        if((varInfo != None and not varInfo.isProcessed) or \
-            (node != None and node not in self.getGlobalNodes())):
-            nodeTree = node.id_data
-            nodeGraph = self.nodeTreeTable.get(nodeTree)
-            if(nodeGraph == None):
-                self.nodeTreeTable[nodeTree] = {}
-                nodeGraph = self.nodeTreeTable[nodeTree]
-            nodeColumn = nodeGraph.get(colNo)
-            if(nodeColumn == None):
-                nodeGraph[colNo] = []
-                nodeColumn = nodeGraph[colNo]
-            nodeColumn.append(node)
-            if(varInfo != None):
-                varInfo.isProcessed = True
-            if(self.minimized):
-                node.hide = True
-
-    def createNodes(self, nodeTree, varTable, expression, depth = 0):
-
-        OUTPUT_ON_LHS = 'Deprecation Warning: output on LHS is deprecated, ' + \
-            'use output on RHS with incoming nodes as parameters instead.' + \
-            '(Layout won\'t be correct.)'
-        warnings = set()
-        dataTree = parser.parse(expression, SymbolData)
-
-        if(dataTree == None):
-            return None, None, None, None, warnings
-
-        datas = dataTree.getLinearList([])
-        equalsOps = [t for t in datas if t.getMetaData().id == '=']
-
-        if(len(equalsOps) > 1):
-            raise SyntaxError('Only one assignment allowed in a line.')
-        elif(len(equalsOps) == 1):
-            op0 = equalsOps[0].operand0
-            op1 = equalsOps[0].operand0
-            if(op0 == None or op1 == None):
-                raise SyntaxError('Values needed on both sides of =')
-
-            if(op0.getMetaData().id != 'NAME'):
-                raise SyntaxError('LHS must be a variable or the output node')
-            if(op0.value == 'output'):
-                warnings.add(OUTPUT_ON_LHS)
-                exprType = 'output'
-            elif(op0.value in getCombinedMap().keys()):
-                raise SyntaxError('LHS cannot refer to a node ' + \
-                    'other than output')
-            else:
-                exprType = op0.value
-        elif(len(equalsOps) == 0):
-            exprType = None
-
-        evalNode = dataTree.evalSymbol(nodeTree, varTable, \
-            self.afterProcNode, depth)
-        varInfo = varTable.get(exprType)
-        if(varInfo != None and \
-            varInfo[0].bl_idname == 'ShaderNodeOutputMaterial'):
-            warnings.add(OUTPUT_ON_LHS)
-            exprType = 'output'
-        return evalNode, exprType, self.nodeTreeTable, \
-            self.getGlobalNodes(), warnings
 
 class DisplayParams:
     def __init__(self, dispTreeTables, matNodeTree, \
