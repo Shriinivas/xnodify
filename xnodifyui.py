@@ -187,8 +187,8 @@ class XNodifyOp(XNodifyBaseOp):
                     (params.xScale, params.yScale), params.alignment, \
                         params.addFrame != 'NEVER', params.minimized)
         else:
-            return bpy.path.abspath(params.filePath)
-            self.displayParams = main.procFile(filePath,\
+            filePath = bpy.path.abspath(params.filePath)
+            return main.procFile(filePath,\
                 (params.xLocation, params.yLocation), \
                     (params.xScale, params.yScale), params.alignment, \
                         params.addFrame != 'NEVER', params.minimized)
