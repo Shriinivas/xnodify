@@ -152,7 +152,7 @@ class XNodifyBaseOp(Operator):
             self.displayParams = self._execute(context)
 
             for lineNo in self.displayParams.warnings.keys():
-                warningLines = '; '.join(displayParams.warnings[lineNo])
+                warningLines = '; '.join(self.displayParams.warnings[lineNo])
                 self.report({'WARNING'}, 'LINE: ' + str(lineNo) + \
                     ' ' + warningLines)
 
