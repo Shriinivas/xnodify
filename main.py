@@ -173,9 +173,9 @@ class SymbolData(object):
 
         node = self.evaluator.evaluate(nodeTree, paramBus, varTable)
 
-        # afterProcNode: callback after processing each token
-        afterProcNode(colNo, node, paramBus, varTable)
         self.node = node
+        # afterProcNode: callback after processing each token
+        afterProcNode(colNo, self, paramBus, varTable)
 
         return node
 
@@ -194,10 +194,37 @@ class VarInfo:
         return str(self)
 
 
+class DisplayNode:
+    def __init__(self, data):
+        self.data = data
+        self.parent = None
+        self.colNo = None
+        self.rowNo = None
+
+    def __repr__(self):
+        return str('Display Node ->' + str(self.data.node))
+
+
+def appendDispNode(dispNode, graph, colNo):
+    # Before laying out, the graph is converted to a 2d list...
+    if(isinstance(graph, list)):
+        nodeColumn = graph[colNo]
+    else:
+        nodeColumn = graph.get(colNo)
+        if(nodeColumn == None):
+            graph[colNo] = []
+            nodeColumn = graph[colNo]
+    dispNode.parent = graph
+    dispNode.colNo = colNo
+    dispNode.rowNo = len(nodeColumn)
+    nodeColumn.append(dispNode)
+
+
 # One Controller per line (Actual processing here, i.e. node creation)
 class Controller:
-    def __init__(self, globalNodes, varNodeGraphs, currLineNo, minimized):
-        self.globalNodes = globalNodes
+    def __init__(self, dispNodeTable, varNodeGraphs, currLineNo, minimized):
+        # node: DisplayNode table of all the (non-grouped) nodes created earlier
+        self.dispNodeTable = dispNodeTable
 
         # varNodeGraphs is used in layout. here only usage count is updated
         # based on currLineNo
@@ -208,14 +235,19 @@ class Controller:
         self.nodeTreeTable = {}
         self.minimized = minimized
 
-    def getGlobalNodes(self):
-        allNodes = set()
+    # Combine the earlier nodes with the ones created in this cycle
+    def getDispNodeTable(self):
+        allDispNodeTable = {}
         for nodeTree in self.nodeTreeTable.keys():
             nodeGraph = self.nodeTreeTable[nodeTree]
             for col in nodeGraph.keys():
-                allNodes = allNodes.union(nodeGraph[col])
-        allNodes = allNodes.union(self.globalNodes)
-        return allNodes
+                allDispNodeTable.update({d.data.node: d \
+                        for d in nodeGraph[col]})
+        allDispNodeTable.update(self.dispNodeTable)
+        return allDispNodeTable
+
+    def getGlobalNodes(self):
+        return self.getDispNodeTable().keys()
 
     def removeAllNodes(self, newNodes = None):
         for node in self.getGlobalNodes():
@@ -230,11 +262,14 @@ class Controller:
 
     # Callback method, creates and updates nodeTreeTable used by arrange.
     # nodeTreeTable will have mulitple nodeGraphs only in case of group nodes.
-    def afterProcNode(self, colNo, node, params, varTable):
+    def afterProcNode(self, colNo, data, params, varTable):
+        node = data.node
         varInfo = self.varNodeGraphs.get(node)
         if(varInfo != None):
             varInfo.usageLines.add(self.currLineNo)
-        # Add varNode only once in nodeGraph, so that it's locatable later
+        # 1) Add varNode only once in nodeGraph, so that it's locatable later
+        # 2) globalNodes are nodes that are direct children of top level tree
+        #    This excludes nodes within a group
         if((varInfo != None and not varInfo.isProcessed) or \
             (node != None and node not in self.getGlobalNodes())):
             nodeTree = node.id_data
@@ -242,11 +277,7 @@ class Controller:
             if(nodeGraph == None):
                 self.nodeTreeTable[nodeTree] = {}
                 nodeGraph = self.nodeTreeTable[nodeTree]
-            nodeColumn = nodeGraph.get(colNo)
-            if(nodeColumn == None):
-                nodeGraph[colNo] = []
-                nodeColumn = nodeGraph[colNo]
-            nodeColumn.append(node)
+            appendDispNode(DisplayNode(data), nodeGraph, colNo)
             if(varInfo != None):
                 varInfo.isProcessed = True
             if(self.minimized):
@@ -295,7 +326,7 @@ class Controller:
             warnings.add(OUTPUT_ON_LHS)
             exprType = 'output'
         return evalNode, exprType, self.nodeTreeTable, \
-            self.getGlobalNodes(), warnings
+            self.getDispNodeTable(), warnings
 
 # Post-processing...
 # At this point all nodes are already created and links established
@@ -318,7 +349,8 @@ class NodeLayout:
         colDiff = 0
         for col in sorted(parentNodeGraph.keys()):
             for row in range(len(parentNodeGraph[col])):
-                node = parentNodeGraph[col][row]
+                dispNode = parentNodeGraph[col][row]
+                node = dispNode.data.node
                 varInfo = varNodeGraphs.get(node)
                 if(varInfo != None and len(varInfo.usageLines) > 0 and \
                     max(varInfo.usageLines) == currLineNo):
@@ -332,7 +364,8 @@ class NodeLayout:
                         for varColNo in sorted(varNodeGraph.keys()):
                             varCol = varNodeGraph[varColNo]
                             for varRowNo in reversed(range(len(varCol))):
-                                varNode = varNodeGraph[varColNo][varRowNo]
+                                varDispNode = varNodeGraph[varColNo][varRowNo]
+                                varNode = varDispNode.data.node
                                 if(varNode.bl_idname == SHADER_GROUP and \
                                     varNode.node_tree in varTreeTable.keys()):
                                     nodeTreeTable[varNode.node_tree] = \
@@ -341,11 +374,8 @@ class NodeLayout:
                                 if(prevVarInfo == None or \
                                     prevVarInfo.isLaidOut == False):
                                     newColNo = col + colDiff + varColNo
-                                    nodeColumn = newNodeGraph.get(newColNo)
-                                    if(nodeColumn == None):
-                                        newNodeGraph[newColNo] = []
-                                        nodeColumn = newNodeGraph[newColNo]
-                                    nodeColumn.append(varNode)
+                                    appendDispNode(varDispNode, \
+                                        newNodeGraph, newColNo)
                                     if(prevVarInfo != None and markProcessed):
                                         prevVarInfo.isLaidOut = True
                         # ~ colDiff += len(varNodeGraph.keys())
@@ -353,11 +383,7 @@ class NodeLayout:
                         varInfo.isLaidOut = True
                 else:
                     newColNo = col + colDiff
-                    nodeColumn = newNodeGraph.get(newColNo)
-                    if(nodeColumn == None):
-                        newNodeGraph[newColNo] = []
-                        nodeColumn = newNodeGraph[newColNo]
-                    nodeColumn.append(node)
+                    appendDispNode(dispNode, newNodeGraph, newColNo)
         return newNodeGraph
 
     @staticmethod
@@ -383,7 +409,7 @@ class NodeLayout:
 
             prevHeight = 0
             for row in range(len(nodeGraph[col])):
-                node = nodeGraph[col][row]
+                node = nodeGraph[col][row].data.node
                 dimensions = EvaluatorBase.getNodeDimensions(node)
                 x = totalWidth / 2 -  sum(colWidths[:col + 1]) - \
                     col * NodeLayout.noodleWidth + \
@@ -423,7 +449,7 @@ class NodeLayout:
         dimensions = None
         for col in sorted(nodeGraph.keys()):
             for row in range(len(nodeGraph[col])):
-                node = nodeGraph[col][row]
+                node = nodeGraph[col][row].data.node
                 dimensions = EvaluatorBase.getNodeDimensions(node, True)
                 break
             break
@@ -462,7 +488,7 @@ class NodeLayout:
                     else 'Line ' + str((lineNo))
                 for col in range(len(nodeLayout.nodeGraph)):
                     for row in range(len(nodeLayout.nodeGraph[col])):
-                        nodeLayout.nodeGraph[col][row].parent = frame
+                        nodeLayout.nodeGraph[col][row].data.node.parent = frame
             height += nodeLayout.totalHeight + frameHeight
 
         return True
@@ -478,8 +504,10 @@ class NodeLayout:
             self.colHeights.append(0)
             self.colWidths.append(0)
             for row in range(len(tNodeGraph[col])):
-                node = tNodeGraph[col][row]
-                self.nodeGraph[-1].append(node)
+                dispNode = tNodeGraph[col][row]
+                node = tNodeGraph[col][row].data.node
+                appendDispNode(dispNode, self.nodeGraph, \
+                    len(self.nodeGraph) - 1)
                 dimensions = EvaluatorBase.getNodeDimensions(node)
                 self.colHeights[-1] += dimensions[1]
                 if(self.colWidths[-1] < dimensions[0]):
@@ -492,10 +520,11 @@ class NodeLayout:
                 if(self.nodeCnt > 0) else 0
 
 class DisplayParams:
-    def __init__(self, dispTreeTables, matNodeTree, \
+    def __init__(self, dispTreeTables, dispNodeTable, matNodeTree, \
         location, scale, alignment, addFrame, frameTitle, warnings):
 
         self.dispTreeTables = dispTreeTables
+        self.dispNodeTable = dispNodeTable
         self.matNodeTree = matNodeTree
         self.location = location
         self.scale = scale
@@ -533,7 +562,8 @@ class XNodifyContext:
         varNodeGraphs = {}
         varTable = {}
         hardReplaceTable = {}
-        allNodes = set()
+        nonvarDispNodeTable = {} # Nodes that are not vartable nodes
+        allDispNodesTable = {}
         lineNodeTables = []
         lineCnt = 0
 
@@ -544,10 +574,11 @@ class XNodifyContext:
                 expression = expression.strip()
                 expression = XNodifyContext.hardReplace(expression, \
                     hardReplaceTable)
-                controller = Controller(allNodes, varNodeGraphs, \
+                controller = Controller(nonvarDispNodeTable, varNodeGraphs, \
                     lineCnt, minimized)
-                evalNode, exprType, nodeTreeTable, newNodes, newWarnings = \
-                    controller.createNodes(matNodeTree, varTable, expression)
+                evalNode, exprType, nodeTreeTable, newDispNodeTable, \
+                    newWarnings = controller.createNodes(matNodeTree, \
+                        varTable, expression)
 
                 if(len(newWarnings) > 0):
                     warnings[actLineCnt] = newWarnings
@@ -566,11 +597,12 @@ class XNodifyContext:
                             nodeTreeTable = varNodeGraphs[evalNode].nodeTreeTable
                         nType = exprType
                     else:
-                        allNodes = allNodes.union(newNodes)
+                        nonvarDispNodeTable.update(newDispNodeTable)
                         nType = 'line'
                     lineNodeTables.append((nType, nodeTreeTable, \
                         actLineCnt, evalNode))
                     lineCnt += 1
+                    allDispNodesTable.update(newDispNodeTable)
                 expression = next(lineFeeder)
                 actLineCnt += 1
 
@@ -586,8 +618,9 @@ class XNodifyContext:
                 if(isDisplayed):
                     dispTreeTables.append((actLineCnt, nodeTreeTable))
 
-            displayParams = DisplayParams(dispTreeTables, matNodeTree, \
-                location, scale, alignment, addFrame, frameTitle, warnings)
+            displayParams = DisplayParams(dispTreeTables, allDispNodesTable, \
+                matNodeTree, location, scale, alignment, \
+                    addFrame, frameTitle, warnings)
 
             return displayParams
 
