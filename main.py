@@ -15,9 +15,9 @@ from io import StringIO
 from .lookups import getCombinedMap, SHADER_GROUP
 
 # For debug
-from . import parser, lookups, evaluator
+from . import Parser, lookups, evaluator
 import importlib
-importlib.reload(parser)
+importlib.reload(Parser)
 importlib.reload(lookups)
 importlib.reload(evaluator)
 
@@ -32,23 +32,14 @@ class EvalParamsBus:
         if(data == None or data.node == None):
             return None
         node = data.node
-        if(out):
-            sockets = [o for o in node.outputs \
-                if o.enabled == True and o.hide == False]
-        else:
-            sockets = [i for i in node.inputs \
-                if i.enabled == True and i.hide == False]
-
-        if(data.sockIdx == None and len(sockets) > 0):
-            return sockets[defaultIdx] if(defaultIdx != None and \
-                len(sockets) > defaultIdx) else None
-
+        if(out): sockets = [o for o in node.outputs if o.enabled == True and o.hide == False]
+        else:    sockets = [i for i in node.inputs if i.enabled == True and i.hide == False]
+        if(data.sockIdx == None and len(sockets) > 0): return sockets[defaultIdx] if(defaultIdx != None and len(sockets) > defaultIdx) else None
         socket = None
-        try:
-            socket = sockets[int(data.sockIdx)]
+        try: socket = sockets[int(data.sockIdx)]
         except Exception as e:
             print(e)
-            try:
+            try: 
                 socket = sockets[data.sockIdx]
             except Exception as e2:
                 print(e2)
@@ -160,18 +151,14 @@ class SymbolData(object):
         else:
             operands1 = None
 
-
         paramBus = EvalParamsBus(self, operand0, operands1)
-
-        nodeTree = self.evaluator.beforeOperand1(nodeTree, paramBus)
+        nodeTree, group_node = self.evaluator.beforeOperand1(nodeTree, paramBus)
 
         nextColNo = colNo + 1
         if(operands1 != None):
             for s in operands1:
-                if(s != None):
-                    s.evalSymbol(nodeTree, varTable, afterProcNode, nextColNo)
-
-        node = self.evaluator.evaluate(nodeTree, paramBus, varTable)
+                if(s != None): s.evalSymbol(nodeTree, varTable, afterProcNode, nextColNo)
+        node = self.evaluator.evaluate(nodeTree, group_node, paramBus, varTable)
 
         self.node = node
         # afterProcNode: callback after processing each token
@@ -289,7 +276,7 @@ class Controller:
             'use output on RHS with incoming nodes as parameters instead.' + \
             '(Layout won\'t be correct.)'
         warnings = set()
-        dataTree = parser.parse(expression, SymbolData)
+        dataTree = Parser.parse(expression, SymbolData)
 
         if(dataTree == None):
             return None, None, None, None, warnings
@@ -621,7 +608,6 @@ class XNodifyContext:
             displayParams = DisplayParams(dispTreeTables, allDispNodesTable, \
                 matNodeTree, location, scale, alignment, \
                     addFrame, frameTitle, warnings)
-
             return displayParams
 
         except Exception as e:
