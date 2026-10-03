@@ -9,3 +9,6 @@ htmlcov/
 .DS_Store
 .claude/
 *.log
+
+# Allow bundled sample assets
+!samples/06_book_animation/pngs/*.png

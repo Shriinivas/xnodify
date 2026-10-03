@@ -55,8 +55,10 @@ samples/
 │
 └── 06_book_animation/           # Complex procedural deformation & flipbook
     ├── discbound_book.xfy       # Master discbound flipping book assembly (includes mesh_utils)
+    ├── flipbook.xfy             # Dynamic animated flipbook with UDIM texture sequence and covers
     ├── page_bend.xfy            # Dynamic page curl / bending deformation
-    └── page_tile_coords.xfy     # Multi-page UV coordinate mapping & tiling
+    ├── page_tile_coords.xfy     # Multi-page UV coordinate mapping & tiling
+    └── pngs/                    # Lightweight demo image sequence (20 PNG frames)
 ```
 
 ---
@@ -115,6 +117,7 @@ Every script in this category is completely self-contained with **zero external 
   2. **Grease Pencil Mode**: Native Blender 5.2 Grease Pencil stroke and fill annotations.
 
 ### 06. Book Animation (`06_book_animation/`)
+- **`flipbook.xfy`**: Classic procedural flipbook animation with UDIM image strip playback (`pngs/`), dynamic sequential page curl (`page_bend.xfy`), multi-page UV mapping (`page_tile_coords.xfy`), and animated hard/paper covers with dynamic connected spine.
 - **`discbound_book.xfy`**: Advanced procedural flipbook and discbound notebook.
 - Leverages modular imports from `mesh_utils/` (`quadstadium.xfy` and `hole.xfy`) to punch binder disc holes, and simulates realistic multi-page turning, cascading sheet delays, and dynamic curvature curling (`page_bend.xfy`).
 

@@ -1,0 +1,382 @@
+# Procedural Flipbook Flipping Animation (Stack Landing & Zero-Cutting Dynamic Cascade)
+#
+# Key Geometric Principles:
+# 1. Natural Top-to-Bottom Stacking on Both Sides:
+#    - Right Stack: Page j (0 = top, n-1 = bottom) sits at height (n - 1 - j) * t.
+#    - Left Stack: Page j lands ON TOP of previously turned pages at height j * t.
+#    - Currently turning page always descends through the air and lands on top of the left stack.
+# 2. Continuous Spine Transition:
+#    - The binding edge transitions smoothly across the spine width S = (n - 1) * t.
+#    - Pages stay permanently anchored to the book binding.
+# 3. Monotonic Delayed Paper Curl:
+#    - Root angle: s_root(p) = 3p^2 - 2p^3
+#    - Tip angle: s_tip(p) = smoothstep(p^(1 + bend_strength))
+#    - Strictly monotonic angle field: zero page intersection / zero mid-air cutting!
+# 4. Solid Manifold Geometry with Clean Normals.
+# 5. Flush Non-Intersecting Hard Bound & Paper Bound Cover with Dynamic Connected Spine (Z <= 0.0).
+```
+import glob, os
+from pathlib import Path
+script_dir = Path(__file__).resolve().parent if "__file__" in locals() and __file__ else Path.cwd()
+img_dir = script_dir / "pngs"
+img_file = str(img_dir / "anime_strip.1001.png")
+page_tint = (0.95, 0.92, 0.88, 1.0)
+cover_tint = (0.12, 0.07, 0.05, 1.0)
+brand_hex = "#E05A47"
+
+# Count all .png, .jpg, and .jpeg files in the pngs directory
+page_count = sum(1 for p in img_dir.iterdir() if p.suffix.lower() in ('.png', '.jpg', '.jpeg')) if img_dir.exists() else 20
+
+```
+include ./page_tile_coords.xfy
+include ./page_bend.xfy
+
+object material as "BookPages" {
+    # Page_Tile_Coords automatically reads Page_UV, page_idx, is_front, art_scale, blank_back from geometry
+    (udim_uv, mask, _, _) = Page_Tile_Coords()
+
+    tex = tex_image{file_path: py.img_file, source:'UDIM'}(vector=udim_uv)
+    base_tint = color(py.page_tint)[0]
+    final_color = mix{data_type:'RGBA'}(mask, base_tint, tex[0])
+
+    bsdf = bsdf_principled(base_color=final_color, roughness=0.35)
+    output_material(surface=bsdf)
+}
+
+object material as "BookCover" {
+    # Rich buckram / leather casing material
+    cover_col = color(py.cover_tint)[0]
+    bsdf = bsdf_principled(base_color=cover_col, roughness=0.45)
+    output_material(surface=bsdf)
+}
+
+# User Controls
+input w: float "Page Width" = 1.0
+input h: float "Page Height" = 1.4
+input t: float "Page Thickness" = 0.004
+input n: int "Pages Count" = py.page_count
+input anim_prog: float "Animation Progress" = -1 [, 1.0]
+input art_scale_x: float "Artwork Scale X" = 0.85
+input art_scale_y: float "Artwork Scale Y" = 0.85
+input art_offset_x: float "Artwork Offset X" = 0.0
+input art_offset_y: float "Artwork Offset Y" = 0.0
+input blank_back: bool "Blank Back Side" = False
+input bend_strength: float "Page Bend Strength" = 0.45 [0.0, 1.0]
+input cascade_overlap: float "Cascade Overlap" = 0.5 [0.0, 0.9]
+input subdiv_x: int "Width Resolution" = 24
+input subdiv_y: int "Height Resolution" = 2
+input add_cover: bool "Add Cover and Spine" = True
+input animate_cover: bool "Animate Cover" = True
+input close_cover: bool "Close Back Cover" = True
+input is_hardcover: bool "Hardcover Style" = True
+input spine_style: menu "Spine Style" = "Round Back" @ "Spine casing geometry style"
+input spine_roundness: float "Spine Roundness" = 0.5 [0.0, 1.0]
+input cover_thickness: float "Cover Thickness" = 0.008 [0.001, 0.05]
+input cover_overhang: float "Cover Overhang" = 0.02 [0.0, 0.1]
+input hinge_gap: float "Hinge Gap" = 0.004 [0.0, 0.02]
+
+output output: geometry
+
+pi = 3.14159265
+
+# 1. Base Page Geometry
+base_page = mesh_grid(size_x=w, size_y=h, vertices_x=subdiv_x, vertices_y=subdiv_y)
+# Shift so X spans [0, w]
+base_page = set_position(base_page, offset=combine_xyz(w / 2.0, 0.0, 0.0))
+
+# Store canonical page_pos (rest coordinates) and local X coordinate on point domain before transformation
+pos_vec = position()
+pos_x = separate_xyz(pos_vec)[0]#x
+base_page = store_named_attribute{data_type:'FLOAT_VECTOR', domain:'POINT'}(base_page, , "page_pos", pos_vec)
+base_page = store_named_attribute{data_type:'BOOLEAN', domain:'POINT'}(base_page, , "is_clip", False)
+base_page = store_named_attribute{data_type:'FLOAT', domain:'POINT'}(base_page, , "local_x", pos_x)
+
+# 2. Instance pages along binding spine
+spine_line = mesh_line(count=n, offset=combine_xyz(0.0, 0.0, 0.0))
+book_inst = instance_on_points(spine_line, instance=base_page)
+
+# Store page index on instance domain
+page_idx = index()
+book_inst = store_named_attribute{data_type:'INT', domain:'INSTANCE'}(book_inst, , "page_id", page_idx)
+
+# Realize instances to enable per-vertex paper bend deformation
+book_mesh = realize_instances(book_inst)
+
+# Read attributes back from realized mesh vertices
+local_x = input_named_attribute{data_type:'FLOAT'}("local_x")[0]#attribute
+page_id = input_named_attribute{data_type:'INT'}("page_id")[0]#attribute
+orig_y = separate_xyz(position())[1]#y
+
+# 3. Dynamic Sequential Cascading Driver
+# Sequential index: top page (page_id = 0) flips first, bottom page (page_id = n-1) flips last
+anim_prog = anim_prog < 0 ? (input_scene_time()[1]/250): anim_prog
+
+# Number of animated cover stages (0 = static covers, 1 = front cover opens, 2 = front opens + back closes)
+cover_stage_count = animate_cover ? (close_cover ? 2.0 : 1.0) : 0.0
+total_items = (n * 1.0) + cover_stage_count
+
+# Cascade timing parameters
+duration = 1.0 / ((total_items - 1.0) * (1.0 - cascade_overlap) + 1.0)
+spacing = duration * (1.0 - cascade_overlap)
+
+# Page turn timing (shifted by 1 slot if front cover animates first)
+item_shift = animate_cover ? 1.0 : 0.0
+page_start = (page_id + item_shift) * spacing
+
+# Local page animation progress [0.0, 1.0]
+raw_factor = (anim_prog - page_start) / duration
+clamped_p = clamp(raw_factor, 0.0, 1.0)[0]#result
+
+# 4. Monotonic Zero-Collision Angle Field (shared with discbound):
+u = local_x / w
+(s_root, _, s_u) = Page_Bend_Factors(clamped_p, u, bend_strength)
+# 5. Cover & Spine Parameters (Rigid Invariant-Width Casing & Tight Central Gutter)
+hc_thick = cover_thickness
+pb_thick = cover_thickness * 0.25
+eff_thick = switch{input_type:'FLOAT'}(is_hardcover, pb_thick, hc_thick)
+
+hc_overhang = cover_overhang
+pb_overhang = 0.0
+eff_overhang = switch{input_type:'FLOAT'}(is_hardcover, pb_overhang, hc_overhang)
+
+hc_hinge = hinge_gap
+pb_hinge = 0.0
+eff_hinge = switch{input_type:'FLOAT'}(is_hardcover, pb_hinge, hc_hinge)
+
+hc_spine_thick = cover_thickness * 0.6
+pb_spine_thick = pb_thick
+spine_thick = switch{input_type:'FLOAT'}(is_hardcover, pb_spine_thick, hc_spine_thick)
+
+board_w = w + eff_overhang
+board_h = h + (eff_overhang * 2.0)
+H = n * 1.0 * t
+
+# Tight central gutter gap between left and right stacks (proportional to page thickness)
+gutter_gap = 2.0 * t
+half_gap = 0.5 * gutter_gap
+right_anchor_x = half_gap
+left_anchor_x = -right_anchor_x
+W_casing = H + (2.0 * eff_thick) + (2.0 * eff_hinge)
+
+# Overall page-turn progress f_turned in [0.0, 1.0] across all cascading pages
+t_pages_start = spacing
+t_pages_end = ((n - 1.0) * spacing) + duration
+pages_span = max(0.0001, t_pages_end - t_pages_start)
+f_raw = (anim_prog - t_pages_start) / pages_span
+f_clamped = clamp(f_raw, 0.0, 1.0)[0]#result
+f_turned = f_clamped * f_clamped * (3.0 - (2.0 * f_clamped))
+
+# Dynamic stack elevation and cover resting angles
+z_fc_open = (1.0 - f_turned) * H
+z_bc_open = f_turned * H
+alpha_fc = asin(min(1.0, z_fc_open / board_w))
+alpha_bc = asin(min(1.0, z_bc_open / board_w))
+fc_slope_offset = 0.0
+bc_slope_offset = 0.0
+t_fc = t / cos(alpha_fc)
+t_bc = t / cos(alpha_bc)
+
+# --- Front Cover (Left Board) Kinematics ---
+fc_raw = anim_prog / duration
+fc_clamped = clamp(fc_raw, 0.0, 1.0)[0]#result
+fc_s = fc_clamped * fc_clamped * (3.0 - (2.0 * fc_clamped))
+fc_progress = animate_cover ? fc_s : 1.0
+
+# Front cover hinge trajectory:
+# Closed: at (+right_anchor_x, H) on top of book block
+# Open: moves to (-right_anchor_x, z_fc_open), angling down to touch table at Z = 0
+fc_open_x = left_anchor_x
+fc_closed_x = right_anchor_x
+fc_hinge_x = ((1.0 - fc_progress) * fc_closed_x) + (fc_progress * fc_open_x)
+fc_hinge_z = ((1.0 - fc_progress) * H) + (fc_progress * z_fc_open)
+fc_angle = fc_progress * (pi + alpha_fc)
+
+# --- Back Cover (Right Board) Kinematics ---
+bc_start = (n + 1.0) * spacing
+bc_raw = (anim_prog - bc_start) / duration
+bc_clamped = clamp(bc_raw, 0.0, 1.0)[0]#result
+bc_s = bc_clamped * bc_clamped * (3.0 - (2.0 * bc_clamped))
+bc_active = animate_cover ? close_cover : False
+bc_progress = bc_active ? bc_s : 0.0
+
+bc_hinge_x = right_anchor_x
+bc_hinge_z = z_bc_open
+bc_rest_angle = -alpha_bc
+bc_angle = ((1.0 - bc_progress) * bc_rest_angle) + (bc_progress * pi)
+
+# 6. Natural Stacking & Gutter Transition for Pages:
+# Right stack (unturned): root at +half_gap, resting at angle -alpha_bc
+# Left stack (turned): root at -half_gap, resting at angle pi + alpha_fc
+start_root_x = half_gap
+end_root_x = -half_gap
+root_x = ((1.0 - s_root) * start_root_x) + (s_root * end_root_x)
+
+z_start = z_bc_open + bc_slope_offset + ((n - 1.0 - page_id) * t_bc)
+z_end = z_fc_open + fc_slope_offset + ((page_id + 1.0) * t_fc)
+root_z = ((1.0 - s_root) * z_start) + (s_root * z_end)
+
+# Monotonic angle field matching the sloping covers:
+page_rest_angle = ((1.0 - fc_progress) * 0.0) + (fc_progress * bc_rest_angle)
+page_open_angle = pi + alpha_fc
+total_angle = ((1.0 - s_u) * page_rest_angle) + (s_u * page_open_angle)
+
+# Trigonometric Vertex Position Calculation
+deformed_x = root_x + (local_x * cos(total_angle))
+deformed_z = root_z + (local_x * sin(total_angle))
+
+# Apply deformed positions
+deformed_book = set_position(book_mesh, position=combine_xyz(deformed_x, orig_y, deformed_z))
+
+# Solid 3D Double-Sided Paper Sheets with Independent Front and Back Faces
+ext = extrude_mesh(deformed_book, offset_scale=t, individual=False)
+top_side_mesh = ext[0]
+is_top = ext[1]
+
+page_u = clamp(local_x / w, 0.001, 0.999)
+page_v = clamp((orig_y / h) + 0.5, 0.001, 0.999)
+page_uv = combine_xyz(page_u, page_v, 0.0)
+
+# Enforce attribute contract via Store_Page_Attributes
+top_side_mesh = Store_Page_Attributes(top_side_mesh, page_uv, page_id, is_top, art_scale_x, art_scale_y, art_offset_x, art_offset_y, blank_back)
+
+bottom_cap = flip_faces(deformed_book)
+bottom_cap = Store_Page_Attributes(bottom_cap, page_uv, page_id, False, art_scale_x, art_scale_y, art_offset_x, art_offset_y, blank_back)
+
+# Join into complete manifold solid book
+final_book = join_geometry(top_side_mesh ~ bottom_cap)
+final_book = set_shade_smooth(final_book)
+final_book = set_material(final_book, material='BookPages')
+
+# 7. Procedural Cover Boards (Front & Back Boards)
+# Left Board (Front Cover)
+left_board = mesh_cube(size=combine_xyz(board_w, board_h, eff_thick))
+lb_pos = position()
+lb_x = separate_xyz(lb_pos)[0]#x
+lb_y = separate_xyz(lb_pos)[1]#y
+lb_z = separate_xyz(lb_pos)[2]#z
+
+lb_u = (0.5 * board_w) - lb_x
+lb_v = lb_z + (0.5 * eff_thick)
+
+lb_new_x = fc_hinge_x + (lb_u * cos(fc_angle)) - (lb_v * sin(fc_angle))
+lb_new_z = fc_hinge_z + (lb_u * sin(fc_angle)) + (lb_v * cos(fc_angle))
+left_board = set_position(left_board, position=combine_xyz(lb_new_x, lb_y, lb_new_z))
+
+# Right Board (Back Cover)
+right_board = mesh_cube(size=combine_xyz(board_w, board_h, eff_thick))
+rb_pos = position()
+rb_x = separate_xyz(rb_pos)[0]#x
+rb_y = separate_xyz(rb_pos)[1]#y
+rb_z = separate_xyz(rb_pos)[2]#z
+
+rb_u = rb_x + (0.5 * board_w)
+rb_w = rb_z - (0.5 * eff_thick)
+
+rb_new_x = bc_hinge_x + (rb_u * cos(bc_angle)) - (rb_w * sin(bc_angle))
+rb_new_z = bc_hinge_z + (rb_u * sin(bc_angle)) + (rb_w * cos(bc_angle))
+right_board = set_position(right_board, position=combine_xyz(rb_new_x, rb_y, rb_new_z))
+
+# 8. Connected Inner Spine Lining & Invariant-Volume Outer Spine Casing
+spine_count = n + 2
+
+# A. Inner Spine (Book Block Binding Ribbon connecting Left Hinge -> All Page Roots -> Right Hinge)
+inner_spine_line = mesh_line(count=spine_count, offset=combine_xyz(0.0, 0.0, 0.0))
+sp_v_id = index()
+
+sp_is_left = sp_v_id == 0
+sp_is_right = sp_v_id == (n + 1)
+sp_page_id = clamp(sp_v_id - 1, 0, n - 1)[0]#result
+
+sp_page_start = (sp_page_id + item_shift) * spacing
+sp_raw_factor = (anim_prog - sp_page_start) / duration
+sp_clamped_p = clamp(sp_raw_factor, 0.0, 1.0)[0]#result
+sp_s_root = sp_clamped_p * sp_clamped_p * (3.0 - (2.0 * sp_clamped_p))
+
+sp_start_root_x = half_gap
+sp_end_root_x = -half_gap
+sp_root_x = ((1.0 - sp_s_root) * sp_start_root_x) + (sp_s_root * sp_end_root_x)
+
+sp_z_start = z_bc_open + bc_slope_offset + ((n - 1.0 - sp_page_id) * t_bc)
+sp_z_end = z_fc_open + fc_slope_offset + ((sp_page_id + 1.0) * t_fc)
+sp_root_z = ((1.0 - sp_s_root) * sp_z_start) + (sp_s_root * sp_z_end)
+
+sp_inner_x = sp_is_left ? fc_hinge_x : (sp_is_right ? bc_hinge_x : sp_root_x)
+sp_inner_z = sp_is_left ? fc_hinge_z : (sp_is_right ? bc_hinge_z : sp_root_z)
+
+inner_spine_profile = set_position(inner_spine_line, position=combine_xyz(sp_inner_x, -0.5 * board_h, sp_inner_z))
+inner_spine_surface = extrude_mesh{mode:'EDGES'}(inner_spine_profile, offset=combine_xyz(0.0, board_h, 0.0))[0]
+inner_spine_cap = flip_faces(inner_spine_surface)
+inner_spine_double = join_geometry(inner_spine_surface ~ inner_spine_cap)
+
+# B. Outer Spine Casing Geometry (Invariant-Width Arc Length encloses the outside of the book)
+dyn_spine_line = mesh_line(count=spine_count, offset=combine_xyz(0.0, 0.0, 0.0))
+u_sp = index() / (spine_count - 1.0)
+
+# Outer board corner anchor points ensuring spine casing encloses boards without collision
+sp_left_x = fc_hinge_x - (eff_thick * sin(fc_angle))
+sp_left_z = fc_hinge_z + (eff_thick * cos(fc_angle))
+sp_right_x = bc_hinge_x + (eff_thick * sin(bc_angle))
+sp_right_z = bc_hinge_z - (eff_thick * cos(bc_angle))
+
+# Parametric chord line connecting left outer corner (u_sp = 0.0) to right outer corner (u_sp = 1.0)
+chord_x = ((1.0 - u_sp) * sp_left_x) + (u_sp * sp_right_x)
+chord_z = ((1.0 - u_sp) * sp_left_z) + (u_sp * sp_right_z)
+
+sp_dx = sp_right_x - sp_left_x
+sp_dz = sp_right_z - sp_left_z
+chord_len = sqrt((sp_dx * sp_dx) + (sp_dz * sp_dz))
+safe_len = max(chord_len, 0.0001)
+
+# Outward normal pointing away from the book block:
+# Closed: (nx, nz) = (-1.0, 0.0) pointing left away from pages
+# Open:   (nx, nz) = (0.0, -1.0) pointing downward under the table plane
+nx = sp_dz / safe_len
+nz = -sp_dx / safe_len
+
+# Symmetric outward parabolic arc:
+parabola = 4.0 * u_sp * (1.0 - u_sp)
+
+# 1. Flat Spine Style (Planar outer casing + Connected inner spine ribbon)
+flat_profile = set_position(dyn_spine_line, position=combine_xyz(chord_x, -0.5 * board_h, chord_z))
+flat_surface = extrude_mesh{mode:'EDGES'}(flat_profile, offset=combine_xyz(0.0, board_h, 0.0))[0]
+ext_flat = extrude_mesh{mode:'FACES'}(flat_surface, offset=combine_xyz(nx * spine_thick, 0.0, nz * spine_thick), individual=False)
+flat_top = ext_flat[0]
+flat_cap = flip_faces(flat_surface)
+spine_flat_casing = join_geometry(flat_top ~ flat_cap)
+spine_flat_full = join_geometry(inner_spine_double ~ spine_flat_casing)
+
+# 2. Round Back Arc Spine Style (Strict Invariant Arc Length Outer Casing + Connected inner spine ribbon)
+slack_sq = max(0.0, (W_casing * W_casing) - (safe_len * safe_len))
+inv_bulge = 0.433 * sqrt(slack_sq)
+user_bulge = spine_roundness * 0.25 * safe_len
+round_bulge = max(inv_bulge, user_bulge)
+
+round_x = chord_x + (parabola * round_bulge * nx)
+round_z = chord_z + (parabola * round_bulge * nz)
+round_profile = set_position(dyn_spine_line, position=combine_xyz(round_x, -0.5 * board_h, round_z))
+round_surface = extrude_mesh{mode:'EDGES'}(round_profile, offset=combine_xyz(0.0, board_h, 0.0))[0]
+ext_round = extrude_mesh{mode:'FACES'}(round_surface, offset=combine_xyz(nx * spine_thick, 0.0, nz * spine_thick), individual=False)
+round_top = ext_round[0]
+round_cap = flip_faces(round_surface)
+spine_round_casing = join_geometry(round_top ~ round_cap)
+
+# Round Back Casing includes connected inner spine lining tracking page roots:
+spine_round_full = join_geometry(inner_spine_double ~ spine_round_casing)
+
+# 3. Hollow Back Style (Oxford Hollow tube between connected inner ribbon and outer casing)
+spine_hollow_casing = join_geometry(inner_spine_double ~ spine_round_casing)
+
+# Menu Switch: Select spine style
+spine_casing = menu_switch{data_type:'GEOMETRY'}(spine_style, spine_flat_full@'Flat', spine_round_full@'Round Back', spine_hollow_casing@'Hollow Back')
+
+cover_mesh = join_geometry(left_board ~ right_board ~ spine_casing)
+cover_mesh = store_named_attribute{data_type:'INT', domain:'POINT'}(cover_mesh, , "page_id", -1)
+cover_mesh = store_named_attribute{data_type:'INT', domain:'CORNER'}(cover_mesh, , "page_idx", -1)
+cover_mesh = store_named_attribute{data_type:'BOOLEAN', domain:'POINT'}(cover_mesh, , "is_clip", False)
+cover_mesh = set_shade_smooth(cover_mesh)
+cover_mesh = set_material(cover_mesh, material='BookCover')
+
+final_book_with_cover = join_geometry(final_book ~ cover_mesh)
+output_geo = switch{input_type:'GEOMETRY'}(add_cover, final_book, final_book_with_cover)
+output = output_geo
+
