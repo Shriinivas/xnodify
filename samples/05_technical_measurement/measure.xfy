@@ -1,0 +1,45 @@
+# ==============================================================================
+# Technical Measurement: Architectural & CAD Dimensioning
+# Combines procedural Distance and Angle measurement systems for Blender.
+# Supports dual output modes: 3D Mesh curves or native Grease Pencil annotations.
+# ==============================================================================
+
+include ./angle.xfy
+include ./distance.xfy
+
+```
+clear_objects()
+do_distance_setup('both', (-1.0, 0.0, 0.0))
+do_angle_setup('both', (1.0, 0.0, 0.0))
+```
+
+# ============ Measure Angle NODES ============
+object 'Measure Angle' as 'Measure Angle' {
+  py!.angle_op_block
+  py!.angle_grp_call
+}
+
+# ============ Measure Distance NODES ============
+object 'Measure Distance' as 'Measure Distance' {
+  py!.distance_op_block
+  py!.distance_grp_call
+}
+
+```#defer
+import bpy
+from mathutils import Euler
+
+C = bpy.context
+D = bpy.data
+
+# Position camera for optimal technical dimensioning overview
+cam = D.objects.get('Camera')
+if cam:
+    cam.location = (5.0, -4.4, 3.5)
+    cam.rotation_euler = Euler((1.109, 0.0, 0.815), 'XYZ')
+
+if hasattr(C, "screen") and C.screen:
+    for area in C.screen.areas:
+        if area.type == 'VIEW_3D':
+            area.spaces.active.shading.type = 'MATERIAL'
+```

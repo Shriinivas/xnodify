@@ -1,0 +1,48 @@
+# ==============================================================================
+# Typed Bundles: Structured Data Flow in XFY
+# Demonstrates:
+# 1. Packing heterogeneous data into named bundles (combine_bundle)
+# 2. Unpacking bundle fields (separate_bundle)
+# 3. Passing bundle-typed values through custom node groups
+# 4. Attaching and retrieving bundles to/from geometry data (set_geometry_bundle)
+# ==============================================================================
+
+# Node group processing a structured bundle
+group TransformBundle "Process Bundle" {
+    input b: bundle "Input Bundle"
+
+    # 1. Unpack named items from bundle
+    (pos, scale, factor) = separate_bundle(b)
+
+    # 2. Compute transformed coordinates and factors
+    new_pos = pos * scale
+    new_factor = factor + 1.5
+
+    # 3. Recombine into an updated bundle
+    b_updated = combine_bundle(position=new_pos, factor=new_factor)
+
+    output b_updated: bundle "Updated Bundle"
+}
+
+# --- Main Modifier Flow ---
+input base_pos: vector "Initial Position" = (1.0, 1.0, 0.5)
+input scale_factor: float "Scale Multiplier" = 2.0
+output result: geometry "Geometry with Bundle"
+
+# 1. Create bundle with named parameters
+init_bundle = combine_bundle(pos=base_pos, scale=scale_factor, factor=0.5)
+
+# 2. Process bundle through custom bundle group
+updated_bundle = TransformBundle(init_bundle)
+
+# 3. Unpack modified position to translate geometry
+(final_pos, final_factor) = separate_bundle(updated_bundle)
+
+# 4. Create geometry and attach bundle data directly to it
+base_mesh = icosphere(radius=final_factor * 0.5, subdivisions=2)
+base_mesh = set_position(base_mesh, position=position() + final_pos)
+
+# Store the bundle directly on the geometry datablock
+mesh_with_bundle = set_geometry_bundle(base_mesh, updated_bundle)
+
+result = mesh_with_bundle

@@ -1,0 +1,101 @@
+# ==============================================================================
+# Procedural All-Quad Subdivision-Ready Cylinder with 4-Quad Caps & Support Loops
+# Produces clean, all-quad topology with inward support rings and welded quad grid caps.
+# Fully parametric radius, height, bevel offset, and cap scaling.
+# ==============================================================================
+
+group Extrude_cap {
+  input mesh: geometry
+  input z_position: float
+  input extrude_1_offset: float
+  input scale_2_factor: float
+  output mesh: geometry
+  output top: bool
+  pos_xyz = separate_xyz(position())
+
+  # 1. First inward extrusion (Support loop)
+  (mesh, top, side) = extrude_mesh{mode:'EDGES'}(mesh, selection=(pos_xyz[2] == z_position), individual=False, offset_scale=extrude_1_offset)
+
+  # 2. Second inward extrusion & scaling
+  (mesh, top, side) = extrude_mesh{mode:'EDGES'}(mesh, selection=top, individual=False, offset_scale=0)
+  mesh = scale_elements{domain:'EDGE'}(mesh, selection=top, scale=scale_2_factor)
+}
+
+group Grid_Cap {
+  input grid_size: float
+  input z_position: float
+  input flip_normals: bool
+  output grid_cap: geometry
+  output cap_marker: bool
+
+  # 3. Generate the 4-quad cap primitive
+  grid_cap = mesh_grid(vertices_x=2, vertices_y=2, size_x=grid_size, size_y=grid_size)
+  
+  # Capture the selection attribute directly on the primitive points
+  (grid_cap, cap_marker) = capture_attribute{domain:'POINT'}(grid_cap, value=True)
+  grid_cap = subdivide_mesh(grid_cap, level=1)
+
+  # Fix the face normals for the bottom cap so they point outward
+  grid_cap = flip_normals ? flip_faces(grid_cap) : grid_cap
+
+  # 4. Snap the cap to the targeted height of the cylinder
+  grid_cap = transform_geometry(grid_cap, translation=combine_xyz(0, 0, z_position))
+}
+
+group QuadCylinder "Quad Cylinder" {
+  input initial_radius: float = 1.0
+  input cylinder_height: float = 2.0
+  input cylinder_segments: int = 4
+  input fill_top: bool = True
+  input fill_bottom: bool = True
+  input extrude_1_offset: float = -0.2 [-0.99, -0.01]
+  input scale_2_factor: float = 0.4 [0.01, 0.99]
+  output mesh: geometry "Quad Cylinder Mesh"
+
+  mesh = mesh_cylinder(vertices=8, radius=initial_radius, depth=cylinder_height, side_segments=cylinder_segments, fill_type='NONE')
+
+  (emesh, top) = Extrude_cap(mesh, cylinder_height / 2, extrude_1_offset, scale_2_factor)
+  mesh = fill_top ? emesh: mesh
+  top = fill_top ? top : False
+
+  (emesh, bottom) = Extrude_cap(mesh, cylinder_height / -2, extrude_1_offset, scale_2_factor)
+  mesh = fill_bottom ? emesh: mesh
+  bottom = fill_top ? bottom : False
+
+  # --- DYNAMIC GRID MATH ---
+  inner_radius = (initial_radius + extrude_1_offset) * scale_2_factor
+  grid_total_size = inner_radius * 2.0
+
+  # --- DYNAMIC MERGE THRESHOLD ---
+  exact_gap = inner_radius * (2.0 - 1.41421356)
+  safe_merge_distance = exact_gap * 1.05
+
+  # Generate caps
+  (grid_cap_top, cap_marker_top) = Grid_Cap(grid_total_size, cylinder_height / 2, flip_normals=False)
+  (grid_cap_bottom, cap_marker_bottom) = Grid_Cap(grid_total_size, cylinder_height / -2, flip_normals=True)
+
+  mesh = fill_top ? join_geometry(mesh ~ grid_cap_top): mesh
+  mesh = fill_bottom ? join_geometry(mesh ~ grid_cap_bottom): mesh
+  mesh = merge_by_distance(mesh, selection=(cap_marker_top | top | cap_marker_bottom | bottom), distance=safe_merge_distance) 
+
+  mesh = set_shade_smooth(subdivision_surface(mesh, level=2))
+}
+
+```
+if not __parents__:
+  op = '''
+input initial_radius: float "Radius" = 1.0
+input cylinder_height: float "Height" = 2.0
+input cylinder_segments: int "Side Segments" = 4
+input fill_top: bool "Fill Top" = True
+input fill_bottom: bool "Fill Bottom" = True
+input extrude_1_offset: float "Inward Bevel" = -0.2 [-0.99, -0.01]
+input scale_2_factor: float "Cap Scale" = 0.4 [0.01, 0.99]
+output mesh: geometry "Geometry"
+
+mesh = QuadCylinder(initial_radius, cylinder_height, cylinder_segments, fill_top, fill_bottom, extrude_1_offset, scale_2_factor)
+'''
+else:
+  op = ''
+```
+py!.op

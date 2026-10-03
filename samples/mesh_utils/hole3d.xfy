@@ -1,0 +1,361 @@
+# ==============================================================================
+# Generic 3D Hole Punching, Boring & Beveling System (Pure Quad Topology)
+# Works on any 3D manifold geometry (including QuadStadium3D, boxes, cylinders)
+# Features:
+# 1. Arbitrary (X, Y) hole center offsets with automated bounding-box face detection
+# 2. Variable depth control: supports blind holes with sealed bottom caps or through-holes
+# 3. Parametric rim beveling (chamfer / countersink transition at entrance)
+# 4. Face-isolated Laplacian relaxation preserving pristine 3D beveled edges & corners
+# ==============================================================================
+#
+```
+if not __parents__:
+    op = f'''
+include ./quadstadium3d.xfy
+
+input h_rad: float = 0.15 [0.01, 1.0]
+input off_x: float = 0.0 [-1.0, 1.0]
+input off_y: float = 0.0 [-1.0, 1.0]
+input h_depth: float = 0.35 [0.01, 2.0]
+input bevel_r: float = 0.025 [0.0, 0.2]
+input bevel_seg: int = 4 [1, 16]
+input bevel_prof: float = 1.0 [0.0, 1.0]
+input is_thru: bool = False
+
+output obj: geometry
+output hole_faces: bool "All Hole Faces"
+output bevel_faces: bool "Bevel Faces"
+output wall_faces: bool "Wall Faces"
+output bottom_faces: bool "Bottom Faces"
+
+box = QuadStadium3D(1.0, 1.4, 0.8, 0.25, 0.30, 0.20, 5)
+(holed, h_center, hole_faces, bevel_faces, wall_faces, bottom_faces) = punch_hole_3d(box, h_rad, off_x, off_y, h_depth, bevel_r, bevel_seg, bevel_prof, is_thru)
+obj = set_shade_smooth(holed)
+'''
+else:
+    op = ''
+```
+
+group punch_hole_3d "3D Hole Punch & Bore" {
+    input geom: geometry "Geometry"
+    input hole_radius: float "Hole Radius" = 0.15
+    input offset_x: float "Offset X" = 0.0
+    input offset_y: float "Offset Y" = 0.0
+    input depth: float "Hole Depth" = 0.35
+    input bevel_radius: float "Rim Bevel Radius" = 0.025
+    input bevel_segments: int "Bevel Segments" = 4
+    input bevel_profile: float "Bevel Profile (0=Chamfer, 1=Round Fillet)" = 1.0
+    input through_hole: bool "Through Hole (End-to-End)" = False
+
+    output geom_with_hole: geometry "Result Geometry"
+    output hole_center: vector "Hole Center"
+    output hole_faces: bool "All Hole Faces"
+    output bevel_faces: bool "Bevel Faces"
+    output wall_faces: bool "Wall Faces"
+    output bottom_faces: bool "Bottom Faces"
+
+    # ==========================================================================
+    # 1. Bounding Box & Dimensions
+    # ==========================================================================
+    bbox = bound_box(geom)
+    z_bottom = separate_xyz(bbox[1])[2]
+    z_top = separate_xyz(bbox[2])[2]
+    total_height = z_top - z_bottom
+
+    hole_center = combine_xyz(offset_x, offset_y, z_top)
+
+    # Clamped parameters
+    r_chamfer = clamp(bevel_radius, 0.0, hole_radius * 0.45)
+    has_chamfer = r_chamfer > 0.0001
+    prof = clamp(bevel_profile, 0.0, 1.0)
+    r_rim = hole_radius
+    delta_hold = clamp(hole_radius * 0.20, 0.005, 0.04)
+    r_cut_deck = r_rim + delta_hold
+
+    safe_depth = clamp(depth, r_chamfer + 0.02, total_height - 0.01)
+
+    # ==========================================================================
+    # 2. Punch Top Face Hole & Relax Boundary Circle
+    # ==========================================================================
+    z_mid = (z_top + z_bottom) / 2.0
+    (px, py, pz) = separate_xyz(position())
+    is_top_face = pz > z_mid
+
+    target_top = combine_xyz(offset_x, offset_y, z_top)
+    dist_top = vdist(position(), target_top)
+    del_top = (dist_top <= r_cut_deck) & is_top_face
+    mod_top = delete_geometry{domain:'FACE'}(geom, del_top)
+
+    bound_top = "Is Edge Boundary"()[0]
+    edges_top = bound_top & (pz > z_mid)
+    mod_top = store_named_attribute{data_type:'BOOLEAN', domain:'EDGE'}(mod_top, , 'edges_top', edges_top)
+    mod_top = store_named_attribute{data_type:'INT', domain:'POINT'}(mod_top, , 'vidx', index())
+
+    # Circle Relaxation on Top Face (at r_cut_deck)
+    b_mesh_top = separate_geometry{domain:'EDGE'}(mod_top, edges_top)[0]
+    curve_top = mesh_to_curve(b_mesh_top)
+    n_pts_top = attribute_domain_size{component:'CURVE'}(curve_top)[0]
+
+    first_p_t = sample_index{data_type:'FLOAT_VECTOR'}(curve_top, position(), 0)
+    second_p_t = sample_index{data_type:'FLOAT_VECTOR'}(curve_top, position(), 1)
+    (rx1_t, ry1_t, _) = separate_xyz(first_p_t - target_top)
+    (rx2_t, ry2_t, _) = separate_xyz(second_p_t - target_top)
+    start_ang_t = atan2(ry1_t, rx1_t)
+
+    cross_z_t = rx1_t * ry2_t - ry1_t * rx2_t
+    dir_t = switch{input_type:'FLOAT'}(cross_z_t > 0, -1.0, 1.0)
+    step_t = dir_t * 6.2831853 / n_pts_top
+    even_ang_t = start_ang_t + (index() * step_t)
+    dir_vec_t = combine_xyz(cos(even_ang_t), sin(even_ang_t), 0.0)
+    curve_top = set_position(curve_top, , target_top + (dir_vec_t * r_cut_deck))
+
+    repeat n_pts_top, , state=(mod_top:geometry):iter_idx, {
+        vidx = sample_index{data_type:'INT'}(curve_top, input_named_attribute{data_type:'INT'}('vidx'), iter_idx)
+        ep = sample_index{data_type:'FLOAT_VECTOR'}(curve_top, position(), iter_idx)
+        mod_top = set_position(mod_top, index() == vidx, ep)
+    }(, mod_top)
+
+    # Top Deck Planar Holding Loop: extrude inward from r_cut_deck to r_rim on planar deck
+    edges_top_rel = input_named_attribute{data_type:'BOOLEAN'}('edges_top')
+    (dx_t, dy_t, _) = separate_xyz(target_top - position())
+    dir_in_t = vector_math{operation:'NORMALIZE'}(combine_xyz(dx_t, dy_t, 0.0))[0]
+    (mod_deck, top_rim_edges, hold_deck_f) = extrude_mesh{mode:'EDGES'}(mod_top, selection=edges_top_rel, offset=(dir_in_t * delta_hold))
+    mod_deck = store_named_attribute{data_type:'BOOLEAN', domain:'EDGE'}(mod_deck, , 'top_inner_rim', top_rim_edges)
+    mod_deck = store_named_attribute{data_type:'BOOLEAN', domain:'FACE'}(mod_deck, selection=hold_deck_f, 'hole_bevel', False)
+    mod_deck = store_named_attribute{data_type:'BOOLEAN', domain:'FACE'}(mod_deck, selection=hold_deck_f, 'hole_wall', False)
+    mod_deck = store_named_attribute{data_type:'BOOLEAN', domain:'FACE'}(mod_deck, selection=hold_deck_f, 'hole_bottom', False)
+    mod_deck = store_named_attribute{data_type:'BOOLEAN', domain:'FACE'}(mod_deck, selection=hold_deck_f, 'is_hole', False)
+
+    # ==========================================================================
+    # 3. BRANCH A: Blind Hole with Sealed Bottom Cap
+    # ==========================================================================
+    top_rim_e = input_named_attribute{data_type:'BOOLEAN'}('top_inner_rim')
+
+    # A1. Multi-Segment Fillet Transition (Flexible Chamfer/Fillet Profile)
+    n_seg_safe = max(bevel_segments, 1)
+    n_seg_iter = has_chamfer ? n_seg_safe : 0
+    mod_blind = store_named_attribute{data_type:'BOOLEAN', domain:'EDGE'}(mod_deck, , 'b_rim_edge', top_rim_e)
+
+    repeat n_seg_iter, , state=(mod_blind:geometry):k, {
+        th0 = (k / n_seg_safe) * 1.5707963
+        th1 = ((k + 1.0) / n_seg_safe) * 1.5707963
+        dr_circ = sin(th1) - sin(th0)
+        dz_circ = cos(th0) - cos(th1)
+        dr_lin = 1.0 / n_seg_safe
+        dz_lin = 1.0 / n_seg_safe
+        dr_norm = (1.0 - prof) * dr_lin + prof * dr_circ
+        dz_norm = (1.0 - prof) * dz_lin + prof * dz_circ
+        dr = r_chamfer * dr_norm
+        dz = r_chamfer * dz_norm
+        dir_in = vector_math{operation:'NORMALIZE'}(target_top - position())[0]
+        v = (dir_in * dr) + combine_xyz(0.0, 0.0, -dz)
+        cur_e = input_named_attribute{data_type:'BOOLEAN'}('b_rim_edge')
+        (m_ext, ext_e, ext_f) = extrude_mesh{mode:'EDGES'}(mod_blind, selection=cur_e, offset=v)
+        prev_bevel = input_named_attribute{data_type:'BOOLEAN'}('hole_bevel')
+        cur_bevel = prev_bevel | ext_f
+        mod_blind = store_named_attribute{data_type:'BOOLEAN', domain:'FACE'}(m_ext, , 'hole_bevel', cur_bevel)
+        mod_blind = store_named_attribute{data_type:'BOOLEAN', domain:'EDGE'}(mod_blind, , 'b_rim_edge', ext_e)
+    }(, mod_blind)
+
+    # A2. Cylinder Bore
+    bore_top_e = input_named_attribute{data_type:'BOOLEAN'}('b_rim_edge')
+    bore_len = safe_depth - (has_chamfer ? r_chamfer : 0.0)
+    (blind_bore, bore_bottom_e, bore_wall_f) = extrude_mesh{mode:'EDGES'}(mod_blind, selection=bore_top_e, offset=combine_xyz(0.0, 0.0, -bore_len))
+    prev_wall = input_named_attribute{data_type:'BOOLEAN'}('hole_wall')
+    cur_wall = prev_wall | bore_wall_f
+    blind_bore = store_named_attribute{data_type:'BOOLEAN', domain:'FACE'}(blind_bore, , 'hole_wall', cur_wall)
+    blind_bore = store_named_attribute{data_type:'BOOLEAN', domain:'FACE'}(blind_bore, selection=bore_wall_f, 'hole_bevel', False)
+
+    # A3. Concentric Floor Holding Loop & Universal Boundary-Synchronized Cap
+    r_bore = has_chamfer ? (r_rim - r_chamfer) : r_rim
+    delta_floor = clamp(r_bore * 0.20, 0.005, 0.03)
+    cap_r = r_bore - delta_floor
+    z_c = z_top - safe_depth
+    target_c = combine_xyz(offset_x, offset_y, z_c)
+
+    (dx_f, dy_f, _) = separate_xyz(target_c - position())
+    dir_in_floor = vector_math{operation:'NORMALIZE'}(combine_xyz(dx_f, dy_f, 0.0))[0]
+    (blind_floor, cap_rim_e, floor_ring_f) = extrude_mesh{mode:'EDGES'}(blind_bore, selection=bore_bottom_e, offset=(dir_in_floor * delta_floor))
+    blind_floor = flip_faces(blind_floor, selection=floor_ring_f)
+    blind_floor = store_named_attribute{data_type:'BOOLEAN', domain:'FACE'}(blind_floor, selection=floor_ring_f, 'hole_bottom', True)
+    blind_floor = store_named_attribute{data_type:'BOOLEAN', domain:'FACE'}(blind_floor, selection=floor_ring_f, 'hole_wall', False)
+    blind_floor = store_named_attribute{data_type:'BOOLEAN', domain:'FACE'}(blind_floor, selection=floor_ring_f, 'hole_bevel', False)
+
+    # Exact boundary vertex count formula: B(k_x, k_y) == n_pts_top for any even n_pts_top
+    s_sum = floor(n_pts_top / 2.0) + 2.0
+    k_x = floor((s_sum + 1.0) / 2.0)
+    k_y = floor(s_sum / 2.0)
+
+    # Initialize cap grid centered at target_c with size cap_r * 1.8 (strictly within bore)
+    cap_grid = mesh_grid(cap_r * 1.8, cap_r * 1.8, k_x, k_y)
+    cap_grid = set_position(cap_grid, , position() + target_c)
+    cap_grid = store_named_attribute{data_type:'BOOLEAN', domain:'FACE'}(cap_grid, , 'hole_bottom', True)
+    cap_grid = store_named_attribute{data_type:'INT', domain:'POINT'}(cap_grid, , 'cap_vidx', index())
+    b_cap = separate_geometry{domain:'EDGE'}(cap_grid, "Is Edge Boundary"()[0])[0]
+    curve_cap = mesh_to_curve(b_cap)
+
+    first_p_c = sample_index{data_type:'FLOAT_VECTOR'}(curve_cap, position(), 0)
+    second_p_c = sample_index{data_type:'FLOAT_VECTOR'}(curve_cap, position(), 1)
+    (rx1_c, ry1_c, _) = separate_xyz(first_p_c - target_c)
+    (rx2_c, ry2_c, _) = separate_xyz(second_p_c - target_c)
+    start_ang_c = atan2(ry1_c, rx1_c)
+    cross_z_c = rx1_c * ry2_c - ry1_c * rx2_c
+    dir_c = switch{input_type:'FLOAT'}(cross_z_c > 0, -1.0, 1.0)
+    step_cap = dir_c * 6.2831853 / n_pts_top
+
+    k_cap = round((start_ang_c - start_ang_t) / step_t)
+    start_ang_cap = start_ang_t + (k_cap * step_t)
+
+    even_ang_c = start_ang_cap + (index() * step_cap)
+    dir_vec_c = combine_xyz(cos(even_ang_c), sin(even_ang_c), 0.0)
+    curve_cap = set_position(curve_cap, , target_c + (dir_vec_c * cap_r))
+
+    repeat n_pts_top, , state=(cap_grid:geometry):iter_idx, {
+        vidx = sample_index{data_type:'INT'}(curve_cap, input_named_attribute{data_type:'INT'}('cap_vidx'), iter_idx)
+        ep = sample_index{data_type:'FLOAT_VECTOR'}(curve_cap, position(), iter_idx)
+        cap_grid = set_position(cap_grid, index() == vidx, ep)
+    }(, cap_grid)
+
+    pt_bound_c = "Is Edge Boundary"()[0]
+    weight_c = switch{input_type:'FLOAT'}(pt_bound_c, 0.8, 0.0)
+    smooth_cap = blur_attribute{data_type:'FLOAT_VECTOR'}(position(), 12, weight_c)
+    cap_shaped = set_position(cap_grid, selection=!pt_bound_c, position=smooth_cap)
+
+    blind_capped = join_geometry(blind_floor ~ cap_shaped)
+    blind_result = merge_by_distance(blind_capped, distance=0.005)
+
+    # ==========================================================================
+    # 4. BRANCH B: Watertight Through-Hole (End-to-End)
+    # ==========================================================================
+    # B1. Punch Bottom Face Hole
+    target_bottom = combine_xyz(offset_x, offset_y, z_bottom)
+    dist_bottom = vdist(position(), target_bottom)
+    is_bottom_face = pz < z_mid
+    del_bottom = (dist_bottom <= r_cut_deck) & is_bottom_face
+    mod_thru = delete_geometry{domain:'FACE'}(mod_deck, del_bottom)
+
+    bound_thru = "Is Edge Boundary"()[0]
+    edges_thru_b = bound_thru & (pz < z_mid)
+    mod_thru = store_named_attribute{data_type:'BOOLEAN', domain:'EDGE'}(mod_thru, , 'edges_thru_b', edges_thru_b)
+    mod_thru = store_named_attribute{data_type:'INT', domain:'POINT'}(mod_thru, , 'vidx_b', index())
+
+    # Circle Relaxation on Bottom Face
+    b_mesh_b = separate_geometry{domain:'EDGE'}(mod_thru, edges_thru_b)[0]
+    curve_b = mesh_to_curve(b_mesh_b)
+    n_pts_b = attribute_domain_size{component:'CURVE'}(curve_b)[0]
+
+    first_p_b = sample_index{data_type:'FLOAT_VECTOR'}(curve_b, position(), 0)
+    second_p_b = sample_index{data_type:'FLOAT_VECTOR'}(curve_b, position(), 1)
+    (rx1_b, ry1_b, _) = separate_xyz(first_p_b - target_bottom)
+    (rx2_b, ry2_b, _) = separate_xyz(second_p_b - target_bottom)
+    start_ang_b = atan2(ry1_b, rx1_b)
+
+    cross_z_b = rx1_b * ry2_b - ry1_b * rx2_b
+    dir_b = switch{input_type:'FLOAT'}(cross_z_b > 0, -1.0, 1.0)
+    step_b = dir_b * 6.2831853 / n_pts_b
+
+    k_align_b = round((start_ang_b - start_ang_t) / step_t)
+    start_ang_b_aligned = start_ang_t + (k_align_b * step_t)
+
+    even_ang_b = start_ang_b_aligned + (index() * step_b)
+    dir_vec_b = combine_xyz(cos(even_ang_b), sin(even_ang_b), 0.0)
+    curve_b = set_position(curve_b, , target_bottom + (dir_vec_b * r_cut_deck))
+
+    repeat n_pts_b, , state=(mod_thru:geometry):iter_idx, {
+        vidx = sample_index{data_type:'INT'}(curve_b, input_named_attribute{data_type:'INT'}('vidx_b'), iter_idx)
+        ep = sample_index{data_type:'FLOAT_VECTOR'}(curve_b, position(), iter_idx)
+        mod_thru = set_position(mod_thru, index() == vidx, ep)
+    }(, mod_thru)
+
+    # Bottom Deck Planar Holding Loop
+    edges_thru_b_rel = input_named_attribute{data_type:'BOOLEAN'}('edges_thru_b')
+    (dx_b, dy_b, _) = separate_xyz(target_bottom - position())
+    dir_in_b = vector_math{operation:'NORMALIZE'}(combine_xyz(dx_b, dy_b, 0.0))[0]
+    (mod_thru, rim_edges_b, hold_deck_b_f) = extrude_mesh{mode:'EDGES'}(mod_thru, selection=edges_thru_b_rel, offset=(dir_in_b * delta_hold))
+    mod_thru = store_named_attribute{data_type:'BOOLEAN', domain:'EDGE'}(mod_thru, , 'bottom_inner_rim', rim_edges_b)
+    mod_thru = store_named_attribute{data_type:'BOOLEAN', domain:'FACE'}(mod_thru, selection=hold_deck_b_f, 'hole_bevel', False)
+    mod_thru = store_named_attribute{data_type:'BOOLEAN', domain:'FACE'}(mod_thru, selection=hold_deck_b_f, 'hole_wall', False)
+    mod_thru = store_named_attribute{data_type:'BOOLEAN', domain:'FACE'}(mod_thru, selection=hold_deck_b_f, 'hole_bottom', False)
+    mod_thru = store_named_attribute{data_type:'BOOLEAN', domain:'FACE'}(mod_thru, selection=hold_deck_b_f, 'is_hole', False)
+
+    # B2. Extrude Through Bore (with Dual Fillets if bevel_radius > 0)
+    # B2a. Top Multi-Segment Fillet
+    top_rim_thru = input_named_attribute{data_type:'BOOLEAN'}('top_inner_rim')
+    mod_thru = store_named_attribute{data_type:'BOOLEAN', domain:'EDGE'}(mod_thru, , 'thru_rim_t', top_rim_thru)
+    repeat n_seg_iter, , state=(mod_thru:geometry):k, {
+        th0 = (k / n_seg_safe) * 1.5707963
+        th1 = ((k + 1.0) / n_seg_safe) * 1.5707963
+        dr_circ = sin(th1) - sin(th0)
+        dz_circ = cos(th0) - cos(th1)
+        dr_lin = 1.0 / n_seg_safe
+        dz_lin = 1.0 / n_seg_safe
+        dr_norm = (1.0 - prof) * dr_lin + prof * dr_circ
+        dz_norm = (1.0 - prof) * dz_lin + prof * dz_circ
+        dr = r_chamfer * dr_norm
+        dz = r_chamfer * dz_norm
+        dir_in = vector_math{operation:'NORMALIZE'}(target_top - position())[0]
+        v = (dir_in * dr) + combine_xyz(0.0, 0.0, -dz)
+        cur_e = input_named_attribute{data_type:'BOOLEAN'}('thru_rim_t')
+        (m_ext, ext_e, ext_f) = extrude_mesh{mode:'EDGES'}(mod_thru, selection=cur_e, offset=v)
+        prev_b = input_named_attribute{data_type:'BOOLEAN'}('hole_bevel')
+        cur_b = prev_b | ext_f
+        mod_thru = store_named_attribute{data_type:'BOOLEAN', domain:'FACE'}(m_ext, , 'hole_bevel', cur_b)
+        mod_thru = store_named_attribute{data_type:'BOOLEAN', domain:'EDGE'}(mod_thru, , 'thru_rim_t', ext_e)
+    }(, mod_thru)
+
+    # B2b. Bottom Multi-Segment Fillet
+    bot_rim_thru = input_named_attribute{data_type:'BOOLEAN'}('bottom_inner_rim')
+    mod_thru = store_named_attribute{data_type:'BOOLEAN', domain:'EDGE'}(mod_thru, , 'thru_rim_b', bot_rim_thru)
+    repeat n_seg_iter, , state=(mod_thru:geometry):k, {
+        th0 = (k / n_seg_safe) * 1.5707963
+        th1 = ((k + 1.0) / n_seg_safe) * 1.5707963
+        dr_circ = sin(th1) - sin(th0)
+        dz_circ = cos(th0) - cos(th1)
+        dr_lin = 1.0 / n_seg_safe
+        dz_lin = 1.0 / n_seg_safe
+        dr_norm = (1.0 - prof) * dr_lin + prof * dr_circ
+        dz_norm = (1.0 - prof) * dz_lin + prof * dz_circ
+        dr = r_chamfer * dr_norm
+        dz = r_chamfer * dz_norm
+        dir_in = vector_math{operation:'NORMALIZE'}(target_bottom - position())[0]
+        v = (dir_in * dr) + combine_xyz(0.0, 0.0, dz)
+        cur_e = input_named_attribute{data_type:'BOOLEAN'}('thru_rim_b')
+        (m_ext, ext_e, ext_f) = extrude_mesh{mode:'EDGES'}(mod_thru, selection=cur_e, offset=v)
+        prev_b = input_named_attribute{data_type:'BOOLEAN'}('hole_bevel')
+        cur_b = prev_b | ext_f
+        mod_thru = store_named_attribute{data_type:'BOOLEAN', domain:'FACE'}(m_ext, , 'hole_bevel', cur_b)
+        mod_thru = store_named_attribute{data_type:'BOOLEAN', domain:'EDGE'}(mod_thru, , 'thru_rim_b', ext_e)
+    }(, mod_thru)
+
+    ch_t_edge = input_named_attribute{data_type:'BOOLEAN'}('thru_rim_t')
+    thru_dz = (z_bottom + (has_chamfer ? r_chamfer : 0.0)) - (z_top - (has_chamfer ? r_chamfer : 0.0))
+    bore_offset_thru = combine_xyz(0.0, 0.0, thru_dz)
+    (thru_bore, _, thru_wall_f) = extrude_mesh{mode:'EDGES'}(mod_thru, selection=ch_t_edge, offset=bore_offset_thru)
+    prev_wall_thru = input_named_attribute{data_type:'BOOLEAN'}('hole_wall')
+    cur_wall_thru = prev_wall_thru | thru_wall_f
+    thru_bore = store_named_attribute{data_type:'BOOLEAN', domain:'FACE'}(thru_bore, , 'hole_wall', cur_wall_thru)
+    thru_bore = store_named_attribute{data_type:'BOOLEAN', domain:'FACE'}(thru_bore, selection=thru_wall_f, 'hole_bevel', False)
+    thru_result = merge_by_distance(thru_bore, distance=0.005)
+
+    # ==========================================================================
+    # 5. Final Output Selection & Composite Hole Attribute
+    # ==========================================================================
+    geom_raw = switch{input_type:'GEOMETRY'}(through_hole, blind_result, thru_result)
+
+    f_bevel = input_named_attribute{data_type:'BOOLEAN'}('hole_bevel')
+    f_wall = input_named_attribute{data_type:'BOOLEAN'}('hole_wall')
+    f_bottom = input_named_attribute{data_type:'BOOLEAN'}('hole_bottom')
+    f_hole = f_bevel | f_wall | f_bottom
+
+    geom_with_hole = store_named_attribute{data_type:'BOOLEAN', domain:'FACE'}(geom_raw, , 'hole_bevel', f_bevel)
+    geom_with_hole = store_named_attribute{data_type:'BOOLEAN', domain:'FACE'}(geom_with_hole, , 'hole_wall', f_wall)
+    geom_with_hole = store_named_attribute{data_type:'BOOLEAN', domain:'FACE'}(geom_with_hole, , 'hole_bottom', f_bottom)
+    geom_with_hole = store_named_attribute{data_type:'BOOLEAN', domain:'FACE'}(geom_with_hole, , 'is_hole', f_hole)
+
+    hole_faces = f_hole
+    bevel_faces = f_bevel
+    wall_faces = f_wall
+    bottom_faces = f_bottom
+}
+
+py!.op

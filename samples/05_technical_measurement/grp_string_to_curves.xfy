@@ -1,0 +1,10 @@
+# Creating a separate group as 5.1 has different mechanism of passing params to string_to_curves
+```
+  op = 'output = get_text_curves()' if not __parents__ else ''
+```
+group get_text_curves{
+  input displayStr: string = 'Test'
+  input textSize: float = 1
+  output textCurves: geometry
+  textCurves = string_to_curves{align_x:'CENTER', align_y:'MIDDLE'}(displayStr, textSize)
+}

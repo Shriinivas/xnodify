@@ -1,0 +1,27 @@
+schema_version = "1.0.0"
+
+id = "xnodify"
+version = "1.0.0"
+name = "XNodify"
+tagline = "Declarative scripting language (XFY) for Blender Node Trees"
+maintainer = "Shrinivas Kulkarni <shrinivk@gmail.com>"
+type = "add-on"
+
+website = "https://github.com/shrinivk/xnodify"
+
+blender_version_min = "4.2.0"
+
+license = [
+  "GPL-3.0-or-later",
+]
+
+copyright = [
+  "2026 Shrinivas Kulkarni",
+]
+
+tags = [
+  "Node",
+  "Scripting",
+  "Geometry Nodes",
+  "Shading",
+]

@@ -1,0 +1,96 @@
+include distance_common.xfy
+include ./gp_text.xfy
+
+```
+if not __parents__:
+  clear_objects()
+  do_distance_setup('gp')
+  op = ingeom_param + distance_params + f'''
+input arrowColor: color "Arrow Color" = {arrowColor}
+input refLineColor: color "Ref Line Color" = {refLineColor}
+input connLineColor: color "Conn Line Color" = {connLineColor}
+input textMat : mat "Text Material" = "GP_TextFill"
+input dotMat : mat "Marker Dot Material" = "GP_DotFill"
+input arrowheadMat : mat "Arrowhead Material" = "GP_ArrowFill"
+input for_blender_ver: menu "Blender Version" = "5.1+" 
+{outgeom_param}
+  result = fn_distance_gp(ingeom, {passed_distance_params}, arrowColor, refLineColor, connLineColor, textMat, dotMat, arrowheadMat, for_blender_ver)
+  '''
+else:
+  op = ''
+```
+
+group fn_distance_gp "Measure Distance GP" {
+  py!.ingeom_param
+  py!.distance_params
+  input arrowColor: color "Arrow Color" = py!.arrowColor
+  input refLineColor: color "Ref Line Color" = py!.refLineColor
+  input connLineColor: color "Conn Line Color" = py!.connLineColor
+  input textMat : mat "Text Material" = "GP_TextFill"
+  input dotMat : mat "Marker Dot Material" = "GP_DotFill"
+  input arrowheadMat : mat "Arrowhead Material" = "GP_ArrowFill"
+  input for_blender_ver: menu "Blender Version" = "5.1+" 
+  py!.outgeom_param
+
+# Get common calculations
+  py!.do_conversions
+  py!.common_distance_call
+
+# GP-specific rendering
+# Reference line (original edge)
+  refLine = curve_primitive_line(pt0, pt1)
+
+# Connector lines
+  connector0 = curve_primitive_line(pt0, pt0Off)
+  connector1 = curve_primitive_line(pt1, pt1Off)
+
+# Arrow lines as curves
+  arrow0 = curve_primitive_line(arrow0Co0, arrow0Co1)
+  arrow1 = curve_primitive_line(arrow1Co0, arrow1Co1)
+
+# Arrowheads using helper
+  baseRot = align_rotation_to_vector{axis:'Z'}(,,cross)
+  arrow0Dir = vnormalize(vector_math{operation:'SCALE'}(mainVect, -1))
+  head0Pos = pt0Off + vector_math{operation:'SCALE'}(mainVectNorm, ptRad)
+  head0 = fn_gp_arrowhead(head0Pos, arrow0Dir, baseRot, headRad, headLen)
+  head1Pos = pt1Off - vector_math{operation:'SCALE'}(mainVectNorm, ptRad)
+  head1 = fn_gp_arrowhead(head1Pos, mainVectNorm, baseRot, headRad, headLen)
+
+# Marker dots (using helper from measure_common)
+  markerDot0 = fn_gp_marker(pt0Off, ptRad, baseRot, dotMat)
+  markerDot1 = fn_gp_marker(pt1Off, ptRad, baseRot, dotMat)
+  markerDot2 = fn_gp_marker(pt0, ptRad, baseRot, dotMat)
+  markerDot3 = fn_gp_marker(pt1, ptRad, baseRot, dotMat)
+
+# Combine curves
+  arrowCurves = join_geometry(arrow0 ~ arrow1)
+  headCurves = join_geometry(head0 ~ head1)
+  connCurves = join_geometry(connector0 ~ connector1)
+
+# Set stroke widths using radius attribute
+  arrowCurves = store_named_attribute{data_type:'FLOAT', domain:'POINT'}(arrowCurves, ,"radius", lineThickness)
+  refLine = store_named_attribute{data_type:'FLOAT', domain:'POINT'}(refLine, ,"radius", refLineThickness)
+  connCurves = store_named_attribute{data_type:'FLOAT', domain:'POINT'}(connCurves, ,"radius", connLineThickness)
+
+# Convert curves to Grease Pencil
+  gpArrows = curves_to_grease_pencil(geometry_to_instance(arrowCurves))
+  # Store attribute required for 5.1 and set_grease_pencil_depth required for 5
+  headCurves = store_named_attribute{data_type:'BOOLEAN'}(headCurves, , 'hide_stroke', True)
+  headCurves = store_named_attribute{data_type:'INT'}(headCurves, , 'fill_id', 1)
+  gpHeads = geometry_to_instance(set_material(set_grease_pencil_depth(curves_to_grease_pencil(geometry_to_instance(headCurves))), , arrowheadMat))
+  gpRef = curves_to_grease_pencil(geometry_to_instance(refLine))
+  gpConn = curves_to_grease_pencil(geometry_to_instance(connCurves))
+  gpText = gp_text(textCurves, textMat)
+  gpText = geometry_to_instance(gpText)
+  gpText = transform(gpText, ,offsetMidPt, textRot)
+
+# Apply colors
+  gpArrows = set_grease_pencil_color(gpArrows, , arrowColor)
+  gpRef = set_grease_pencil_color(gpRef, , refLineColor)
+  gpConn = set_grease_pencil_color(gpConn, , connLineColor)
+
+# Combine all GP
+  result = join_geometry(gpArrows ~ gpHeads ~ gpRef ~ gpConn ~ gpText ~ markerDot0 ~ markerDot1 ~ markerDot2 ~ markerDot3)
+}
+
+py!.op

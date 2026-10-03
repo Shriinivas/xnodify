@@ -1,0 +1,41 @@
+# ==============================================================================
+# Procedural Wood: Organic Grain, Knots & Micro-Bump Normal
+# Demonstrates advanced shader graph creation in XFY:
+# 1. Multi-scale noise distortion simulating wood fibers
+# 2. Voronoi basis for localized wood knots
+# 3. Dynamic color ramp blending rich hardwood tones
+# 4. Bump mapping for tactile grain height and roughness variation
+# ==============================================================================
+
+# 1. Coordinate Space & Scaling
+texco = tex_coord()[2] # UV coordinates
+scale = 0.5
+map0 = mapping{vector_type:'POINT'}(texco, scale=combine_xyz(5.5, 0.45, 1.0))
+
+# 2. Fine Fiber Noise Layers
+noise_fine = tex_noise(map0, scale=18.0, detail=8.0, roughness=0.7)[0]
+noise_coarse = tex_noise(map0, scale=8.0, detail=4.0, roughness=0.5)[0]
+
+# 3. Ring Distortion
+grain_val = ((noise_fine * 0.4) + (noise_coarse * 0.6)) * 12.0
+rings = sin(grain_val) * 0.5 + 0.5
+
+# 4. Color Ramp for Natural Hardwood (Walnut / Teak)
+wood_col = color_ramp{
+    remove:'0',
+    add:'0.0:(0.12, 0.05, 0.02, 1.0)', # Dark grain stripe
+    add:'0.4:(0.32, 0.16, 0.08, 1.0)', # Warm walnut body
+    add:'0.85:(0.52, 0.30, 0.14, 1.0)' # Amber highlight
+}(rings)
+
+# 5. Tactile Bump Mapping from Grain
+grain_bump = bump(strength=0.08, height=rings)
+
+# 6. Surface BSDF Output
+surface = bsdf_principled(
+    base_color=wood_col,
+    roughness=0.35 + (rings * 0.15),
+    normal=grain_bump
+)
+
+output_material(surface=surface)

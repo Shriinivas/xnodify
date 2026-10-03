@@ -1,0 +1,34 @@
+# ==============================================================================
+# SHARED PAGE BENDING — Monotonic Zero-Collision Angle Field
+# ==============================================================================
+# Computes smooth paper curl factors for page-turning animations.
+# Used by both flipbook and discbound book systems.
+#
+# Key Principles:
+# - Root (binding edge): s_root(p) = smoothstep(p)
+# - Tip (free edge):     s_tip(p)  = smoothstep(p^(1 + bend_strength))
+# - Strictly monotonic: zero page intersection
+# - bend_strength = 0 → rigid rotation (root = tip, no curl)
+# - bend_strength > 0 → tip lags behind root → natural paper curl
+# ==============================================================================
+
+group Page_Bend_Factors "Page Bend Factors" {
+    input turn_progress: float "Turn Progress" = 0.0 [0.0, 1.0]
+    input u: float "Normalized Position" = 0.0 [0.0, 1.0]
+    input bend_strength: float "Bend Strength" = 0.45 [0.0, 1.0]
+    output s_root: float "Root Factor"
+    output s_tip: float "Tip Factor"
+    output s_u: float "Blended Factor"
+
+    p = turn_progress
+
+    # Root: standard smoothstep of turn progress
+    s_root = p * p * (3.0 - (2.0 * p))
+
+    # Tip: delayed smoothstep — tip lags behind root by bend_strength exponent
+    p_tip = pow(p, 1.0 + bend_strength)
+    s_tip = p_tip * p_tip * (3.0 - (2.0 * p_tip))
+
+    # Continuous monotonic blend across page width
+    s_u = ((1.0 - u) * s_root) + (u * s_tip)
+}

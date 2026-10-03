@@ -1,0 +1,120 @@
+# Common distance measurement calculations
+# Shared between distance_mesh.xfy and distance_gp.xfy
+include measure_common.xfy
+
+```
+def do_distance_setup(outType, location=(0, 0, 0)):
+  # Create a simple object to attach the modifier
+  obj = create_obj('poly', [(0, 0, 0), (0, 0, 1)], name='Measure Distance')
+  obj.location = location
+  do_measure_setup(obj, outType)
+
+# Distance-specific params (not shared with angle)
+distance_specific_params = '''
+input scale: float "Scale" = 1 @ "Scale factor"
+input rotation: int "Rotation" = 0 @ "Rotation in degrees"
+'''
+# Combined: common calc params + distance-specific
+distance_calc_params = calc_params + distance_specific_params
+# Combined params: distance-specific + shared render params
+distance_params = distance_calc_params + render_params
+
+passed_distance_specific = '''scale, rotation'''
+passed_distance_calc_params = f'''{passed_calc_params}, {passed_distance_specific}'''
+passed_distance_params = f'''{passed_distance_calc_params}, {passed_render_params}'''
+
+common_distance_call = f'''
+  (pt0, pt1, pt0Off, pt1Off, mainVect, mainVectNorm, offsetMidPt, edgeLen, textCurves, textLen, textRot, cross, \\
+   arrow0Co0, arrow0Co1, arrow1Co0, arrow1Co1) = \\
+    fn_distance_calc(ingeom, {passed_distance_calc_params}, flipText, headLen, ptRad)
+'''
+```
+# Computes all geometric data needed for distance measurement visualization
+group fn_distance_calc "Distance Calculation" {
+  py!.ingeom_param
+  py!.distance_calc_params
+  input flipText: bool "Flip Text" = False
+  input headLen: float "Arrowhead Length" = 0.075
+  input ptRad: float "Point/Marker Radius" = 0.0075
+  
+  output pt0: vector "Point 0"
+  output pt1: vector "Point 1"
+  output pt0Off: vector "Offset Point 0"
+  output pt1Off: vector "Offset Point 1"
+  output mainVect: vector "Main Vector"
+  output mainVectNorm: vector "Main Vector Normalized"
+  output offsetMidPt: vector "Offset Mid Point"
+  output edgeLen: float "Edge Length"
+  output textCurves: geometry "Text Curves"
+  output textLen: float "Text Length"
+  output textRot: vector "Text Rotation"
+  output cross: vector "Cross Vector"
+  output arrow0Co0: vector "Arrow 0 Start"
+  output arrow0Co1: vector "Arrow 0 End"
+  output arrow1Co0: vector "Arrow 1 Start"
+  output arrow1Co1: vector "Arrow 1 End"
+  
+  (_, _, pos0, pos1) = edge_vertices()
+  pt0 = sample_index{domain:'EDGE', data_type:'FLOAT_VECTOR'}(ingeom, pos0, 0)
+  pt1 = sample_index{domain:'EDGE', data_type:'FLOAT_VECTOR'}(ingeom, pos1, 0)
+
+  xtraTextRotRad = radians(xtraTextRot)
+  rotationRad = radians(rotation)
+  edgeVect = pt1 - pt0
+  edgeMidPt = vector_math{operation:'SCALE'}(pt0 + pt1, 0.5)
+  line = curve_primitive_line(pt0, pt1)
+  normal = sample_curve(line,,spline_parameter())[3]
+  offsetDist = vector_math{operation:'SCALE'}(normal, offset)
+  offset0 = sample_index{data_type:'FLOAT_VECTOR', domain:'POINT'}(line, offsetDist, 0)
+  offset1 = sample_index{data_type:'FLOAT_VECTOR', domain:'POINT'}(line, offsetDist, 1)
+  pt0Off = pt0 + offset0
+  pt1Off = pt1 + offset1
+  pt0Off = vector_rotate(pt0Off, edgeMidPt, edgeVect, rotationRad)
+  pt1Off = vector_rotate(pt1Off, edgeMidPt, edgeVect, rotationRad)
+  mainVect = pt1Off - pt0Off
+  mainVectNorm = vnormalize(mainVect)
+  offsetMidPt = vector_math{operation:'SCALE'}(pt0Off + pt1Off, 0.5)
+  edgeLen = vlength(mainVect)
+  xyz = separate_xyz(mainVect)
+
+  calcLen = edgeLen * scale
+  # Distance string calculations
+  lenFt = math{operation:'MULTIPLY'}(calcLen, py!.footMult)
+  lenFtStr = string_join(, value_to_string(lenFt, precision) ~ $"'")
+  lenIn = math{operation:'MULTIPLY'}(calcLen, py!.inchMult)
+  lenInStr = string_join(, value_to_string(lenIn, precision) ~ $'"')
+  lenFt2 = floor(lenFt)
+  lenIn2 = (lenFt - lenFt2) * 12
+  lenFt2Str = string_join(, value_to_string(lenFt2) ~ $"'" ~ value_to_string(lenIn2, precision) ~ $'"')
+  lenMtrStr = string_join(, value_to_string(calcLen, precision) ~ $" m")
+  jPref = switch{input_type:'STRING'}(xyz[1] < 0, '+',)
+  kPref = switch{input_type:'STRING'}(xyz[2] < 0, '+',)
+  lenVectStr = string_join(, value_to_string(xyz[0], precision) ~ $'i' ~ jPref ~ value_to_string(xyz[1], precision) ~ $'j' ~ kPref ~ value_to_string(xyz[2], precision) ~ $'k')
+  lenStr = menu_switch{data_type:'STRING'}(unitselection, \
+    lenMtrStr@'Meter', \
+    lenFtStr@'Foot', \
+    lenInStr@'Inch', \
+    lenFt2Str@'Foot-Inch', \
+    lenVectStr@'Vector')
+  
+  # Text curves generation using common helper
+  (textCurves, textLen, _) = fn_make_text_curves(lenStr, subtext, textSize, flipText)
+
+  # Text rotation calculation
+  connectorVect = (offsetMidPt - edgeMidPt)
+  cross = vcross(connectorVect, mainVect)
+  crossRot = align_rotation_to_vector{axis:'Z'}(,,cross)
+  textRot = align_rotation_to_vector{axis:'X'}(crossRot + combine_xyz(xtraTextRotRad, 0, 0), , mainVect)
+
+  # Arrow Endpoints
+  edgeVect = pt1Off - pt0Off  # Reconstruct for arrow scale
+  arrowLen = edgeLen - textLen
+  halfArrowLen = arrowLen / 2 - textGap
+  halfArrowVect = vector_math{operation:'SCALE'}(mainVectNorm, halfArrowLen)
+  arrowhedVect = vector_math{operation:'SCALE'}(mainVectNorm, headLen + ptRad)
+
+  arrow0Co0 = pt0Off + arrowhedVect 
+  arrow0Co1 = pt0Off + halfArrowVect
+  arrow1Co0 = pt1Off - halfArrowVect
+  arrow1Co1 = pt1Off - arrowhedVect
+}

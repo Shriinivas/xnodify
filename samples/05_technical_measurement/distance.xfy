@@ -1,0 +1,42 @@
+include ./distance_gp.xfy
+include ./distance_mesh.xfy
+```
+distance_op_block = f'''
+{ingeom_param} 
+input outputType: menu "Output Type" = "Grease Pencil" @ "Output type Grease Pencil or Mesh"
+{distance_params}  
+input textThickness: float "Text Thickness" = 0.001
+input mainLineMat: mat "Main Line Material" = "Main Line Material"
+input refLineMat: mat "Ref Line Material" = "Ref Line Material"
+input textMat: mat "Text Material" = "Text Material"
+input dotMat: mat "Dot Material" = "Dot Material"
+input arrowColor: color "Arrow Color" = {arrowColor}
+input refLineColor: color "Ref Line Color" = {refLineColor}
+input connLineColor: color "Conn Line Color" = {connLineColor}
+input gpTextMat : mat "GP Text Material" = "GP_TextFill"
+input gpDotMat : mat "GP Marker Dot Material" = "GP_DotFill"
+input gpArrowheadMat : mat "GP Arrowhead Material" = "GP_ArrowFill"
+input for_blender_ver: menu "Blender Version" = "5.1+" 
+{outgeom_param}
+'''
+distance_grp_call = f'''
+  result = distance_measurement(ingeom, outputType, {passed_distance_params}, textThickness, mainLineMat, refLineMat, textMat, dotMat, arrowColor, refLineColor, connLineColor, gpTextMat, gpDotMat, gpArrowheadMat, for_blender_ver)
+'''
+if not __parents__:
+  clear_objects()
+  do_distance_setup(outType='both')
+  op = distance_op_block + distance_grp_call
+else:
+  op = ''
+```
+group distance_measurement "Distance Measurement" {
+  py!.distance_op_block
+  outputTypeStr = menu_switch{data_type:'STRING'}(outputType, \
+    'Grease Pencil'@'Grease Pencil', \
+    'Mesh'@'Mesh')
+
+  result_mesh = fn_distance_mesh(ingeom, py!.passed_distance_params, textThickness, mainLineMat, refLineMat, textMat, dotMat)
+  result_gp = fn_distance_gp(ingeom, py!.passed_distance_params, arrowColor, refLineColor, connLineColor, gpTextMat, gpDotMat, gpArrowheadMat, for_blender_ver)
+  result = switch{input_type:'GEOMETRY'}(outputTypeStr == 'Grease Pencil', result_mesh, result_gp)
+}
+py!.op

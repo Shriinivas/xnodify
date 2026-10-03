@@ -1,0 +1,70 @@
+# ==============================================================================
+# Groups & Nesting: Hierarchical Node Group Composition
+# Demonstrates:
+# 1. Defining custom reusable node groups with typed sockets and defaults
+# 2. Calling an inner node group from inside a higher-level parent group (nesting)
+# 3. Parameter exposure and top-level multi-group assembly
+# ==============================================================================
+
+# Level 1: Low-level primitive group (Fluted Column)
+group FlutedColumn "Fluted Column" {
+    input radius: float "Column Radius" = 0.3
+    input height: float "Column Height" = 3.0
+    input flutes: int "Flute Count" = 16
+    output column_geom: geometry "Column Mesh"
+
+    # Base cylinder
+    core = mesh_cylinder(vertices=flutes * 2, radius=radius, depth=height)
+
+    # Fluting displacement along radial normals
+    (x, y, z) = separate_xyz(position())
+    angle = atan2(y, x)
+    flute_wave = sin(angle * flutes) * 0.02
+    disp = combine_xyz(cos(angle) * flute_wave, sin(angle) * flute_wave, 0.0)
+
+    column_geom = set_position(core, offset=disp)
+}
+
+# Level 2: Composite assembly group (Column with Plinth & Capital)
+# Calls the inner FlutedColumn group and adds decorative top & bottom blocks
+group ClassicalPillar "Classical Pillar Assembly" {
+    input radius: float "Shaft Radius" = 0.3
+    input height: float "Shaft Height" = 3.0
+    output pillar: geometry "Complete Pillar"
+
+    # Call nested inner group
+    shaft = FlutedColumn(radius=radius, height=height, flutes=12)
+
+    # Base plinth
+    plinth_size = radius * 2.8
+    plinth_h = 0.25
+    plinth = mesh_cube(size=combine_xyz(plinth_size, plinth_size, plinth_h))
+    plinth = transform_geometry(plinth, translation=combine_xyz(0.0, 0.0, -height / 2.0 - plinth_h / 2.0))
+
+    # Capital top
+    cap_size = plinth_size * 0.9
+    capital = mesh_cube(size=combine_xyz(cap_size, cap_size, plinth_h))
+    capital = transform_geometry(capital, translation=combine_xyz(0.0, 0.0, height / 2.0 + plinth_h / 2.0))
+
+    pillar = join_geometry(plinth ~ shaft ~ capital)
+}
+
+# --- Top-Level Script ---
+input column_spacing: float "Pillar Spacing" = 3.0 [1.0, 10.0]
+input total_height: float "Height" = 3.5 [1.0, 8.0]
+output colonnade: geometry "Four-Pillar Colonnade"
+
+half = column_spacing / 2.0
+
+# Instance ClassicalPillar at 4 symmetric corner coordinates
+p1 = transform_geometry(ClassicalPillar(radius=0.25, height=total_height), translation=combine_xyz(-half, -half, 0.0))
+p2 = transform_geometry(ClassicalPillar(radius=0.25, height=total_height), translation=combine_xyz(half, -half, 0.0))
+p3 = transform_geometry(ClassicalPillar(radius=0.25, height=total_height), translation=combine_xyz(-half, half, 0.0))
+p4 = transform_geometry(ClassicalPillar(radius=0.25, height=total_height), translation=combine_xyz(half, half, 0.0))
+
+# Shared roof architrave
+roof_dim = column_spacing + 1.2
+roof = mesh_cube(size=combine_xyz(roof_dim, roof_dim, 0.3))
+roof = transform_geometry(roof, translation=combine_xyz(0.0, 0.0, total_height / 2.0 + 0.35))
+
+colonnade = set_shade_smooth(join_geometry(p1 ~ p2 ~ p3 ~ p4 ~ roof))

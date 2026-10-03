@@ -1,0 +1,31 @@
+# ==============================================================================
+# Simulation Zone: Procedural Rising Particle Field
+# Demonstrates frame-to-frame delta-time state simulation in XFY.
+# Particles rise upward with velocity, displacing points continuously over time.
+# ==============================================================================
+
+input particle_count: int "Count" = 50 [10, 500]
+input speed: float "Rising Speed" = 1.2
+input spread: float "Spread Radius" = 1.5
+output particles: geometry "Simulated Particles"
+
+# 1. Spawn base seed points in a disc
+base_mesh = mesh_circle(vertices=32, radius=spread, fill_type='NGON')
+(spawn_points, _) = distribute_points_on_faces(base_mesh, density=20.0, seed=12)
+
+# Initial velocity vector pointing upwards along Z
+init_velocity = combine_xyz(0.0, 0.0, speed)
+
+# 2. Simulation Zone: accumulates delta-time displacement across frames
+simulation spawn_points, state=(init_velocity):dt, current_pts {
+    # Scale upward velocity by the per-frame delta time (dt)
+    displacement = vscale(init_velocity, dt)
+
+    # Displace points upwards
+    new_pos = vadd(position(), displacement)
+    moved_pts = set_position(current_pts, position=new_pos)
+}(result=moved_pts, init_velocity)
+
+# 3. Instance glowing icospheres on the simulated points
+sphere_mesh = icosphere(radius=0.04, subdivisions=1)
+particles = instance_on_points(result, instance=sphere_mesh)

@@ -1,0 +1,378 @@
+include ../mesh_utils/quadstadium.xfy
+include ../mesh_utils/hole.xfy
+include ./page_tile_coords.xfy
+include ./page_bend.xfy
+
+# ==============================================================================
+# CANONICAL NAMED ATTRIBUTES CONTRACT
+# ==============================================================================
+# 1. Shader / Material Contract Attributes (Exported on final mesh for shaders):
+#    - "page_uv"   : FLOAT_VECTOR (domain: CORNER) — Normalized [0, 1] UV per page face
+#    - "is_front"  : BOOLEAN      (domain: CORNER) — True for front face, False for back
+#    - "page_idx"  : INT          (domain: CORNER) — 0-based page index
+#    - "page_pos"  : FLOAT_VECTOR (domain: POINT)  — Rest-position 3D coords of flat page
+#    - "clip_pos"  : FLOAT_VECTOR (domain: POINT)  — Rest-position 3D coords of clip mesh
+#    - "is_clip"   : BOOLEAN      (domain: POINT)  — True for binder clip, False for pages
+#    - "art_scale_x", "art_scale_y", "art_offset_x", "art_offset_y", "blank_back" (CORNER)
+#
+# 2. Internal Kinematic Attributes (Used strictly during Page_Turn realization):
+#    - "inst_pos"   : FLOAT_VECTOR (domain: INSTANCE) — Spawn position of instance on curve
+#    - "page_xform" : FLOAT4X4     (domain: INSTANCE) — 4x4 matrix aligning page to curve
+#    - "page_rot_x" : FLOAT        (domain: INSTANCE) — Euler X rotation angle along curve
+#    - "index"      : INT          (domain: INSTANCE) — 0-based instance index
+# ==============================================================================
+```
+inputs_common = '''
+input page_separation: float "Page Separation" = 0
+input unevenness: float "Unevenness" = 5
+input page_count: int "Page Count" = 10
+input filled_page_count: int "Filled Page Count" = 5
+input turn_seconds: float "Turn Seconds" = 1
+input pause_seconds: float "Pause Seconds" = 0
+input start_at_frame: int "Start At Frame" = 1
+input back_face_mat: menu "Back Face Material" = "Same" @ "Material mode for back faces"
+input first_mat_idx: int "First Material Index" = 1
+input drivingtime: float "Time" = -1 @ "Time of the frame (-1 for scene time)"
+input reversed: bool "Reversed" = False
+input rect_t: float "Page Thickness" = 0.0015
+input connector_radius: float "Connector Radius" = .005
+input z_warp_factor: float = 0.0004
+input art_scale_x: float "Artwork Scale X" = 0.85
+input art_scale_y: float "Artwork Scale Y" = 0.85
+input art_offset_x: float "Artwork Offset X" = 0.0
+input art_offset_y: float "Artwork Offset Y" = 0.0
+input blank_back: bool "Blank Back Side" = False
+input bend_strength: float "Page Bend Strength" = 0.0 [0.0, 1.0]
+input cascade_overlap: float "Cascade Overlap" = 0.0 [0.0, 0.9]
+'''
+inputs_main = f'''
+input ingeom: geometry "Input Geometry"
+input rect_w: float = 3
+input rect_h: float = 2
+input segments: int = 30 [1, 100]
+input bevel_radius: float "Bevel Radius" = 0.5
+input hole_radius: float "Hole Radius" = 0.02
+input left_margin_offset: float = 0.2
+input right_margin_offset: float = 0.8
+input hole_offset: float = 0.03
+input hole_count: int = 2
+input connector_width: float = 0.13
+input fillet_radius: float = 0.015
+input custom_clip: geometry "Custom Clip Geometry"
+{inputs_common}
+input bend_resolution: int "Bend Resolution" = 0 [0, 5] @ "Subdivision levels for smooth bending (0 = no bend geometry)"
+'''
+if not __parents__:
+  import bpy
+  import sys
+  from pathlib import Path
+  _common_path = str(Path(__file__).resolve().parent.parent / "common")
+  if _common_path not in sys.path:
+    sys.path.insert(0, _common_path)
+  from xfy_utils import create_mat
+  obj = bpy.context.object
+  colors = [
+    ([0.10, 0.10, 0.10, 1.00], "mat_black"),       # 0 - Default/back
+    ([0.90, 0.05, 0.05, 1.00], "mat_red"),           # 1
+    ([0.05, 0.60, 0.90, 1.00], "mat_sky_blue"),      # 2
+    ([1.00, 0.75, 0.00, 1.00], "mat_amber"),         # 3
+    ([0.10, 0.80, 0.30, 1.00], "mat_green"),         # 4
+    ([0.85, 0.15, 0.85, 1.00], "mat_magenta"),       # 5
+    ([1.00, 0.40, 0.00, 1.00], "mat_orange"),        # 6
+    ([0.00, 0.85, 0.85, 1.00], "mat_cyan"),          # 7
+    ([0.60, 0.20, 0.00, 1.00], "mat_brown"),         # 8
+    ([0.95, 0.95, 0.20, 1.00], "mat_yellow"),        # 9
+    ([0.40, 0.00, 0.80, 1.00], "mat_purple"),        # 10
+  ]
+  for color, name in colors:
+    create_mat(obj, name, color, emission_strength=0.0, roughness=0.5, metallic=0.0)
+  op = f'''
+{inputs_main}
+output = Discbound_Book(ingeom, rect_w, rect_h, segments, bevel_radius, hole_radius, left_margin_offset, right_margin_offset, hole_offset, hole_count, \
+connector_width, fillet_radius, custom_clip, page_separation, unevenness, page_count, filled_page_count, turn_seconds, pause_seconds, start_at_frame, back_face_mat, first_mat_idx, drivingtime, reversed, rect_t, connector_radius, z_warp_factor, art_scale_x, art_scale_y, art_offset_x, art_offset_y, blank_back, bend_strength, cascade_overlap, bend_resolution)
+'''
+else:
+  op = ''
+```
+
+group get_simple_clip {
+  input page_count: int = 10
+  input rect_t: float = 0.05
+  input page_separation: float = 0.00
+  input connector_radius: float = 0.01
+  input connector_width: float = 0.5
+  input fillet_radius: float = 0.03
+  input add_fillet: bool = False
+  output connector: geometry
+
+  y0 = connector_width / -2
+  y1 = connector_width / 2
+  
+  # Corner height for the bottom fillet (so bottom of clip touches Z=0)
+  corner_z = connector_radius
+
+  # Ensure the pages sit on the straight vertical leg and clear the bottom bar (accounting for thickness and surface unevenness):
+  page_base_z = math{operation:'MAXIMUM'}(2 * connector_radius, connector_radius + fillet_radius) + connector_radius * 0.35 + rect_t
+
+  # For clip geometry (add_fillet=True), start at corner_z so the bottom bar is at Z = connector_radius.
+  # For page track (add_fillet=False), start at page_base_z so pages sit on the straight vertical leg above the bottom bar.
+  start_z = switch{input_type:'FLOAT'}(add_fillet, page_base_z, corner_z)
+  
+  # Height of the page stack
+  stack_height = page_count * (rect_t + page_separation) - page_separation
+
+  # Top arch begins above the top-most page
+  line_height = page_base_z + stack_height + fillet_radius 
+  
+  edge1_bottom = combine_xyz(0, y0, start_z)
+  edge1_top = combine_xyz(0, y0, line_height)
+  edge2_bottom = combine_xyz(0, y1, start_z)
+  edge2_top = combine_xyz(0, y1, line_height)
+  
+  edge1 = curve_primitive_line(start=edge1_top, end=edge1_bottom)
+  edge2 = curve_primitive_line(start=edge2_bottom, end=edge2_top)
+  
+  arc_middle = combine_xyz(0, 0, line_height + connector_width/2)
+  top = curve_arc{mode:'POINTS'}(resolution=64, start=edge2_top, middle=arc_middle, end=edge1_top)
+  
+  connector = join_geometry(edge2 ~ top ~ edge1)
+  connector = curve_to_points{mode:'EVALUATED'}(connector)
+  connector = merge_by_distance(connector)
+  connector = points_to_curves(connector)
+  connector = switch{input_type:'GEOMETRY'}(add_fillet, connector, fillet_curve(set_spline_cyclic(connector, cyclic=True), radius=fillet_radius, limit_radius=True))
+}
+
+group Page_Turn {
+  input ingeom: geometry "Input Geometry"
+  input clip: geometry "Geometry"
+  input page: geometry "Page" 
+  py!.inputs_common
+  output output: geometry
+    pi = 3.1415927
+    base_position = sample_index{data_type:'FLOAT_VECTOR'}(clip, position(), 0)
+    (_, page_min, page_max) = bound_box(page)
+    page_dim = page_max - page_min
+    page_dim_xyz = separate_xyz(page_dim)
+    page_w = page_dim_xyz[0]
+    page_h = page_dim_xyz[1]
+    page_thickness = page_dim_xyz[2]
+
+    face_normal = sample_index{data_type:'FLOAT_VECTOR', domain:'FACE'}(page, normal(), index())
+    face_up_normal = switch{input_type:'VECTOR'}(reversed, (0, 0, 1), (0, 0, -1))
+    is_sel_normal = compare{data_type:'VECTOR'}(face_normal, face_up_normal, 1)
+    page = store_named_attribute{data_type: 'BOOLEAN', domain:'FACE'}(page, name='is_sel_normal', value=is_sel_normal)
+    curve_length = curve_length(clip)
+    pages_around_curve = curve_length / (page_separation + page_thickness)
+    curvepts = curve_to_points(clip, pages_around_curve)
+    pages = instance_on_points(curvepts, index() < page_count, page)
+    pages = store_named_attribute{data_type: 'INT', domain:'INSTANCE'}(pages, name='index', value=index())
+    factor_per_page = 1 / pages_around_curve
+    last_position_factor = sample_index{data_type:'FLOAT'}(clip,spline_parameter()[0], (attribute_domain_size{component:'CURVE'}(clip)[0] - 1))
+    
+    # Re-indexed page index with top page having index 0
+    pt_idx = index()
+    page0_top_idx = page_count - (pt_idx  + 1)
+    # Factor for each page at stationary left position 
+    page_base_factor = factor_per_page * pt_idx 
+    # Factor for each page at stationary right position 
+    page_last_factor = last_position_factor - factor_per_page * page0_top_idx
+    page_sweep_factor = page_last_factor - page_base_factor - 0.0001 # Adjust for last point tangent
+    scenetime = input_scene_time() 
+    fps = scenetime[1] / scenetime[0]
+    scenetime_secs = switch{input_type:'FLOAT'}(drivingtime == -1, drivingtime, scenetime[0])
+    seconds = scenetime_secs - start_at_frame / fps
+
+    # Cascade spacing between consecutive page starts:
+    # When cascade_overlap = 0: spacing = turn_seconds + pause_seconds (sequential turns)
+    # When cascade_overlap > 0: next page begins before current page completes
+    clamped_overlap = clamp(cascade_overlap, 0.0, 0.95)[0]
+    step_time = turn_seconds * (1.0 - clamped_overlap) + pause_seconds
+    total_seconds = (page_count - 1) * step_time + turn_seconds + pause_seconds
+    seconds = switch{input_type:'FLOAT'}(reversed, seconds, total_seconds - seconds)
+
+    # Elapsed time since this specific page started turning
+    page_location_time = seconds - (page0_top_idx * step_time)
+
+    # Ease in/out - Smootherstep
+    page_offset_factor = map_range{clamp:True, interpolation_type:'SMOOTHERSTEP'}(page_location_time, 0, turn_seconds, 0, page_sweep_factor)
+
+    # Factor of curve where each page is located at this instant
+    page_curr_factor = page_base_factor + page_offset_factor
+    (_, factor_pos, factor_tangent, _) = sample_curve{data_type:'FLOAT'}(clip, value=0.0, factor=page_curr_factor)
+    page_curr_position =  factor_pos
+    page_curr_rotation = align_rotation_to_vector(vector=factor_tangent)
+    page_transform = combine_transform(page_curr_position, page_curr_rotation)
+    pages = store_named_attribute{data_type: 'FLOAT4X4', domain:'INSTANCE'}(pages, name='page_xform', value=page_transform)
+    pages = store_named_attribute{data_type: 'FLOAT_VECTOR', domain:'INSTANCE'}(pages, name='inst_pos', value=position())
+    page_rot_x = separate_xyz(rotation_to_euler(rotation=page_curr_rotation))[0]
+    pages = store_named_attribute{data_type:'FLOAT', domain:'INSTANCE'}(pages, name='page_rot_x', value=page_rot_x)
+    page_faces = realize_instances(pages)
+    is_sel_normal = input_named_attribute{data_type:'BOOLEAN'}('is_sel_normal')
+    idx = input_named_attribute{data_type:'INT'}('index')
+    page_idx = switch{input_type:'VECTOR'}(reversed, (page_count - idx - 1), idx)
+
+    # Store canonical book page attributes contract
+    p_pos = input_named_attribute{data_type:'FLOAT_VECTOR'}('page_pos')[0]
+    p_pos_xyz = separate_xyz(p_pos)
+    page_u = (p_pos_xyz[0] / page_w) + 0.5
+    page_v = (p_pos_xyz[1] / page_h) + 0.5
+    page_uv = combine_xyz(page_u, page_v, 0.0)
+    page_faces = Store_Page_Attributes(page_faces, page_uv, page_idx, is_sel_normal, art_scale_x, art_scale_y, art_offset_x, art_offset_y, blank_back)
+    
+    # Back face material modes via menu_switch:
+    # 'Same'      → front and back get the same material per page
+    # 'Default'   → back faces get material index 0 (default)
+    # 'Alternate'  → back face gets its own sequential index (front=2*i, back=2*i+1)
+    same_mat = page_idx
+    default_mat = is_sel_normal * page_idx - 1 + is_sel_normal # adjust for empty first slot of generated geom
+    alternate_mat = page_idx * 2 + switch{input_type:'INT'}(!is_sel_normal, 0, 1)
+    mat_idx = menu_switch{data_type:'INT'}(back_face_mat, same_mat@'Same', default_mat@'Default', alternate_mat@'Alternate')
+
+    (ingeom, del_cri) = capture_attribute(ingeom, True)
+    page_faces = join_geometry(page_faces ~ ingeom)
+    page_faces = set_material_index(page_faces, material_index=switch{input_type:'INT'}(mat_idx < filled_page_count, 1, mat_idx + first_mat_idx + 1))
+    page_faces = delete_geometry(page_faces, del_cri)
+
+    page_xform = input_named_attribute{data_type:'FLOAT4X4'}('page_xform')
+    inst_pos = input_named_attribute{data_type:'FLOAT_VECTOR'}('inst_pos')
+    # Extract the original raw world-space coordinates of the vertex prior to instancing offset
+    raw_v = position() - inst_pos
+
+    # Calculate the localized vector pivoting precisely at the hole center (base_position)
+    local_v = raw_v - base_position
+    
+    # Distance from hole used to gently fade out Z-warping safely near the binder rings
+    dist_to_hole = vlength(local_v)
+    
+    # Make noise unique per page instance by offsetting the sample coordinate in Z
+    noise_coords = local_v + combine_xyz(0, 0, idx * 13.37)
+    
+    # 1. Edge/XY organic raggedness using high-frequency noise
+    # We use a 3D noise texture driven by the vertex's local coordinates
+    edge_noise = tex_noise(noise_coords, 20.0, 5.0, 0.6) # Outputs a Fac [0, 1]
+    
+    # Map [0, 1] into our bidirectional displacement factor
+    rand_fact = 0.001 * unevenness
+    edge_displacement = map_range(edge_noise, 0.0, 1.0, 1.0 - rand_fact, 1.0 + rand_fact)
+    scaled_local_v = edge_displacement * local_v
+    
+    # 2. Surface Z-Warping for gentle paper wrinkles (Low frequency)
+    max_z_warp = z_warp_factor * unevenness 
+    
+    # Fade out Z-warping to safely flat within 0.1 units of the hole
+    z_warp_fade = map_range{clamp:True}(dist_to_hole, 0.0, 0.1, 0.0, 1.0)
+    
+    # Low frequency noise for smooth surface buckling
+    surface_noise = tex_noise(noise_coords, 2.0, 2.0, 0.5) # Outputs Fac [0, 1]
+    z_displacement = map_range(surface_noise, 0.0, 1.0, -max_z_warp, max_z_warp) * z_warp_fade
+    local_pos_with_z = scaled_local_v + combine_xyz(0, 0, z_displacement)
+
+    # 3. Page Bend Deformation (smooth paper curl during turn)
+    # In local_v space, the holes (binding edge) are at Y ≈ 0.
+    # The tab margins behind the rings have local_v_y <= 0 and stay clamped to u_bend=0 (no displacement).
+    # The page body extends in positive Y (local_v_y > 0) towards the free edge.
+    local_v_y = separate_xyz(local_v)[1]
+    u_bend = clamp(local_v_y / max(page_h - 0.06, 0.001), 0.0, 1.0)[0]#result
+
+    # Read instance Euler X rotation along curve
+    page_rot_x_val = input_named_attribute{data_type:'FLOAT'}('page_rot_x')[0]
+
+    # Get bend factors from shared monotonic angle field (turn_progress: 0 at right stack, 1 at left stack)
+    turn_progress = clamp(page_rot_x_val / pi, 0.0, 1.0)[0]#result
+    (bf_s_root, bf_s_tip, _) = Page_Bend_Factors(turn_progress, u_bend, bend_strength)
+
+    # Differential bend angle: tip lags behind root during mid-turn
+    bend_dir = reversed ? -1.0 : 1.0
+    raw_bend_angle = bend_dir * u_bend * (bf_s_tip - bf_s_root) * pi
+
+    # Physical contact constraint: the page cannot bend below the resting stack (theta=0)
+    # or past the landing stack (theta=pi)
+    min_angle = reversed ? (page_rot_x_val - pi) : -page_rot_x_val
+    max_angle = reversed ? page_rot_x_val : (pi - page_rot_x_val)
+    bend_angle = clamp(raw_bend_angle, min_angle, max_angle)
+
+    # Rotate vertex around binding edge (Y=0 in local_v) in local YZ plane
+    dy_bend = local_v_y * (cos(bend_angle) - 1.0)
+    dz_bend = local_v_y * sin(bend_angle)
+    local_pos_bent = local_pos_with_z + combine_xyz(0.0, dy_bend, dz_bend)
+
+    # Transform exactly through the mathematically correct page_xform 
+    new_position = transform_point(local_pos_bent, page_xform)
+
+    page_faces = set_position(page_faces, position=new_position)
+    output = page_faces
+}
+group Discbound_Book{
+  py!.inputs_main
+  output apparatus: geometry
+  output clip_curve: geometry
+  precision = 6
+
+  clip_curve = get_simple_clip(page_count, rect_t, page_separation, connector_radius, connector_width, fillet_radius, False)
+  default_clip = get_simple_clip(page_count, rect_t, page_separation, connector_radius, connector_width, fillet_radius, True)
+
+  clip_orig = sample_index{data_type:'FLOAT_VECTOR'}(clip_curve, position(), 0)
+  clip_orig_xyz = separate_xyz(clip_orig)
+
+  page = QuadStadium2D(rect_w, rect_h, bevel_radius, bevel_radius, segments)
+
+  y_offset_str = value_to_string(hole_offset, precision)
+  x_incr = (right_margin_offset - left_margin_offset) / (hole_count - 1)
+
+  prev_x_offset = left_margin_offset
+  repeat (hole_count - 2), , state=(hole_cos:string, prev_x_offset):idx, {
+    x_offset = prev_x_offset + x_incr
+    co_str = string_join(':', value_to_string(x_offset, precision) ~ y_offset_str)
+    hole_cos = switch{input_type:'STRING'}(string_length(hole_cos) > 0, co_str, string_join(',', hole_cos ~ co_str))
+    prev_x_offset = x_offset
+  }(,hole_cos, prev_x_offset)
+
+  left_co_str = string_join(':', value_to_string(left_margin_offset, precision) ~ y_offset_str)
+  right_co_str = string_join(':', value_to_string(right_margin_offset, precision) ~ y_offset_str)
+  first_cos = switch{input_type:'STRING'}(hole_count > 2, left_co_str, string_join(',', left_co_str ~ hole_cos))
+  all_cos = switch{input_type:'STRING'}(hole_count > 1, hole_cos, string_join(',', first_cos ~ right_co_str))
+
+  mid_x = (right_margin_offset + left_margin_offset) / 2
+  mid_co_str = string_join(':', value_to_string(mid_x, precision) ~ y_offset_str)
+
+  hole_cos = switch{input_type:'STRING'}(hole_count > 1, mid_co_str, all_cos)
+
+  (punched_page, pos_pts, hole_edge_sel) = punch_holes(page, hole_radius, hole_cos)
+  hole_edge = input_named_attribute{data_type:'BOOLEAN'}('hole_edge_sel')
+  punched_page = merge_by_distance(join_geometry(flip_faces(punched_page) ~ extrude_mesh(punched_page, offset_scale=rect_t, individual=False)))
+  punched_page = set_shade_smooth(punched_page, !hole_edge)
+  # Subdivide page mesh for smooth bending (0 = no subdivision, current rigid behavior)
+  punched_page = subdivide_mesh(punched_page, bend_resolution)
+  pos = position()
+  punched_page = store_named_attribute{data_type:'FLOAT_VECTOR', domain:'POINT'}(punched_page, name='page_pos', value=pos)
+
+  # Check if custom_clip is provided (either as mesh or curve)
+  m_pts = attribute_domain_size{component:'MESH'}(custom_clip)[0]
+  c_pts = attribute_domain_size{component:'CURVE'}(custom_clip)[0]
+  has_custom_mesh = m_pts > 0
+  has_custom_curve = c_pts > 0
+  has_custom = has_custom_mesh | has_custom_curve
+
+  default_as_mesh = curve_to_mesh(default_clip, curve_primitive_circle(radius = connector_radius))
+  custom_as_mesh = switch{input_type:'GEOMETRY'}(has_custom_mesh, curve_to_mesh(custom_clip, curve_primitive_circle(radius = connector_radius)), custom_clip)
+  clip_to_use = switch{input_type:'GEOMETRY'}(has_custom, default_as_mesh, custom_as_mesh)
+
+  foreach{domain:'POINT'} pos_pts, ,state=(pos):idx{
+    pos_xyz = separate_xyz(pos)
+    clip_elem = transform_geometry(clip_to_use, translation=combine_xyz(pos_xyz[0], 0, 0))
+  }(clip_elem:,clips)  
+
+  pos_xyz = separate_xyz(sample_index{data_type:'FLOAT_VECTOR'}(pos_pts, position(), 0))
+  offset = combine_xyz(0, clip_orig_xyz[1] - pos_xyz[1], clip_orig_xyz[2])
+  punched_page = transform_geometry(punched_page, translation=offset)
+  punched_pages = Page_Turn(ingeom, clip_curve, punched_page, page_separation, unevenness, page_count, \
+  filled_page_count, turn_seconds, pause_seconds, start_at_frame, back_face_mat, first_mat_idx, drivingtime, reversed, rect_t, connector_radius, z_warp_factor, art_scale_x, art_scale_y, art_offset_x, art_offset_y, blank_back, bend_strength, cascade_overlap)
+
+  clips = set_shade_smooth(clips, True)
+  clip_pos = position()
+  clips = store_named_attribute{data_type:'FLOAT_VECTOR', domain:'POINT'}(clips, name='clip_pos', value=clip_pos)
+  clips = store_named_attribute{data_type:'BOOLEAN', domain:'POINT'}(clips, name='is_clip', value=True)
+  punched_pages = store_named_attribute{data_type:'BOOLEAN', domain:'POINT'}(punched_pages, name='is_clip', value=False)
+  apparatus = join_geometry(clips ~ punched_pages)
+}
+py!.op

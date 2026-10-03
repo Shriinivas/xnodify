@@ -1,0 +1,8159 @@
+{
+  "matrix_s_v_d": {
+    "bl_idname": "FunctionNodeMatrixSVD",
+    "inputs": {
+      "Matrix": {
+        "index": 0,
+        "type": "MATRIX",
+        "identifier": "Matrix"
+      }
+    },
+    "outputs": {
+      "U": {
+        "index": 0,
+        "type": "MATRIX",
+        "identifier": "U"
+      },
+      "S": {
+        "index": 1,
+        "type": "VECTOR",
+        "identifier": "S"
+      },
+      "V": {
+        "index": 2,
+        "type": "MATRIX",
+        "identifier": "V"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "FunctionNodeMatrixSVD"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Matrix SVD"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Compute the singular value decomposition of the 3x3 part of a matrix"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      }
+    }
+  },
+  "add_shader": {
+    "bl_idname": "ShaderNodeAddShader",
+    "inputs": {
+      "Shader": {
+        "index": 1,
+        "type": "SHADER",
+        "identifier": "Shader_001"
+      }
+    },
+    "outputs": {
+      "Shader": {
+        "index": 0,
+        "type": "SHADER",
+        "identifier": "Shader"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeAddShader"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Add Shader"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Add two Shaders together"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      }
+    }
+  },
+  "ambient_occlusion": {
+    "bl_idname": "ShaderNodeAmbientOcclusion",
+    "inputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      },
+      "Distance": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Distance"
+      },
+      "Normal": {
+        "index": 2,
+        "type": "VECTOR",
+        "identifier": "Normal"
+      }
+    },
+    "outputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      },
+      "AO": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "AO"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeAmbientOcclusion"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Ambient Occlusion"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Compute how much the hemisphere above the shading point is occluded, for example to add weathering effects to corners.\nNote: For Cycles, this may slow down renders significantly"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "samples": {
+        "type": "INT",
+        "default": 16
+      },
+      "inside": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "only_local": {
+        "type": "BOOLEAN",
+        "default": false
+      }
+    }
+  },
+  "attribute": {
+    "bl_idname": "ShaderNodeAttribute",
+    "inputs": {},
+    "outputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      },
+      "Vector": {
+        "index": 1,
+        "type": "VECTOR",
+        "identifier": "Vector"
+      },
+      "Factor": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Fac"
+      },
+      "Alpha": {
+        "index": 3,
+        "type": "VALUE",
+        "identifier": "Alpha"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeAttribute"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Attribute"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Retrieve attributes attached to objects or geometry"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "attribute_type": {
+        "type": "ENUM",
+        "default": "GEOMETRY"
+      },
+      "attribute_name": {
+        "type": "STRING",
+        "default": ""
+      }
+    }
+  },
+  "background": {
+    "bl_idname": "ShaderNodeBackground",
+    "inputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      },
+      "Strength": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Strength"
+      },
+      "Weight": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Weight"
+      }
+    },
+    "outputs": {
+      "Background": {
+        "index": 0,
+        "type": "SHADER",
+        "identifier": "Background"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeBackground"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Background"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Add background light emission.\nNote: This node should only be used for the world surface output"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      }
+    }
+  },
+  "bevel": {
+    "bl_idname": "ShaderNodeBevel",
+    "inputs": {
+      "Radius": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Radius"
+      },
+      "Normal": {
+        "index": 1,
+        "type": "VECTOR",
+        "identifier": "Normal"
+      }
+    },
+    "outputs": {
+      "Normal": {
+        "index": 0,
+        "type": "VECTOR",
+        "identifier": "Normal"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeBevel"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Bevel"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Generates normals with round corners.\nNote: only supported in Cycles, and may slow down renders"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "samples": {
+        "type": "INT",
+        "default": 4
+      }
+    }
+  },
+  "bright_contrast": {
+    "bl_idname": "ShaderNodeBrightContrast",
+    "inputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      },
+      "Brightness": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Bright"
+      },
+      "Contrast": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Contrast"
+      }
+    },
+    "outputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeBrightContrast"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Brightness/Contrast"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Control the brightness and contrast of the input color"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      }
+    }
+  },
+  "bsdf_anisotropic": {
+    "bl_idname": "ShaderNodeBsdfAnisotropic",
+    "inputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      },
+      "Roughness": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Roughness"
+      },
+      "Anisotropy": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Anisotropy"
+      },
+      "Rotation": {
+        "index": 3,
+        "type": "VALUE",
+        "identifier": "Rotation"
+      },
+      "Normal": {
+        "index": 4,
+        "type": "VECTOR",
+        "identifier": "Normal"
+      },
+      "Tangent": {
+        "index": 5,
+        "type": "VECTOR",
+        "identifier": "Tangent"
+      },
+      "Weight": {
+        "index": 6,
+        "type": "VALUE",
+        "identifier": "Weight"
+      }
+    },
+    "outputs": {
+      "BSDF": {
+        "index": 0,
+        "type": "SHADER",
+        "identifier": "BSDF"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeBsdfAnisotropic"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Glossy BSDF"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Reflection with microfacet distribution, used for materials such as metal or mirrors"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 150.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 120.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "distribution": {
+        "type": "ENUM",
+        "default": "MULTI_GGX"
+      }
+    }
+  },
+  "bsdf_diffuse": {
+    "bl_idname": "ShaderNodeBsdfDiffuse",
+    "inputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      },
+      "Roughness": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Roughness"
+      },
+      "Normal": {
+        "index": 2,
+        "type": "VECTOR",
+        "identifier": "Normal"
+      },
+      "Weight": {
+        "index": 3,
+        "type": "VALUE",
+        "identifier": "Weight"
+      }
+    },
+    "outputs": {
+      "BSDF": {
+        "index": 0,
+        "type": "SHADER",
+        "identifier": "BSDF"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeBsdfDiffuse"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Diffuse BSDF"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Lambertian and Oren-Nayar diffuse reflection"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 150.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 120.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      }
+    }
+  },
+  "bsdf_glass": {
+    "bl_idname": "ShaderNodeBsdfGlass",
+    "inputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      },
+      "Roughness": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Roughness"
+      },
+      "IOR": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "IOR"
+      },
+      "Normal": {
+        "index": 3,
+        "type": "VECTOR",
+        "identifier": "Normal"
+      },
+      "Weight": {
+        "index": 4,
+        "type": "VALUE",
+        "identifier": "Weight"
+      },
+      "Thin Film Thickness": {
+        "index": 5,
+        "type": "VALUE",
+        "identifier": "Thin Film Thickness"
+      },
+      "Thin Film IOR": {
+        "index": 6,
+        "type": "VALUE",
+        "identifier": "Thin Film IOR"
+      }
+    },
+    "outputs": {
+      "BSDF": {
+        "index": 0,
+        "type": "SHADER",
+        "identifier": "BSDF"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeBsdfGlass"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Glass BSDF"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Glass-like shader mixing refraction and reflection at grazing angles"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 150.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 120.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "distribution": {
+        "type": "ENUM",
+        "default": "MULTI_GGX"
+      }
+    }
+  },
+  "bsdf_hair": {
+    "bl_idname": "ShaderNodeBsdfHair",
+    "inputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      },
+      "Offset": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Offset"
+      },
+      "RoughnessU": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "RoughnessU"
+      },
+      "RoughnessV": {
+        "index": 3,
+        "type": "VALUE",
+        "identifier": "RoughnessV"
+      },
+      "Tangent": {
+        "index": 4,
+        "type": "VECTOR",
+        "identifier": "Tangent"
+      },
+      "Weight": {
+        "index": 5,
+        "type": "VALUE",
+        "identifier": "Weight"
+      }
+    },
+    "outputs": {
+      "BSDF": {
+        "index": 0,
+        "type": "SHADER",
+        "identifier": "BSDF"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeBsdfHair"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Hair BSDF"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Reflection and transmission shaders optimized for hair rendering"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 150.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 60.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 200.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "component": {
+        "type": "ENUM",
+        "default": "Reflection"
+      }
+    }
+  },
+  "bsdf_hair_principled": {
+    "bl_idname": "ShaderNodeBsdfHairPrincipled",
+    "inputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      },
+      "Melanin": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Melanin"
+      },
+      "Melanin Redness": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Melanin Redness"
+      },
+      "Tint": {
+        "index": 3,
+        "type": "RGBA",
+        "identifier": "Tint"
+      },
+      "Absorption Coefficient": {
+        "index": 4,
+        "type": "VECTOR",
+        "identifier": "Absorption Coefficient"
+      },
+      "Aspect Ratio": {
+        "index": 5,
+        "type": "VALUE",
+        "identifier": "Aspect Ratio"
+      },
+      "Roughness": {
+        "index": 6,
+        "type": "VALUE",
+        "identifier": "Roughness"
+      },
+      "Radial Roughness": {
+        "index": 7,
+        "type": "VALUE",
+        "identifier": "Radial Roughness"
+      },
+      "Coat": {
+        "index": 8,
+        "type": "VALUE",
+        "identifier": "Coat"
+      },
+      "IOR": {
+        "index": 9,
+        "type": "VALUE",
+        "identifier": "IOR"
+      },
+      "Offset": {
+        "index": 10,
+        "type": "VALUE",
+        "identifier": "Offset"
+      },
+      "Random Color": {
+        "index": 11,
+        "type": "VALUE",
+        "identifier": "Random Color"
+      },
+      "Random Roughness": {
+        "index": 12,
+        "type": "VALUE",
+        "identifier": "Random Roughness"
+      },
+      "Random": {
+        "index": 13,
+        "type": "VALUE",
+        "identifier": "Random"
+      },
+      "Weight": {
+        "index": 14,
+        "type": "VALUE",
+        "identifier": "Weight"
+      },
+      "Reflection": {
+        "index": 15,
+        "type": "VALUE",
+        "identifier": "R lobe"
+      },
+      "Transmission": {
+        "index": 16,
+        "type": "VALUE",
+        "identifier": "TT lobe"
+      },
+      "Secondary Reflection": {
+        "index": 17,
+        "type": "VALUE",
+        "identifier": "TRT lobe"
+      }
+    },
+    "outputs": {
+      "BSDF": {
+        "index": 0,
+        "type": "SHADER",
+        "identifier": "BSDF"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeBsdfHairPrincipled"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Principled Hair BSDF"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Physically-based, easy-to-use shader for rendering hair and fur"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 240.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "model": {
+        "type": "ENUM",
+        "default": "CHIANG"
+      },
+      "parametrization": {
+        "type": "ENUM",
+        "default": "COLOR"
+      }
+    }
+  },
+  "bsdf_metallic": {
+    "bl_idname": "ShaderNodeBsdfMetallic",
+    "inputs": {
+      "Base Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Base Color"
+      },
+      "Edge Tint": {
+        "index": 1,
+        "type": "RGBA",
+        "identifier": "Edge Tint"
+      },
+      "IOR": {
+        "index": 2,
+        "type": "VECTOR",
+        "identifier": "IOR"
+      },
+      "Extinction": {
+        "index": 3,
+        "type": "VECTOR",
+        "identifier": "Extinction"
+      },
+      "Roughness": {
+        "index": 4,
+        "type": "VALUE",
+        "identifier": "Roughness"
+      },
+      "Anisotropy": {
+        "index": 5,
+        "type": "VALUE",
+        "identifier": "Anisotropy"
+      },
+      "Rotation": {
+        "index": 6,
+        "type": "VALUE",
+        "identifier": "Rotation"
+      },
+      "Normal": {
+        "index": 7,
+        "type": "VECTOR",
+        "identifier": "Normal"
+      },
+      "Tangent": {
+        "index": 8,
+        "type": "VECTOR",
+        "identifier": "Tangent"
+      },
+      "Weight": {
+        "index": 9,
+        "type": "VALUE",
+        "identifier": "Weight"
+      },
+      "Thin Film Thickness": {
+        "index": 10,
+        "type": "VALUE",
+        "identifier": "Thin Film Thickness"
+      },
+      "Thin Film IOR": {
+        "index": 11,
+        "type": "VALUE",
+        "identifier": "Thin Film IOR"
+      }
+    },
+    "outputs": {
+      "BSDF": {
+        "index": 0,
+        "type": "SHADER",
+        "identifier": "BSDF"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeBsdfMetallic"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Metallic BSDF"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Metallic reflection with microfacet distribution, and metallic fresnel"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 240.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "distribution": {
+        "type": "ENUM",
+        "default": "MULTI_GGX"
+      },
+      "fresnel_type": {
+        "type": "ENUM",
+        "default": "F82"
+      }
+    }
+  },
+  "bsdf_principled": {
+    "bl_idname": "ShaderNodeBsdfPrincipled",
+    "inputs": {
+      "Base Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Base Color"
+      },
+      "Metallic": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Metallic"
+      },
+      "Roughness": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Roughness"
+      },
+      "IOR": {
+        "index": 3,
+        "type": "VALUE",
+        "identifier": "IOR"
+      },
+      "Alpha": {
+        "index": 4,
+        "type": "VALUE",
+        "identifier": "Alpha"
+      },
+      "Normal": {
+        "index": 5,
+        "type": "VECTOR",
+        "identifier": "Normal"
+      },
+      "Weight": {
+        "index": 6,
+        "type": "VALUE",
+        "identifier": "Weight"
+      },
+      "Diffuse Roughness": {
+        "index": 7,
+        "type": "VALUE",
+        "identifier": "Diffuse Roughness"
+      },
+      "Subsurface Weight": {
+        "index": 8,
+        "type": "VALUE",
+        "identifier": "Subsurface Weight"
+      },
+      "Subsurface Radius": {
+        "index": 9,
+        "type": "VECTOR",
+        "identifier": "Subsurface Radius"
+      },
+      "Subsurface Scale": {
+        "index": 10,
+        "type": "VALUE",
+        "identifier": "Subsurface Scale"
+      },
+      "Subsurface IOR": {
+        "index": 11,
+        "type": "VALUE",
+        "identifier": "Subsurface IOR"
+      },
+      "Subsurface Anisotropy": {
+        "index": 12,
+        "type": "VALUE",
+        "identifier": "Subsurface Anisotropy"
+      },
+      "Specular IOR Level": {
+        "index": 13,
+        "type": "VALUE",
+        "identifier": "Specular IOR Level"
+      },
+      "Specular Tint": {
+        "index": 14,
+        "type": "RGBA",
+        "identifier": "Specular Tint"
+      },
+      "Anisotropic": {
+        "index": 15,
+        "type": "VALUE",
+        "identifier": "Anisotropic"
+      },
+      "Anisotropic Rotation": {
+        "index": 16,
+        "type": "VALUE",
+        "identifier": "Anisotropic Rotation"
+      },
+      "Tangent": {
+        "index": 17,
+        "type": "VECTOR",
+        "identifier": "Tangent"
+      },
+      "Transmission Weight": {
+        "index": 18,
+        "type": "VALUE",
+        "identifier": "Transmission Weight"
+      },
+      "Coat Weight": {
+        "index": 19,
+        "type": "VALUE",
+        "identifier": "Coat Weight"
+      },
+      "Coat Roughness": {
+        "index": 20,
+        "type": "VALUE",
+        "identifier": "Coat Roughness"
+      },
+      "Coat IOR": {
+        "index": 21,
+        "type": "VALUE",
+        "identifier": "Coat IOR"
+      },
+      "Coat Tint": {
+        "index": 22,
+        "type": "RGBA",
+        "identifier": "Coat Tint"
+      },
+      "Coat Normal": {
+        "index": 23,
+        "type": "VECTOR",
+        "identifier": "Coat Normal"
+      },
+      "Sheen Weight": {
+        "index": 24,
+        "type": "VALUE",
+        "identifier": "Sheen Weight"
+      },
+      "Sheen Roughness": {
+        "index": 25,
+        "type": "VALUE",
+        "identifier": "Sheen Roughness"
+      },
+      "Sheen Tint": {
+        "index": 26,
+        "type": "RGBA",
+        "identifier": "Sheen Tint"
+      },
+      "Emission Color": {
+        "index": 27,
+        "type": "RGBA",
+        "identifier": "Emission Color"
+      },
+      "Emission Strength": {
+        "index": 28,
+        "type": "VALUE",
+        "identifier": "Emission Strength"
+      },
+      "Thin Film Thickness": {
+        "index": 29,
+        "type": "VALUE",
+        "identifier": "Thin Film Thickness"
+      },
+      "Thin Film IOR": {
+        "index": 30,
+        "type": "VALUE",
+        "identifier": "Thin Film IOR"
+      }
+    },
+    "outputs": {
+      "BSDF": {
+        "index": 0,
+        "type": "SHADER",
+        "identifier": "BSDF"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeBsdfPrincipled"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Principled BSDF"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Physically-based, easy-to-use shader for rendering surface materials, based on the OpenPBR model"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 240.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "distribution": {
+        "type": "ENUM",
+        "default": "MULTI_GGX"
+      },
+      "subsurface_method": {
+        "type": "ENUM",
+        "default": "RANDOM_WALK"
+      }
+    }
+  },
+  "bsdf_ray_portal": {
+    "bl_idname": "ShaderNodeBsdfRayPortal",
+    "inputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      },
+      "Position": {
+        "index": 1,
+        "type": "VECTOR",
+        "identifier": "Position"
+      },
+      "Direction": {
+        "index": 2,
+        "type": "VECTOR",
+        "identifier": "Direction"
+      },
+      "Weight": {
+        "index": 3,
+        "type": "VALUE",
+        "identifier": "Weight"
+      }
+    },
+    "outputs": {
+      "BSDF": {
+        "index": 0,
+        "type": "SHADER",
+        "identifier": "BSDF"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeBsdfRayPortal"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Ray Portal BSDF"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Continue tracing from an arbitrary new position and in a new direction"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      }
+    }
+  },
+  "bsdf_refraction": {
+    "bl_idname": "ShaderNodeBsdfRefraction",
+    "inputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      },
+      "Roughness": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Roughness"
+      },
+      "IOR": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "IOR"
+      },
+      "Normal": {
+        "index": 3,
+        "type": "VECTOR",
+        "identifier": "Normal"
+      },
+      "Weight": {
+        "index": 4,
+        "type": "VALUE",
+        "identifier": "Weight"
+      }
+    },
+    "outputs": {
+      "BSDF": {
+        "index": 0,
+        "type": "SHADER",
+        "identifier": "BSDF"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeBsdfRefraction"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Refraction BSDF"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Glossy refraction with sharp or microfacet distribution, typically used for materials that transmit light"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 150.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 120.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "distribution": {
+        "type": "ENUM",
+        "default": "BECKMANN"
+      }
+    }
+  },
+  "bsdf_sheen": {
+    "bl_idname": "ShaderNodeBsdfSheen",
+    "inputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      },
+      "Roughness": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Roughness"
+      },
+      "Normal": {
+        "index": 2,
+        "type": "VECTOR",
+        "identifier": "Normal"
+      },
+      "Weight": {
+        "index": 3,
+        "type": "VALUE",
+        "identifier": "Weight"
+      }
+    },
+    "outputs": {
+      "BSDF": {
+        "index": 0,
+        "type": "SHADER",
+        "identifier": "BSDF"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeBsdfSheen"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Sheen BSDF"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Reflection for materials such as cloth.\nTypically mixed with other shaders (such as a Diffuse Shader) and is not particularly useful on its own"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "distribution": {
+        "type": "ENUM",
+        "default": "MICROFIBER"
+      }
+    }
+  },
+  "bsdf_toon": {
+    "bl_idname": "ShaderNodeBsdfToon",
+    "inputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      },
+      "Size": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Size"
+      },
+      "Smooth": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Smooth"
+      },
+      "Normal": {
+        "index": 3,
+        "type": "VECTOR",
+        "identifier": "Normal"
+      },
+      "Weight": {
+        "index": 4,
+        "type": "VALUE",
+        "identifier": "Weight"
+      }
+    },
+    "outputs": {
+      "BSDF": {
+        "index": 0,
+        "type": "SHADER",
+        "identifier": "BSDF"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeBsdfToon"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Toon BSDF"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Diffuse and Glossy shaders with cartoon light effects"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 150.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 120.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "component": {
+        "type": "ENUM",
+        "default": "DIFFUSE"
+      }
+    }
+  },
+  "bsdf_translucent": {
+    "bl_idname": "ShaderNodeBsdfTranslucent",
+    "inputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      },
+      "Normal": {
+        "index": 1,
+        "type": "VECTOR",
+        "identifier": "Normal"
+      },
+      "Weight": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Weight"
+      }
+    },
+    "outputs": {
+      "BSDF": {
+        "index": 0,
+        "type": "SHADER",
+        "identifier": "BSDF"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeBsdfTranslucent"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Translucent BSDF"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Lambertian diffuse transmission"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      }
+    }
+  },
+  "bsdf_transparent": {
+    "bl_idname": "ShaderNodeBsdfTransparent",
+    "inputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      },
+      "Weight": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Weight"
+      }
+    },
+    "outputs": {
+      "BSDF": {
+        "index": 0,
+        "type": "SHADER",
+        "identifier": "BSDF"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeBsdfTransparent"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Transparent BSDF"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Transparency without refraction, passing straight through the surface as if there were no geometry"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      }
+    }
+  },
+  "bump": {
+    "bl_idname": "ShaderNodeBump",
+    "inputs": {
+      "Strength": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Strength"
+      },
+      "Distance": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Distance"
+      },
+      "Filter Width": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Filter Width"
+      },
+      "Height": {
+        "index": 3,
+        "type": "VALUE",
+        "identifier": "Height"
+      },
+      "Normal": {
+        "index": 4,
+        "type": "VECTOR",
+        "identifier": "Normal"
+      }
+    },
+    "outputs": {
+      "Normal": {
+        "index": 0,
+        "type": "VECTOR",
+        "identifier": "Normal"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeBump"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Bump"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Generate a perturbed normal from a height texture for bump mapping. Typically used for faking highly detailed surfaces"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "invert": {
+        "type": "BOOLEAN",
+        "default": false
+      }
+    }
+  },
+  "camera_data": {
+    "bl_idname": "ShaderNodeCameraData",
+    "inputs": {},
+    "outputs": {
+      "View Vector": {
+        "index": 0,
+        "type": "VECTOR",
+        "identifier": "View Vector"
+      },
+      "View Z Depth": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "View Z Depth"
+      },
+      "View Distance": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "View Distance"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeCameraData"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Camera Data"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Retrieve information about the camera and how it relates to the current shading point's position"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      }
+    }
+  },
+  "shader_combine_color": {
+    "bl_idname": "ShaderNodeCombineColor",
+    "inputs": {
+      "Red": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Red"
+      },
+      "Green": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Green"
+      },
+      "Blue": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Blue"
+      }
+    },
+    "outputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeCombineColor"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Combine Color"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Create a color from individual components using multiple models"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "mode": {
+        "type": "ENUM",
+        "default": "RGB"
+      }
+    }
+  },
+  "displacement": {
+    "bl_idname": "ShaderNodeDisplacement",
+    "inputs": {
+      "Height": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Height"
+      },
+      "Midlevel": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Midlevel"
+      },
+      "Scale": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Scale"
+      },
+      "Normal": {
+        "index": 3,
+        "type": "VECTOR",
+        "identifier": "Normal"
+      }
+    },
+    "outputs": {
+      "Displacement": {
+        "index": 0,
+        "type": "VECTOR",
+        "identifier": "Displacement"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeDisplacement"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Displacement"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Displace the surface along the surface normal"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "space": {
+        "type": "ENUM",
+        "default": "OBJECT"
+      }
+    }
+  },
+  "eevee_specular": {
+    "bl_idname": "ShaderNodeEeveeSpecular",
+    "inputs": {
+      "Base Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Base Color"
+      },
+      "Specular": {
+        "index": 1,
+        "type": "RGBA",
+        "identifier": "Specular"
+      },
+      "Roughness": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Roughness"
+      },
+      "Emissive Color": {
+        "index": 3,
+        "type": "RGBA",
+        "identifier": "Emissive Color"
+      },
+      "Transparency": {
+        "index": 4,
+        "type": "VALUE",
+        "identifier": "Transparency"
+      },
+      "Normal": {
+        "index": 5,
+        "type": "VECTOR",
+        "identifier": "Normal"
+      },
+      "Clear Coat": {
+        "index": 6,
+        "type": "VALUE",
+        "identifier": "Clear Coat"
+      },
+      "Clear Coat Roughness": {
+        "index": 7,
+        "type": "VALUE",
+        "identifier": "Clear Coat Roughness"
+      },
+      "Clear Coat Normal": {
+        "index": 8,
+        "type": "VECTOR",
+        "identifier": "Clear Coat Normal"
+      },
+      "Weight": {
+        "index": 9,
+        "type": "VALUE",
+        "identifier": "Weight"
+      }
+    },
+    "outputs": {
+      "BSDF": {
+        "index": 0,
+        "type": "SHADER",
+        "identifier": "BSDF"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeEeveeSpecular"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Specular BSDF"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Similar to the Principled BSDF node but uses the specular workflow instead of metallic, which functions by specifying the facing (along normal) reflection color. Energy is not conserved, so the result may not be physically accurate"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      }
+    }
+  },
+  "emission": {
+    "bl_idname": "ShaderNodeEmission",
+    "inputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      },
+      "Strength": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Strength"
+      },
+      "Weight": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Weight"
+      }
+    },
+    "outputs": {
+      "Emission": {
+        "index": 0,
+        "type": "SHADER",
+        "identifier": "Emission"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeEmission"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Emission"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Lambertian emission shader"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      }
+    }
+  },
+  "fresnel": {
+    "bl_idname": "ShaderNodeFresnel",
+    "inputs": {
+      "IOR": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "IOR"
+      },
+      "Normal": {
+        "index": 1,
+        "type": "VECTOR",
+        "identifier": "Normal"
+      }
+    },
+    "outputs": {
+      "Factor": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Fac"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeFresnel"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Fresnel"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Produce a blending factor depending on the angle between the surface normal and the view direction using Fresnel equations.\nTypically used for mixing reflections at grazing angles"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      }
+    }
+  },
+  "shader_group": {
+    "bl_idname": "ShaderNodeGroup",
+    "inputs": {},
+    "outputs": {},
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeGroup"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Group"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": ""
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 60.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "node_tree": {
+        "type": "POINTER",
+        "default": null
+      }
+    }
+  },
+  "hair_info": {
+    "bl_idname": "ShaderNodeHairInfo",
+    "inputs": {},
+    "outputs": {
+      "Is Strand": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Is Strand"
+      },
+      "Intercept": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Intercept"
+      },
+      "Length": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Length"
+      },
+      "Thickness": {
+        "index": 3,
+        "type": "VALUE",
+        "identifier": "Thickness"
+      },
+      "Tangent Normal": {
+        "index": 4,
+        "type": "VECTOR",
+        "identifier": "Tangent Normal"
+      },
+      "Random": {
+        "index": 5,
+        "type": "VALUE",
+        "identifier": "Random"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeHairInfo"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Curves Info"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Retrieve hair curve information"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      }
+    }
+  },
+  "holdout": {
+    "bl_idname": "ShaderNodeHoldout",
+    "inputs": {
+      "Weight": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Weight"
+      }
+    },
+    "outputs": {
+      "Holdout": {
+        "index": 0,
+        "type": "SHADER",
+        "identifier": "Holdout"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeHoldout"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Holdout"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Create a \"hole\" in the image with zero alpha transparency, which is useful for compositing.\nNote: the holdout shader can only create alpha when transparency is enabled in the film settings"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      }
+    }
+  },
+  "hue_saturation": {
+    "bl_idname": "ShaderNodeHueSaturation",
+    "inputs": {
+      "Hue": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Hue"
+      },
+      "Saturation": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Saturation"
+      },
+      "Value": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Value"
+      },
+      "Factor": {
+        "index": 3,
+        "type": "VALUE",
+        "identifier": "Fac"
+      },
+      "Color": {
+        "index": 4,
+        "type": "RGBA",
+        "identifier": "Color"
+      }
+    },
+    "outputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeHueSaturation"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Hue/Saturation/Value"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Apply a color transformation in the HSV color model"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 150.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 120.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      }
+    }
+  },
+  "invert": {
+    "bl_idname": "ShaderNodeInvert",
+    "inputs": {
+      "Factor": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Fac"
+      },
+      "Color": {
+        "index": 1,
+        "type": "RGBA",
+        "identifier": "Color"
+      }
+    },
+    "outputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeInvert"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Invert Color"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Invert a color, producing a negative"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      }
+    }
+  },
+  "layer_weight": {
+    "bl_idname": "ShaderNodeLayerWeight",
+    "inputs": {
+      "Blend": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Blend"
+      },
+      "Normal": {
+        "index": 1,
+        "type": "VECTOR",
+        "identifier": "Normal"
+      }
+    },
+    "outputs": {
+      "Fresnel": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Fresnel"
+      },
+      "Facing": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Facing"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeLayerWeight"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Layer Weight"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Produce a blending factor depending on the angle between the surface normal and the view direction.\nTypically used for layering shaders with the Mix Shader node"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      }
+    }
+  },
+  "light_falloff": {
+    "bl_idname": "ShaderNodeLightFalloff",
+    "inputs": {
+      "Strength": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Strength"
+      },
+      "Smooth": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Smooth"
+      }
+    },
+    "outputs": {
+      "Quadratic": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Quadratic"
+      },
+      "Linear": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Linear"
+      },
+      "Constant": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Constant"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeLightFalloff"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Light Falloff"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Manipulate how light intensity decreases over distance. Typically used for non-physically-based effects; in reality light always falls off quadratically"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 150.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 120.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      }
+    }
+  },
+  "light_path": {
+    "bl_idname": "ShaderNodeLightPath",
+    "inputs": {},
+    "outputs": {
+      "Is Camera Ray": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Is Camera Ray"
+      },
+      "Is Shadow Ray": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Is Shadow Ray"
+      },
+      "Is Diffuse Ray": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Is Diffuse Ray"
+      },
+      "Is Glossy Ray": {
+        "index": 3,
+        "type": "VALUE",
+        "identifier": "Is Glossy Ray"
+      },
+      "Is Singular Ray": {
+        "index": 4,
+        "type": "VALUE",
+        "identifier": "Is Singular Ray"
+      },
+      "Is Reflection Ray": {
+        "index": 5,
+        "type": "VALUE",
+        "identifier": "Is Reflection Ray"
+      },
+      "Is Transmission Ray": {
+        "index": 6,
+        "type": "VALUE",
+        "identifier": "Is Transmission Ray"
+      },
+      "Is Volume Scatter Ray": {
+        "index": 7,
+        "type": "VALUE",
+        "identifier": "Is Volume Scatter Ray"
+      },
+      "Ray Length": {
+        "index": 8,
+        "type": "VALUE",
+        "identifier": "Ray Length"
+      },
+      "Ray Depth": {
+        "index": 9,
+        "type": "VALUE",
+        "identifier": "Ray Depth"
+      },
+      "Diffuse Depth": {
+        "index": 10,
+        "type": "VALUE",
+        "identifier": "Diffuse Depth"
+      },
+      "Glossy Depth": {
+        "index": 11,
+        "type": "VALUE",
+        "identifier": "Glossy Depth"
+      },
+      "Transparent Depth": {
+        "index": 12,
+        "type": "VALUE",
+        "identifier": "Transparent Depth"
+      },
+      "Transmission Depth": {
+        "index": 13,
+        "type": "VALUE",
+        "identifier": "Transmission Depth"
+      },
+      "Portal Depth": {
+        "index": 14,
+        "type": "VALUE",
+        "identifier": "Portal Depth"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeLightPath"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Light Path"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Retrieve the type of incoming ray for which the shader is being executed.\nTypically used for non-physically-based tricks"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      }
+    }
+  },
+  "mapping": {
+    "bl_idname": "ShaderNodeMapping",
+    "inputs": {
+      "Vector": {
+        "index": 0,
+        "type": "VECTOR",
+        "identifier": "Vector"
+      },
+      "Location": {
+        "index": 1,
+        "type": "VECTOR",
+        "identifier": "Location"
+      },
+      "Rotation": {
+        "index": 2,
+        "type": "VECTOR",
+        "identifier": "Rotation"
+      },
+      "Scale": {
+        "index": 3,
+        "type": "VECTOR",
+        "identifier": "Scale"
+      }
+    },
+    "outputs": {
+      "Vector": {
+        "index": 0,
+        "type": "VECTOR",
+        "identifier": "Vector"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeMapping"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Mapping"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Transform the input vector by applying translation, rotation, and scale"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "vector_type": {
+        "type": "ENUM",
+        "default": "POINT"
+      }
+    }
+  },
+  "mix_shader": {
+    "bl_idname": "ShaderNodeMixShader",
+    "inputs": {
+      "Factor": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Fac"
+      },
+      "Shader": {
+        "index": 2,
+        "type": "SHADER",
+        "identifier": "Shader_001"
+      }
+    },
+    "outputs": {
+      "Shader": {
+        "index": 0,
+        "type": "SHADER",
+        "identifier": "Shader"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeMixShader"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Mix Shader"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Mix two shaders together. Typically used for material layering"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      }
+    }
+  },
+  "new_geometry": {
+    "bl_idname": "ShaderNodeNewGeometry",
+    "inputs": {},
+    "outputs": {
+      "Position": {
+        "index": 0,
+        "type": "VECTOR",
+        "identifier": "Position"
+      },
+      "Normal": {
+        "index": 1,
+        "type": "VECTOR",
+        "identifier": "Normal"
+      },
+      "Tangent": {
+        "index": 2,
+        "type": "VECTOR",
+        "identifier": "Tangent"
+      },
+      "True Normal": {
+        "index": 3,
+        "type": "VECTOR",
+        "identifier": "True Normal"
+      },
+      "Incoming": {
+        "index": 4,
+        "type": "VECTOR",
+        "identifier": "Incoming"
+      },
+      "Parametric": {
+        "index": 5,
+        "type": "VECTOR",
+        "identifier": "Parametric"
+      },
+      "Backfacing": {
+        "index": 6,
+        "type": "VALUE",
+        "identifier": "Backfacing"
+      },
+      "Pointiness": {
+        "index": 7,
+        "type": "VALUE",
+        "identifier": "Pointiness"
+      },
+      "Random Per Island": {
+        "index": 8,
+        "type": "VALUE",
+        "identifier": "Random Per Island"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeNewGeometry"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Geometry"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Retrieve geometric information about the current shading point"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      }
+    }
+  },
+  "shader_normal": {
+    "bl_idname": "ShaderNodeNormal",
+    "inputs": {
+      "Normal": {
+        "index": 0,
+        "type": "VECTOR",
+        "identifier": "Normal"
+      }
+    },
+    "outputs": {
+      "Normal": {
+        "index": 0,
+        "type": "VECTOR",
+        "identifier": "Normal"
+      },
+      "Dot": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Dot"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeNormal"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Normal"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Generate a normal vector and a dot product"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      }
+    }
+  },
+  "normal_map": {
+    "bl_idname": "ShaderNodeNormalMap",
+    "inputs": {
+      "Strength": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Strength"
+      },
+      "Color": {
+        "index": 1,
+        "type": "RGBA",
+        "identifier": "Color"
+      }
+    },
+    "outputs": {
+      "Normal": {
+        "index": 0,
+        "type": "VECTOR",
+        "identifier": "Normal"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeNormalMap"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Normal Map"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Generate a perturbed normal from an RGB normal map image. Typically used for faking highly detailed surfaces"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 150.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 120.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "space": {
+        "type": "ENUM",
+        "default": "TANGENT"
+      },
+      "uv_map": {
+        "type": "STRING",
+        "default": ""
+      },
+      "convention": {
+        "type": "ENUM",
+        "default": "OPENGL"
+      },
+      "base": {
+        "type": "ENUM",
+        "default": "DISPLACED"
+      }
+    }
+  },
+  "shader_object_info": {
+    "bl_idname": "ShaderNodeObjectInfo",
+    "inputs": {},
+    "outputs": {
+      "Location": {
+        "index": 0,
+        "type": "VECTOR",
+        "identifier": "Location"
+      },
+      "Color": {
+        "index": 1,
+        "type": "RGBA",
+        "identifier": "Color"
+      },
+      "Alpha": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Alpha"
+      },
+      "Object Index": {
+        "index": 3,
+        "type": "VALUE",
+        "identifier": "Object Index"
+      },
+      "Material Index": {
+        "index": 4,
+        "type": "VALUE",
+        "identifier": "Material Index"
+      },
+      "Random": {
+        "index": 5,
+        "type": "VALUE",
+        "identifier": "Random"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeObjectInfo"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Object Info"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Retrieve information about the object instance"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      }
+    }
+  },
+  "output_aov": {
+    "bl_idname": "ShaderNodeOutputAOV",
+    "inputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      },
+      "Value": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Value"
+      }
+    },
+    "outputs": {},
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeOutputAOV"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "AOV Output"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Arbitrary Output Variables.\nProvide custom render passes for arbitrary shader node outputs"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "aov_name": {
+        "type": "STRING",
+        "default": ""
+      }
+    }
+  },
+  "output_light": {
+    "bl_idname": "ShaderNodeOutputLight",
+    "inputs": {
+      "Surface": {
+        "index": 0,
+        "type": "SHADER",
+        "identifier": "Surface"
+      }
+    },
+    "outputs": {},
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeOutputLight"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Light Output"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Output light information to a light object"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "is_active_output": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "target": {
+        "type": "ENUM",
+        "default": "ALL"
+      }
+    }
+  },
+  "output_line_style": {
+    "bl_idname": "ShaderNodeOutputLineStyle",
+    "inputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      },
+      "Color Fac": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Color Fac"
+      },
+      "Alpha": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Alpha"
+      },
+      "Alpha Fac": {
+        "index": 3,
+        "type": "VALUE",
+        "identifier": "Alpha Fac"
+      }
+    },
+    "outputs": {},
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeOutputLineStyle"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Line Style Output"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Control the mixing of texture information into the base color of line styles"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "is_active_output": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "target": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "blend_type": {
+        "type": "ENUM",
+        "default": "MIX"
+      },
+      "use_alpha": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "use_clamp": {
+        "type": "BOOLEAN",
+        "default": false
+      }
+    }
+  },
+  "output_material": {
+    "bl_idname": "ShaderNodeOutputMaterial",
+    "inputs": {
+      "Surface": {
+        "index": 0,
+        "type": "SHADER",
+        "identifier": "Surface"
+      },
+      "Volume": {
+        "index": 1,
+        "type": "SHADER",
+        "identifier": "Volume"
+      },
+      "Displacement": {
+        "index": 2,
+        "type": "VECTOR",
+        "identifier": "Displacement"
+      },
+      "Thickness": {
+        "index": 3,
+        "type": "VALUE",
+        "identifier": "Thickness"
+      }
+    },
+    "outputs": {},
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeOutputMaterial"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Material Output"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Output surface material information for use in rendering"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "is_active_output": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "target": {
+        "type": "ENUM",
+        "default": "ALL"
+      }
+    }
+  },
+  "output_world": {
+    "bl_idname": "ShaderNodeOutputWorld",
+    "inputs": {
+      "Surface": {
+        "index": 0,
+        "type": "SHADER",
+        "identifier": "Surface"
+      },
+      "Volume": {
+        "index": 1,
+        "type": "SHADER",
+        "identifier": "Volume"
+      }
+    },
+    "outputs": {},
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeOutputWorld"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "World Output"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Output light color information to the scene's World"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "is_active_output": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "target": {
+        "type": "ENUM",
+        "default": "ALL"
+      }
+    }
+  },
+  "particle_info": {
+    "bl_idname": "ShaderNodeParticleInfo",
+    "inputs": {},
+    "outputs": {
+      "Index": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Index"
+      },
+      "Random": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Random"
+      },
+      "Age": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Age"
+      },
+      "Lifetime": {
+        "index": 3,
+        "type": "VALUE",
+        "identifier": "Lifetime"
+      },
+      "Location": {
+        "index": 4,
+        "type": "VECTOR",
+        "identifier": "Location"
+      },
+      "Size": {
+        "index": 5,
+        "type": "VALUE",
+        "identifier": "Size"
+      },
+      "Velocity": {
+        "index": 6,
+        "type": "VECTOR",
+        "identifier": "Velocity"
+      },
+      "Angular Velocity": {
+        "index": 7,
+        "type": "VECTOR",
+        "identifier": "Angular Velocity"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeParticleInfo"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Particle Info"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Retrieve the data of the particle that spawned the object instance, for example to give variation to multiple instances of an object"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      }
+    }
+  },
+  "point_info": {
+    "bl_idname": "ShaderNodePointInfo",
+    "inputs": {},
+    "outputs": {
+      "Position": {
+        "index": 0,
+        "type": "VECTOR",
+        "identifier": "Position"
+      },
+      "Radius": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Radius"
+      },
+      "Random": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Random"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodePointInfo"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Point Info"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Retrieve information about points in a point cloud"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      }
+    }
+  },
+  "rgb": {
+    "bl_idname": "ShaderNodeRGB",
+    "inputs": {},
+    "outputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeRGB"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Color"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "A color picker"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      }
+    }
+  },
+  "rgb_to_bw": {
+    "bl_idname": "ShaderNodeRGBToBW",
+    "inputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      }
+    },
+    "outputs": {
+      "Val": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Val"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeRGBToBW"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "RGB to BW"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Convert a color's luminance to a grayscale value"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      }
+    }
+  },
+  "shader_raycast": {
+    "bl_idname": "ShaderNodeRaycast",
+    "inputs": {
+      "Position": {
+        "index": 0,
+        "type": "VECTOR",
+        "identifier": "Position"
+      },
+      "Direction": {
+        "index": 1,
+        "type": "VECTOR",
+        "identifier": "Direction"
+      },
+      "Length": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Length"
+      }
+    },
+    "outputs": {
+      "Is Hit": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Is Hit"
+      },
+      "Self Hit": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Self Hit"
+      },
+      "Hit Distance": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Hit Distance"
+      },
+      "Hit Position": {
+        "index": 3,
+        "type": "VECTOR",
+        "identifier": "Hit Position"
+      },
+      "Hit Normal": {
+        "index": 4,
+        "type": "VECTOR",
+        "identifier": "Hit Normal"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeRaycast"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Raycast"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Cast rays and retrieve information from the hit point"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "only_local": {
+        "type": "BOOLEAN",
+        "default": false
+      }
+    }
+  },
+  "script": {
+    "bl_idname": "ShaderNodeScript",
+    "inputs": {},
+    "outputs": {},
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeScript"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Script"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Generate an OSL shader from a file or text data-block.\nNote: OSL shaders are not supported on all GPU backends"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "script": {
+        "type": "POINTER",
+        "default": null
+      },
+      "filepath": {
+        "type": "STRING",
+        "default": ""
+      },
+      "mode": {
+        "type": "ENUM",
+        "default": "INTERNAL"
+      },
+      "use_auto_update": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bytecode": {
+        "type": "STRING",
+        "default": ""
+      },
+      "bytecode_hash": {
+        "type": "STRING",
+        "default": ""
+      }
+    }
+  },
+  "shader_separate_color": {
+    "bl_idname": "ShaderNodeSeparateColor",
+    "inputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      }
+    },
+    "outputs": {
+      "Red": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Red"
+      },
+      "Green": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Green"
+      },
+      "Blue": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Blue"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeSeparateColor"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Separate Color"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Split a color into its individual components using multiple models"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "mode": {
+        "type": "ENUM",
+        "default": "RGB"
+      }
+    }
+  },
+  "shader_to_rgb": {
+    "bl_idname": "ShaderNodeShaderToRGB",
+    "inputs": {
+      "Shader": {
+        "index": 0,
+        "type": "SHADER",
+        "identifier": "Shader"
+      }
+    },
+    "outputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      },
+      "Alpha": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Alpha"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeShaderToRGB"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Shader to RGB"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Convert rendering effect (such as light and shadow) to color. Typically used for non-photorealistic rendering, to apply additional effects on the output of BSDFs.\nNote: only supported in EEVEE"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      }
+    }
+  },
+  "squeeze": {
+    "bl_idname": "ShaderNodeSqueeze",
+    "inputs": {
+      "Value": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Value"
+      },
+      "Width": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Width"
+      },
+      "Center": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Center"
+      }
+    },
+    "outputs": {
+      "Value": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Value"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeSqueeze"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Squeeze Value (Legacy)"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Deprecated"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      }
+    }
+  },
+  "subsurface_scattering": {
+    "bl_idname": "ShaderNodeSubsurfaceScattering",
+    "inputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      },
+      "Scale": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Scale"
+      },
+      "Radius": {
+        "index": 2,
+        "type": "VECTOR",
+        "identifier": "Radius"
+      },
+      "IOR": {
+        "index": 3,
+        "type": "VALUE",
+        "identifier": "IOR"
+      },
+      "Roughness": {
+        "index": 4,
+        "type": "VALUE",
+        "identifier": "Roughness"
+      },
+      "Anisotropy": {
+        "index": 5,
+        "type": "VALUE",
+        "identifier": "Anisotropy"
+      },
+      "Normal": {
+        "index": 6,
+        "type": "VECTOR",
+        "identifier": "Normal"
+      },
+      "Weight": {
+        "index": 7,
+        "type": "VALUE",
+        "identifier": "Weight"
+      }
+    },
+    "outputs": {
+      "BSSRDF": {
+        "index": 0,
+        "type": "SHADER",
+        "identifier": "BSSRDF"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeSubsurfaceScattering"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Subsurface Scattering"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Subsurface multiple scattering shader to simulate light entering the surface and bouncing internally.\nTypically used for materials such as skin, wax, marble or milk"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 150.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 120.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "falloff": {
+        "type": "ENUM",
+        "default": "RANDOM_WALK"
+      }
+    }
+  },
+  "tangent": {
+    "bl_idname": "ShaderNodeTangent",
+    "inputs": {},
+    "outputs": {
+      "Tangent": {
+        "index": 0,
+        "type": "VECTOR",
+        "identifier": "Tangent"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeTangent"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Tangent"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Generate a tangent direction for the Anisotropic BSDF"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 150.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 120.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "direction_type": {
+        "type": "ENUM",
+        "default": "RADIAL"
+      },
+      "axis": {
+        "type": "ENUM",
+        "default": "Z"
+      },
+      "uv_map": {
+        "type": "STRING",
+        "default": ""
+      }
+    }
+  },
+  "tex_coord": {
+    "bl_idname": "ShaderNodeTexCoord",
+    "inputs": {},
+    "outputs": {
+      "Generated": {
+        "index": 0,
+        "type": "VECTOR",
+        "identifier": "Generated"
+      },
+      "Normal": {
+        "index": 1,
+        "type": "VECTOR",
+        "identifier": "Normal"
+      },
+      "UV": {
+        "index": 2,
+        "type": "VECTOR",
+        "identifier": "UV"
+      },
+      "Object": {
+        "index": 3,
+        "type": "VECTOR",
+        "identifier": "Object"
+      },
+      "Camera": {
+        "index": 4,
+        "type": "VECTOR",
+        "identifier": "Camera"
+      },
+      "Window": {
+        "index": 5,
+        "type": "VECTOR",
+        "identifier": "Window"
+      },
+      "Reflection": {
+        "index": 6,
+        "type": "VECTOR",
+        "identifier": "Reflection"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeTexCoord"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Texture Coordinate"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Retrieve multiple types of texture coordinates.\nTypically used as inputs for texture nodes"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "object": {
+        "type": "POINTER",
+        "default": null
+      },
+      "from_instancer": {
+        "type": "BOOLEAN",
+        "default": false
+      }
+    }
+  },
+  "tex_environment": {
+    "bl_idname": "ShaderNodeTexEnvironment",
+    "inputs": {
+      "Vector": {
+        "index": 0,
+        "type": "VECTOR",
+        "identifier": "Vector"
+      }
+    },
+    "outputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeTexEnvironment"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Environment Texture"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Sample an image file as an environment texture. Typically used to light the scene with the background node"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 240.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "image": {
+        "type": "POINTER",
+        "default": null
+      },
+      "projection": {
+        "type": "ENUM",
+        "default": "EQUIRECTANGULAR"
+      },
+      "interpolation": {
+        "type": "ENUM",
+        "default": "Linear"
+      }
+    }
+  },
+  "tex_i_e_s": {
+    "bl_idname": "ShaderNodeTexIES",
+    "inputs": {
+      "Vector": {
+        "index": 0,
+        "type": "VECTOR",
+        "identifier": "Vector"
+      },
+      "Strength": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Strength"
+      }
+    },
+    "outputs": {
+      "Factor": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Fac"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeTexIES"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "IES Texture"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Match real world lights with IES files, which store the directional intensity distribution of light sources"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "ies": {
+        "type": "POINTER",
+        "default": null
+      },
+      "filepath": {
+        "type": "STRING",
+        "default": ""
+      },
+      "mode": {
+        "type": "ENUM",
+        "default": "INTERNAL"
+      }
+    }
+  },
+  "tex_image": {
+    "bl_idname": "ShaderNodeTexImage",
+    "inputs": {
+      "Vector": {
+        "index": 0,
+        "type": "VECTOR",
+        "identifier": "Vector"
+      }
+    },
+    "outputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      },
+      "Alpha": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Alpha"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeTexImage"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Image Texture"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Sample an image file as a texture"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 240.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "image": {
+        "type": "POINTER",
+        "default": null
+      },
+      "projection": {
+        "type": "ENUM",
+        "default": "FLAT"
+      },
+      "interpolation": {
+        "type": "ENUM",
+        "default": "Linear"
+      },
+      "projection_blend": {
+        "type": "FLOAT",
+        "default": 0.0
+      },
+      "extension": {
+        "type": "ENUM",
+        "default": "REPEAT"
+      }
+    }
+  },
+  "tex_sky": {
+    "bl_idname": "ShaderNodeTexSky",
+    "inputs": {
+      "Vector": {
+        "index": 0,
+        "type": "VECTOR",
+        "identifier": "Vector"
+      }
+    },
+    "outputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeTexSky"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Sky Texture"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Generate a procedural sky texture"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "sky_type": {
+        "type": "ENUM",
+        "default": "MULTIPLE_SCATTERING"
+      },
+      "sun_disc": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "sun_size": {
+        "type": "FLOAT",
+        "default": 0.009512044489383698
+      },
+      "sun_intensity": {
+        "type": "FLOAT",
+        "default": 1.0
+      },
+      "sun_elevation": {
+        "type": "FLOAT",
+        "default": 0.2617993950843811
+      },
+      "sun_rotation": {
+        "type": "FLOAT",
+        "default": 0.0
+      },
+      "altitude": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "air_density": {
+        "type": "FLOAT",
+        "default": 1.0
+      },
+      "aerosol_density": {
+        "type": "FLOAT",
+        "default": 1.0
+      },
+      "ozone_density": {
+        "type": "FLOAT",
+        "default": 1.0
+      },
+      "sun_direction": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      "turbidity": {
+        "type": "FLOAT",
+        "default": 2.200000047683716
+      },
+      "ground_albedo": {
+        "type": "FLOAT",
+        "default": 0.30000001192092896
+      }
+    }
+  },
+  "uv_along_stroke": {
+    "bl_idname": "ShaderNodeUVAlongStroke",
+    "inputs": {},
+    "outputs": {
+      "UV": {
+        "index": 0,
+        "type": "VECTOR",
+        "identifier": "UV"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeUVAlongStroke"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "UV Along Stroke"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "UV coordinates that map a texture along the stroke length"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "use_tips": {
+        "type": "BOOLEAN",
+        "default": false
+      }
+    }
+  },
+  "uv_map": {
+    "bl_idname": "ShaderNodeUVMap",
+    "inputs": {},
+    "outputs": {
+      "UV": {
+        "index": 0,
+        "type": "VECTOR",
+        "identifier": "UV"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeUVMap"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "UV Map"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Retrieve a UV map from the geometry, or the default fallback if none is specified"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 150.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 120.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "from_instancer": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "uv_map": {
+        "type": "STRING",
+        "default": ""
+      }
+    }
+  },
+  "vector_displacement": {
+    "bl_idname": "ShaderNodeVectorDisplacement",
+    "inputs": {
+      "Vector": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Vector"
+      },
+      "Midlevel": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Midlevel"
+      },
+      "Scale": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Scale"
+      }
+    },
+    "outputs": {
+      "Displacement": {
+        "index": 0,
+        "type": "VECTOR",
+        "identifier": "Displacement"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeVectorDisplacement"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Vector Displacement"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Displace the surface along an arbitrary direction"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "space": {
+        "type": "ENUM",
+        "default": "TANGENT"
+      }
+    }
+  },
+  "vector_transform": {
+    "bl_idname": "ShaderNodeVectorTransform",
+    "inputs": {
+      "Vector": {
+        "index": 0,
+        "type": "VECTOR",
+        "identifier": "Vector"
+      }
+    },
+    "outputs": {
+      "Vector": {
+        "index": 0,
+        "type": "VECTOR",
+        "identifier": "Vector"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeVectorTransform"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Vector Transform"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Convert a vector, point, or normal between world, camera, and object coordinate space"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "vector_type": {
+        "type": "ENUM",
+        "default": "VECTOR"
+      },
+      "convert_from": {
+        "type": "ENUM",
+        "default": "WORLD"
+      },
+      "convert_to": {
+        "type": "ENUM",
+        "default": "OBJECT"
+      }
+    }
+  },
+  "vertex_color": {
+    "bl_idname": "ShaderNodeVertexColor",
+    "inputs": {},
+    "outputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      },
+      "Alpha": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Alpha"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeVertexColor"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Color Attribute"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Retrieve a color attribute, or the default fallback if none is specified"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "layer_name": {
+        "type": "STRING",
+        "default": ""
+      }
+    }
+  },
+  "volume_absorption": {
+    "bl_idname": "ShaderNodeVolumeAbsorption",
+    "inputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      },
+      "Density": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Density"
+      },
+      "Weight": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Weight"
+      }
+    },
+    "outputs": {
+      "Volume": {
+        "index": 0,
+        "type": "SHADER",
+        "identifier": "Volume"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeVolumeAbsorption"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Volume Absorption"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Absorb light as it passes through the volume"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      }
+    }
+  },
+  "volume_coefficients": {
+    "bl_idname": "ShaderNodeVolumeCoefficients",
+    "inputs": {
+      "Weight": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Weight"
+      },
+      "Absorption Coefficients": {
+        "index": 1,
+        "type": "VECTOR",
+        "identifier": "Absorption Coefficients"
+      },
+      "Scatter Coefficients": {
+        "index": 2,
+        "type": "VECTOR",
+        "identifier": "Scatter Coefficients"
+      },
+      "Anisotropy": {
+        "index": 3,
+        "type": "VALUE",
+        "identifier": "Anisotropy"
+      },
+      "IOR": {
+        "index": 4,
+        "type": "VALUE",
+        "identifier": "IOR"
+      },
+      "Backscatter": {
+        "index": 5,
+        "type": "VALUE",
+        "identifier": "Backscatter"
+      },
+      "Alpha": {
+        "index": 6,
+        "type": "VALUE",
+        "identifier": "Alpha"
+      },
+      "Diameter": {
+        "index": 7,
+        "type": "VALUE",
+        "identifier": "Diameter"
+      },
+      "Emission Coefficients": {
+        "index": 8,
+        "type": "VECTOR",
+        "identifier": "Emission Coefficients"
+      }
+    },
+    "outputs": {
+      "Volume": {
+        "index": 0,
+        "type": "SHADER",
+        "identifier": "Volume"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeVolumeCoefficients"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Volume Coefficients"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Model all three physical processes in a volume, represented by their coefficients"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 240.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "phase": {
+        "type": "ENUM",
+        "default": "HENYEY_GREENSTEIN"
+      }
+    }
+  },
+  "volume_info": {
+    "bl_idname": "ShaderNodeVolumeInfo",
+    "inputs": {},
+    "outputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      },
+      "Density": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Density"
+      },
+      "Flame": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Flame"
+      },
+      "Temperature": {
+        "index": 3,
+        "type": "VALUE",
+        "identifier": "Temperature"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeVolumeInfo"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Volume Info"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Read volume data attributes from volume grids"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      }
+    }
+  },
+  "volume_principled": {
+    "bl_idname": "ShaderNodeVolumePrincipled",
+    "inputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      },
+      "Color Attribute": {
+        "index": 1,
+        "type": "STRING",
+        "identifier": "Color Attribute"
+      },
+      "Density": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Density"
+      },
+      "Density Attribute": {
+        "index": 3,
+        "type": "STRING",
+        "identifier": "Density Attribute"
+      },
+      "Anisotropy": {
+        "index": 4,
+        "type": "VALUE",
+        "identifier": "Anisotropy"
+      },
+      "Absorption Color": {
+        "index": 5,
+        "type": "RGBA",
+        "identifier": "Absorption Color"
+      },
+      "Emission Strength": {
+        "index": 6,
+        "type": "VALUE",
+        "identifier": "Emission Strength"
+      },
+      "Emission Color": {
+        "index": 7,
+        "type": "RGBA",
+        "identifier": "Emission Color"
+      },
+      "Blackbody Intensity": {
+        "index": 8,
+        "type": "VALUE",
+        "identifier": "Blackbody Intensity"
+      },
+      "Blackbody Tint": {
+        "index": 9,
+        "type": "RGBA",
+        "identifier": "Blackbody Tint"
+      },
+      "Temperature": {
+        "index": 10,
+        "type": "VALUE",
+        "identifier": "Temperature"
+      },
+      "Temperature Attribute": {
+        "index": 11,
+        "type": "STRING",
+        "identifier": "Temperature Attribute"
+      },
+      "Weight": {
+        "index": 12,
+        "type": "VALUE",
+        "identifier": "Weight"
+      }
+    },
+    "outputs": {
+      "Volume": {
+        "index": 0,
+        "type": "SHADER",
+        "identifier": "Volume"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeVolumePrincipled"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Principled Volume"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Combine all volume shading components into a single easy to use node"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 240.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      }
+    }
+  },
+  "volume_scatter": {
+    "bl_idname": "ShaderNodeVolumeScatter",
+    "inputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      },
+      "Density": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Density"
+      },
+      "Anisotropy": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Anisotropy"
+      },
+      "IOR": {
+        "index": 3,
+        "type": "VALUE",
+        "identifier": "IOR"
+      },
+      "Backscatter": {
+        "index": 4,
+        "type": "VALUE",
+        "identifier": "Backscatter"
+      },
+      "Alpha": {
+        "index": 5,
+        "type": "VALUE",
+        "identifier": "Alpha"
+      },
+      "Diameter": {
+        "index": 6,
+        "type": "VALUE",
+        "identifier": "Diameter"
+      },
+      "Weight": {
+        "index": 7,
+        "type": "VALUE",
+        "identifier": "Weight"
+      }
+    },
+    "outputs": {
+      "Volume": {
+        "index": 0,
+        "type": "SHADER",
+        "identifier": "Volume"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeVolumeScatter"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Volume Scatter"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Scatter light as it passes through the volume, often used to add fog to a scene"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 150.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 120.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "phase": {
+        "type": "ENUM",
+        "default": "HENYEY_GREENSTEIN"
+      }
+    }
+  },
+  "wavelength": {
+    "bl_idname": "ShaderNodeWavelength",
+    "inputs": {
+      "Wavelength": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Wavelength"
+      }
+    },
+    "outputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeWavelength"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Wavelength"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Convert a wavelength value to an RGB value"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 150.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 120.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      }
+    }
+  },
+  "wireframe": {
+    "bl_idname": "ShaderNodeWireframe",
+    "inputs": {
+      "Size": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Size"
+      }
+    },
+    "outputs": {
+      "Factor": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Fac"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeWireframe"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Wireframe"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Retrieve the edges of an object as it appears to Cycles.\nNote: as meshes are triangulated before being processed by Cycles, topology will always appear triangulated"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "use_pixel_size": {
+        "type": "BOOLEAN",
+        "default": false
+      }
+    }
+  }
+}

@@ -1,0 +1,42 @@
+# ==============================================================================
+# Repeat Zone: Procedural Spiral Staircase
+# Demonstrates iterative state accumulation using a Repeat Zone in XFY.
+# Each iteration creates a step, offsets its height and rotation, and joins it.
+# ==============================================================================
+
+input steps: int "Step Count" = 20 [1, 100]
+input step_height: float "Step Height" = 0.18
+input step_angle: float "Step Angle (Deg)" = 18.0
+input step_length: float "Step Length" = 1.2
+input step_width: float "Step Width" = 0.35
+input step_thickness: float "Step Thickness" = 0.08
+output staircase: geometry "Geometry"
+
+# Base step geometry centered at pivot point
+step_size = combine_xyz(step_length, step_width, step_thickness)
+step_primitive = mesh_cube(size=step_size)
+step_primitive = transform_geometry(step_primitive, translation=combine_xyz(step_length / 2.0, 0.0, 0.0))
+
+# Central support column
+total_height = steps * step_height
+central_pole = mesh_cylinder(vertices=32, radius=0.1, depth=total_height)
+central_pole = transform_geometry(central_pole, translation=combine_xyz(0.0, 0.0, total_height / 2.0))
+
+angle_rad = radians(step_angle)
+
+# Repeat Zone: iterates 'steps' times, accumulating step instances
+repeat steps, step_primitive, state=():idx, current_geom {
+    z_offset = idx * step_height
+    rot_z = idx * angle_rad
+
+    # Transform step at current height and rotational step
+    step_instance = transform_geometry(
+        step_primitive,
+        translation=combine_xyz(0.0, 0.0, z_offset),
+        rotation=combine_xyz(0.0, 0.0, rot_z)
+    )
+
+    current_geom = join_geometry(current_geom ~ step_instance)
+}(accumulated=current_geom)
+
+staircase = join_geometry(central_pole ~ accumulated)

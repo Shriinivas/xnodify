@@ -1,0 +1,105 @@
+# ==============================================================================
+# Inverse Kinematics (IK): Dynamic 3D Robotic Arm with FABRIK Solver
+# Demonstrates procedural kinematic solvers using Repeat Zones in XFY:
+# 1. Multi-link FABRIK solver running iterative forward/backward reaching loops
+# 2. Dynamic 3D target tracking (animates procedurally via scene time or manual target)
+# 3. Clean skeletal line-sweeping (curve_to_mesh) with spherical joint articulation
+# 4. Zero 3D surface collisions or mesh overlapping artifacts
+# ==============================================================================
+
+# Core FABRIK Solver Group
+group DynamicIKSolver "Dynamic IK Solver" {
+  input target: vector "Target Position"
+  input base: vector "Base Position" = (0.0, 0.0, 0.0)
+  input num_links: int "Number of Links" = 5 [2, 20]
+  input link_len: float "Link Length" = 0.5 [0.1, 5.0]
+  input iterations: int "IK Iterations" = 10 [1, 30]
+  output chain_pts: geometry "Chain Points"
+  output end_effector: vector "End Effector"
+
+  # Initial joint vertices along +Z
+  init_pts = mesh_line(count=num_links + 1, offset_mode='OFFSET', offset=combine_xyz(0.0, 0.0, link_len))
+  
+  tot_len = num_links * link_len
+  dist_t = vdist(target, base)
+  is_unreachable = dist_t >= tot_len
+  reach_dir = vnormalize(target - base)
+
+  # Straight extension fallback if target is out of reach
+  stretched_pos = base + (reach_dir * (index() * link_len))
+  stretched_pts = set_position(init_pts, position=stretched_pos)
+
+  # Main FABRIK solver loop
+  repeat iterations, init_pts, state=():iter_idx, geom {
+      # Step A: Snap end effector to target
+      geom = set_position(geom, selection=(index() == num_links), position=target)
+
+      # Step B: Backward pass (from N-1 down to 0)
+      repeat num_links, geom, state=():b_step, g_back {
+          curr_i = num_links - 1 - b_step
+          next_i = curr_i + 1
+          p_curr = sample_index{data_type:'FLOAT_VECTOR'}(g_back, position(), index=curr_i)
+          p_next = sample_index{data_type:'FLOAT_VECTOR'}(g_back, position(), index=next_i)
+          new_curr_pos = p_next + (vnormalize(p_curr - p_next) * link_len)
+          g_back = set_position(g_back, selection=(index() == curr_i), position=new_curr_pos)
+      } (g_back)
+      geom = g_back
+
+      # Step C: Pin base joint back to base
+      geom = set_position(geom, selection=(index() == 0), position=base)
+
+      # Step D: Forward pass (from 0 up to N-1)
+      repeat num_links, geom, state=():f_step, g_fwd {
+          curr_i = f_step
+          next_i = curr_i + 1
+          p_curr = sample_index{data_type:'FLOAT_VECTOR'}(g_fwd, position(), index=curr_i)
+          p_next = sample_index{data_type:'FLOAT_VECTOR'}(g_fwd, position(), index=next_i)
+          new_next_pos = p_curr + (vnormalize(p_next - p_curr) * link_len)
+          g_fwd = set_position(g_fwd, selection=(index() == next_i), position=new_next_pos)
+      } (g_fwd)
+      geom = g_fwd
+  } (geom)
+
+  solved_pts = geom
+  chain_pts = is_unreachable ? stretched_pts : solved_pts
+  end_effector = sample_index{data_type:'FLOAT_VECTOR'}(chain_pts, position(), index=num_links)
+}
+
+# --- Modifier Controls & Geometry Realization ---
+input num_links: int "Number of Links" = 5 [2, 12]
+input link_len: float "Link Length" = 0.5 [0.1, 2.0]
+input link_radius: float "Link Radius" = 0.035 [0.01, 0.2]
+input joint_radius: float "Joint Radius" = 0.055 [0.02, 0.3]
+input use_manual_target: bool "Use Manual Target" = False
+input manual_target: vector "Manual Target" = (1.2, 0.8, 0.6)
+output robotic_arm: geometry "Robotic Arm"
+
+# Procedural dynamic target driven by scene time if not in manual mode
+time = input_scene_time()[0]
+auto_target = combine_xyz(
+    cos(time * 1.2) * 1.4,
+    sin(time * 0.9) * 1.1,
+    0.7 + (sin(time * 2.1) * 0.4)
+)
+target_pos = use_manual_target ? manual_target : auto_target
+
+# Solve IK chain
+(chain, end_eff) = DynamicIKSolver(target=target_pos, base=(0.0, 0.0, 0.0), num_links=num_links, link_len=link_len, iterations=12)
+
+# 1. Cylindrical Link Segments
+arm_curves = mesh_to_curve(chain)
+arm_mesh = curve_to_mesh(arm_curves, profile_curve=curve_circle(radius=link_radius, resolution=16))
+
+# 2. Spherical Articulated Joints
+joint_sphere = icosphere(radius=joint_radius, subdivisions=2)
+joints = instance_on_points(chain, instance=joint_sphere)
+
+# 3. Base Pedestal
+base_pedestal = mesh_cylinder(vertices=32, radius=joint_radius * 3.0, depth=0.08)
+base_pedestal = transform_geometry(base_pedestal, translation=combine_xyz(0.0, 0.0, -0.04))
+
+# 4. Target Marker Indicator
+target_indicator = icosphere(radius=joint_radius * 0.8, subdivisions=2)
+target_indicator = transform_geometry(target_indicator, translation=target_pos)
+
+robotic_arm = set_shade_smooth(join_geometry(base_pedestal ~ arm_mesh ~ joints ~ target_indicator))

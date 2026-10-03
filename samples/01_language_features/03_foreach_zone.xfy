@@ -1,0 +1,35 @@
+# ==============================================================================
+# Foreach Zone: Procedural Face-Aligned 3D Number Labels
+# Demonstrates element iteration using a Foreach Zone in XFY.
+# Iterates over each face of a polyhedron, extracts normal & position,
+# and generates an extruded 3D number aligned tangent to the face surface.
+# ==============================================================================
+
+input text_size: float "Label Size" = 0.25 [0.05, 1.0]
+input text_depth: float "Extrusion Depth" = 0.02 [0.005, 0.2]
+output result: geometry "Labeled Geometry"
+
+# Base polyhedron
+c = icosphere(radius=1.0, subdivisions=1)
+
+pos = position()
+norm = normal()
+
+# Foreach Zone iterating over individual FACE elements
+foreach{domain:'FACE'} c, , state=(pos, norm):idx {
+    # Compute rotation to align text to face normal
+    z_rot = align_rotation_to_vector{axis:'X'}(,,vcross(norm, (0, 0, -1)))
+    rot = align_rotation_to_vector(z_rot, , norm)
+
+    # Convert iteration index to string and generate 3D extruded curve text
+    idx_str = value_to_string{data_type:'INT'}(idx)
+    idx_curve = string_to_curves(idx_str, size=text_size, align_x='Center', align_y='Middle')
+    idx_mesh = fill_curve(idx_curve)
+    idx_mesh = extrude_mesh(idx_mesh, offset_scale=text_depth)
+
+    # Transform label to face position and orientation
+    idx_mesh = transform(idx_mesh, translation=pos, rotation=rot)
+}(idx_mesh:, labels)
+
+# Combine original mesh with generated face labels
+result = join_geometry(labels ~ c)

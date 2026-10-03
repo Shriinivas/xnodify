@@ -1,0 +1,150 @@
+# Common angle measurement calculations
+# Shared between angle_mesh.xfy and angle_gp.xfy
+include measure_common.xfy
+
+```
+def do_angle_setup(outType, location=(0, 0, 0)):
+  # Create a simple object to attach the modifier
+  obj = create_obj('poly', [(0, 0, 1), (0, 0, 0), (1, 0, 0)], name='Measure Angle')
+  obj.location = location
+  do_measure_setup(obj, outType)
+
+# Angle-specific params (not shared with distance)
+angle_specific_params = '''
+input radius: float "Radius" = 0.5 @ "Arc radius"
+input outer: bool "Outer Angle" = False @ "Display outer angle"
+'''
+# Combined: common calc params + angle-specific
+angle_calc_params = calc_params + angle_specific_params
+common_angle_params = angle_calc_params + render_params
+passed_angle_specific = '''radius, outer'''
+passed_angle_calc_params = f'''{passed_calc_params}, {passed_angle_specific}'''
+passed_common_angle_params = f'''{passed_angle_calc_params}, {passed_render_params}''' 
+common_angle_call = f''' (pt0, pt1, pt2, pt0Off, pt1Off, pt2Off, arc0Start, arc1End, vect0Scaled, vect1Scaled, vectMidNorm, planeNormal, textCurves, textWidth, textPos, textRot, arc0, arc1, arcLen) = \\
+    fn_angle_calc(ingeom, {passed_angle_calc_params})'''
+
+if not __parents__:
+  clear_objects()
+  do_angle_setup(outType='mesh')
+  op = ingeom_param + angle_calc_params + outgeom_param + common_angle_call + '''
+    result = join_geometry(arc0 ~ arc1)
+  '''
+else:
+  op = ''
+```
+
+group fn_trim_curves "Trim Curves" {
+  input arc0_in: geometry "Arc 0"
+  input arc1_in: geometry "Arc 1"
+  input arcLen: float "Arc Length" # Both should have the same
+  input headLen: float "Head Length"
+  input outer: bool "Outer Angle" = False @ "Display Outer Angle"
+
+  output arc0: geometry "Arc 0"
+  output arc1: geometry "Arc 1"
+  output arc0End: vector "Arc 0 End"
+  output arc1Start: vector "Arc 1 Start"
+  output textPos: vector "Text Position"
+    arc0 = trim_curve{mode:'LENGTH'}(arc0_in, ,headLen, arcLen)
+    arc1 = trim_curve{mode:'LENGTH'}(arc1_in, , 0, arcLen - headLen)
+    last_idx = attribute_domain_size{component:'CURVE'}(arc0)[0] - 1
+    arc0End = sample_index{domain:'POINT', data_type:'FLOAT_VECTOR'}(arc0, position(), last_idx)
+    arc1Start = sample_index{domain:'POINT', data_type:'FLOAT_VECTOR'}(arc1, position(), 0)
+    textPos = arc0End + ((arc1Start - arc0End) * 0.5)
+}
+
+# Computes all geometric data needed for angle measurement visualization
+group fn_angle_calc "Angle Calculation" {
+  py!.ingeom_param
+  py!.angle_calc_params
+  output pt0: vector "Point 0"
+  output pt1: vector "Point 1"
+  output pt2: vector "Point 2"
+  output pt0Off: vector "Offset Point 0"
+  output pt1Off: vector "Offset Point 1"
+  output pt2Off: vector "Offset Point 2"
+  output arc0Start: vector "Arc 0 Start"
+  output arc1End: vector "Arc 1 End"
+  output vect0Scaled: vector "Vect 0 Scaled"
+  output vect1Scaled: vector "Vect 1 Scaled"
+  output vectMidNorm: vector "Mid Normal"
+  output planeNormal: vector "Plane Normal"
+  output textCurves: geometry "Text Curves"
+  output textWidth: float "Text Width"
+  output textPos: vector "Text Position"
+  output textRot: vector "Text Rotation"
+  output arc0: geometry "Arc 0 Curve"
+  output arc1: geometry "Arc 1 Curve"
+  output arcLen: float "Arc 1 Length"
+
+  (_, _, pos0, pos1) = edge_vertices()
+  pt0 = sample_index{domain:'EDGE', data_type:'FLOAT_VECTOR'}(ingeom, pos0, 0)
+  pt1 = sample_index{domain:'EDGE', data_type:'FLOAT_VECTOR'}(ingeom, pos1, 0)
+  pt2 = sample_index{domain:'EDGE', data_type:'FLOAT_VECTOR'}(ingeom, pos1, 1)
+
+  # Vector calculations
+  vect0 = pt0 - pt1
+  vect1 = pt2 - pt1
+  vect0Norm = vnormalize(vect0)
+  vect1Norm = vnormalize(vect1)
+  vectMidNorm = vnormalize(vect0Norm + vect1Norm)
+  vectMidNorm = switch{input_type:'VECTOR'}(outer, vectMidNorm, vector_math{operation:'SCALE'}(vectMidNorm, -1))
+  vect0Scaled = vector_math{operation:'SCALE'}(vect0Norm, radius)
+  vect1Scaled = vector_math{operation:'SCALE'}(vect1Norm, radius)
+  vectMidScaled = vector_math{operation:'SCALE'}(vectMidNorm, radius)
+  planeNormal = vcross(vect0Norm, vect1Norm)
+  offsetTrans = vector_math{operation:'SCALE'}(planeNormal, offset)
+
+  # Offset points
+  pt0Off = pt0 + offsetTrans
+  pt1Off = pt1 + offsetTrans
+  pt2Off = pt2 + offsetTrans
+
+  # Arc endpoints
+  arc0Start = vect0Scaled + pt1Off # top arc's (in case of outer) upper point
+  arc1End = vect1Scaled + pt1Off
+
+  # Angle calculation
+  angleRad = acos(vdot(vect1Norm, vect0Norm))
+  angleRad = switch{input_type:'FLOAT'}(outer, angleRad, py!.twopi - angleRad)
+  angleDeg = degrees(angleRad)
+  angleDeg = string_join(, value_to_string(angleDeg, precision) ~ $'°')
+  angleRad = string_join(, value_to_string(angleRad, precision) ~ $' rad')
+  angleStr = menu_switch{data_type:'STRING'}(unitselection, angleDeg@'Degree', angleRad@'Radian')
+
+  # Text curves generation using common helper
+  (textCurves, textWidth, _) = fn_make_text_curves(angleStr, subtext, textSize, False)
+  textWidth = textWidth + textGap
+
+  # Arc calculations (gap for text)
+  gapAngle =  asin(textWidth / (2 * radius))
+  rotVect = vcross(vectMidNorm, planeNormal)
+  rotVectScaled = vector_math{operation:'SCALE'}(vnormalize(rotVect), radius)
+  alongVect = vectMidScaled * cos(gapAngle)
+  perpVect = rotVectScaled * sin(gapAngle)
+  perpVect = switch{input_type:'VECTOR'}(outer, perpVect, (perpVect * -1))
+  vectB = alongVect - perpVect
+  vectA = alongVect + perpVect
+  arc0End = vectA + pt1Off # top arc's (in case of outer) bottom point
+  arc0Mid = pt1Off + (vnormalize(vect0Scaled + vectA) * radius)
+  arc1Start = vectB + pt1Off
+  arc1Mid = pt1Off + (vnormalize(vect1Scaled + vectB) * radius)
+
+  # Text positioning
+  textPos = arc0End + ((arc1Start - arc0End) * 0.5)
+  
+  # Text rotation around the chord/tangent (rotVect)
+  rotAxis = vnormalize(rotVect)
+  rotAngle = radians(xtraTextRot)
+  normalRotated = vector_rotate(planeNormal, combine_xyz(0,0,0), rotAxis, rotAngle)
+  vectMidNormRotated = vector_rotate(vectMidNorm, combine_xyz(0,0,0), rotAxis, rotAngle)
+  
+  baseRot = align_rotation_to_vector{axis:'Z'}(,,normalRotated)
+  textRot = align_rotation_to_vector{axis:'Y'}(baseRot, ,vectMidNormRotated)
+
+  # Arc curves
+  arc0 = curve_arc{mode:'POINTS'}(32, arc0Start, arc0Mid, arc0End)
+  arc1 = curve_arc{mode:'POINTS'}(32, arc1Start, arc1Mid, arc1End)
+  arcLen = curve_length(arc1)
+}
+py!.op

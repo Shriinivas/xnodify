@@ -1,0 +1,221 @@
+start: statement*
+
+statement: input_decl
+         | output_decl
+         | assignment
+         | frame_block
+         | group_def
+         | python_block
+         | function_call_statement
+         | repeat
+         | foreach
+         | simulation
+         | closure
+         | object_block
+         | object_block_implicit
+         | world_block
+         | scene_block
+
+// Object block for multi-object scripts
+domain_type: "material" -> material_domain
+           | "geometry" -> geometry_domain
+object_block: "object" STRING domain_type? ("as" STRING)? "{" statement* "}"
+object_block_implicit: "object" domain_type? ("as" STRING)? "{" statement* "}"
+
+// World and Scene blocks
+world_block: "world" domain_type? STRING? ("as" STRING)? "{" statement* "}"
+scene_block: "scene" STRING "world" domain_type? ("as" STRING)? "{" statement* "}"
+
+function_call_statement: function_call
+
+python_block: PYTHON_BLOCK
+
+frame_block: "frame" (NAME | STRING) "{" statement* "}"
+
+// Node Groups
+group_def: "group" domain_type? NAME STRING? "{" group_statement+ "}"
+group_statement: group_input
+               | group_output
+               | statement
+
+range_spec: "[" value "," value "]" -> range_both
+          | "[" "," value "]"       -> range_max_only
+          | "[" value "," "]"       -> range_min_only
+
+group_input.3: "input" NAME ":" type_spec (STRING)? (STRING)? ("=" value)? range_spec?
+group_output: "output" NAME ":" type_spec (STRING)? ("@" STRING)?
+
+// Closure zone: closure (inputs) { body }(outputs) or closure inputs=(inputs) { body }(outputs)
+closure: "closure" ("{" attributes "}")? closure_inputs? "{" statement+ "}" output_clause?
+closure_inputs: "(" (closure_param ("," closure_param)*)? ")"
+              | "inputs" "=" "(" (closure_param ("," closure_param)*)? ")"
+closure_param: NAME (":" TYPE)? ("=" value)?
+
+// Closure and Bundle signatures for typed group/input declarations
+type_spec: closure_signature | bundle_signature | TYPE
+closure_signature: "closure" ("(" (closure_sig_param ("," closure_sig_param)*)? ")")? ("->" closure_sig_return)?
+closure_sig_param: (NAME ":")? TYPE
+closure_sig_return: TYPE
+                  | "(" (closure_sig_param ("," closure_sig_param)*)? ")"
+
+bundle_signature: "bundle" ("(" (bundle_sig_field ("," bundle_sig_field)*)? ")")?
+bundle_sig_field: (NAME ":")? TYPE
+
+// Repeat zones and foreach loops
+repeat: "repeat" expression "," expression? "," state_clause output_vars_clause? "{" statement+ "}" output_clause
+
+foreach: "foreach" ("{" attributes "}")? expression "," expression? "," state_clause output_vars_clause? "{" statement+ "}" foreach_output_clause
+
+// Simulation zone: simulation{skip:expr} geometry_input, state=(vars):delta_time, geometry { body }(outputs)
+simulation: "simulation" ("{" attributes "}")? expression? "," state_clause output_vars_clause? "{" statement+ "}" output_clause
+
+state_clause: "state" "=" "(" (state_item ("," state_item)*)? ")"
+
+state_item: NAME (":" TYPE)?
+
+output_vars_clause: ":" output_var_item ("," output_var_item)*
+output_var_item: NAME?
+
+output_clause: "(" (output_item ("," output_item)*)? ")"
+output_item: ((NAME "=" NAME) | NAME)?
+
+// Foreach output clause with mandatory colon separator
+// Item lists use optional patterns - when an item is empty, the rule produces a node with no children
+foreach_output_clause: "(" input_item_list ":" output_item_list ")"
+input_item_list: (input_item (COMMA input_item)*)?
+output_item_list: (output_item (COMMA output_item)*)?
+input_item: NAME?
+
+hidden_modifier: "hidden"
+input_decl.2: hidden_modifier? "input" NAME ":" type_spec (STRING)? ("=" value)? range_spec? ("@" STRING)?
+output_decl.2: hidden_modifier? "output" NAME ":" type_spec (STRING)? ("@" STRING)?
+
+assignment: (NAME | tuple_target) "=" expression
+
+tuple_target: "(" tuple_target_item ("," tuple_target_item)* ")"
+tuple_target_item: NAME (":" TYPE)?
+
+// Expressions with proper precedence
+?expression: ternary
+
+?ternary: logical_or "?" expression ":" ternary -> ternary_op
+        | logical_or
+
+// Logical OR (lowest precedence after comparison)
+?logical_or: logical_xor (OR_OP logical_xor)*
+
+// Logical XOR (same precedence as OR)
+?logical_xor: logical_and (XOR_OP logical_and)*
+
+// Logical AND
+?logical_and: logical_nand_nor (AND_OP logical_nand_nor)*
+
+// NAND, NOR, XNOR, IMPLY, NIMPLY operators
+?logical_nand_nor: concat ((NAND_OP | NOR_OP | XNOR_OP | IMPLY_OP | NIMPLY_OP) concat)*
+
+// Concatenation operator ~
+?concat: comparison ("~" comparison)*
+
+// Comparison operators
+?comparison: add_sub (COMP_OP add_sub)*
+
+// Addition and subtraction - keep operators as tokens
+?add_sub: mul_div ((ADD_OP | SUB_OP) mul_div)*
+
+// Multiplication, division, modulo - keep operators as tokens
+?mul_div: power ((MUL_OP | DIV_OP | MOD_OP) power)*
+
+// Power operator
+?power: unary (POW_OP unary)*
+
+// Unary operators
+?unary: (ADD_OP | SUB_OP | NOT_OP) unary -> unary_op
+      | term
+
+// Terms: primary expressions, function calls, indexing
+?term: primary
+     | index_access
+
+primary: NUMBER
+       | STRING
+       | BOOL
+       | py_access
+       | closure
+       | NAME
+       | "$" (NUMBER | STRING | BOOL | NAME | "(" expression ("," expression)* ")")  -> constant_node
+       | index_access
+       | attr_access
+       | "(" expression ("," expression)* ")"  -> tuple_or_group
+       | function_call
+
+index_access: primary "[" expression "]"
+attr_access: primary "." NAME
+
+py_access: "py" "." NAME
+
+function_call: (NAME | STRING | py_function) ("{" attributes "}")? "(" arguments? ")" ("@" STRING)?
+
+py_function: "py" "." NAME
+
+// Attributes for function calls
+attributes: attribute ("," attribute)*
+attribute: ATTR_NAME ":" (py_access | STRING | BOOL | NAME | NUMBER | attribute_list)
+attribute_list: "[" (STRING | BOOL | NAME) ("," (STRING | BOOL | NAME))* "]"
+
+// Arguments - preserve empty arguments as None tokens
+arguments: argument ("," argument)*
+argument: (kwarg | labeled_arg | expression)?  // Empty argument becomes None in parse tree
+kwarg: NAME "=" expression
+labeled_arg: expression "@" STRING  // For menu switch labels: 'Point'@'Point'
+
+list: "[" (expression ("," expression)*)? "]"
+
+// Value can be used in defaults - supports tuples like (0,0,0)
+// Allow simple expressions in value context (including negative numbers)
+value: SIGNED_NUMBER | NUMBER | STRING | list | py_access | NAME | "(" expression ("," expression)* ")"
+
+OPERATOR: "+" | "-" | "*" | "/" | "**" | "%" | "==" | "!=" | "<" | ">" | "<=" | ">=" | "and" | "or"
+
+%import common.WS
+%ignore WS
+
+// Terminals
+ATTR_NAME.2: /[a-zA-Z_][a-zA-Z0-9_]*(?:\.[a-zA-Z_][a-zA-Z0-9_]*)*/
+NAME: /[a-zA-Z_][a-zA-Z0-9_]*/
+SIGNED_NUMBER: /-[0-9]+\.?[0-9]*|-\.[0-9]+/  // Negative numbers: -123, -123.45, -.45
+NUMBER: /[0-9]+\.?[0-9]*|\.[0-9]+/  // Positive numbers: 123, 123.45, .45
+COMMENT: /#[^\n]*/
+%ignore COMMENT
+
+// Line continuation - backslash at end of line
+LINE_CONT: /\\[ \t]*\r?\n/
+%ignore LINE_CONT
+
+// Support both single and double quotes
+STRING : /"(?:[^"\\]|\\.)*"/ | /'(?:[^'\\]|\\.)*'/
+
+// Python code blocks - match everything between triple backticks
+PYTHON_BLOCK: /```[\s\S]*?```/
+
+// Operator tokens
+COMMA: ","
+ADD_OP: "+"
+SUB_OP: "-"
+MUL_OP: "*"
+DIV_OP: "/"
+MOD_OP: "%"
+POW_OP: "**"
+// Boolean operators - longer tokens first to avoid ambiguity
+NIMPLY_OP: "!=>"
+IMPLY_OP: "=>"
+NAND_OP: "!&"
+NOR_OP: "!|"
+XNOR_OP: "!^"
+XOR_OP: "^"
+NOT_OP: "!"
+COMP_OP: "==" | "!=" | "<=" | ">=" | "<" | ">"
+AND_OP: "&"
+OR_OP: "|"
+
+TYPE: "int" | "float" | "vector" | "bool" | "geometry" | "string" | "mat" | "material" | "shader" | "object" | "collection" | "color" | "menu" | "bundle" | "font" | "sound" | "closure" | "int_vector" | "matrix" | "rotation" | "image"
+BOOL: "True" | "False" | "true" | "false"

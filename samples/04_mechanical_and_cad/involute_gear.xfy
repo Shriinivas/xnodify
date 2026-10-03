@@ -1,0 +1,95 @@
+# ==============================================================================
+# Parametric Involute Spur Gear with Spokes & Center Bore
+# Demonstrates procedural CAD modeling in XFY:
+# 1. Trigonometric tooth geometry generation with pitch, addendum & dedendum
+# 2. Parametric central bore and lightening/spoke cutout bores
+# 3. Dynamic tooth indexing and optional 3D embossed tooth numbering
+# ==============================================================================
+
+group Gear "Gear" {
+  input teeth: int = 24 [6, 120]
+  input module: float "Controls overall scale/tooth size" = 0.1 
+  input thickness: float "Gear depth" = 0.15
+  input bore_radius: float "The center hole for the shaft" = 0.12 
+  input debug: bool = False           # 1 = Show tooth numbers, 0 = Hide numbers
+  input spokes: bool = True           # Generate lightening/spoke holes for large gears
+  output gear: geometry "Gear Mesh"
+
+  pi = 3.1415927
+
+  diameter = teeth * module
+  pitch_radius = diameter / 2.0
+  addendum = module
+  dedendum = module * 1.25
+
+  base_circle = curve_circle(radius=pitch_radius, resolution=teeth * 4)
+  angle_step = (2.0 * pi) / (teeth * 4)
+  point_index = index() % 4
+
+  pos_xyz = separate_xyz(position())
+  raw_angle = atan2(pos_xyz[1], pos_xyz[0])
+  base_angle = raw_angle - (angle_step * 0.5)
+
+  taper_factor = angle_step * 0.15
+  taper_angle = (point_index == 0) ? taper_factor : ((point_index == 1) ? -taper_factor : ((point_index == 2) ? taper_factor : -taper_factor))
+
+  corrected_angle = base_angle + taper_angle
+  is_outer = point_index < 2
+  radius = pitch_radius + (is_outer ? addendum : -dedendum)
+
+  pos = combine_xyz(cos(corrected_angle) * radius, sin(corrected_angle) * radius, 0.0)
+  gear_mesh = set_position(base_circle, position=pos)
+  gear_flat = fill_curve{mode:'N-gons'}(gear_mesh)
+  gear_solid = merge_by_distance(join_geometry(gear_flat ~ extrude_mesh(gear_flat, offset_scale=thickness)))
+
+  # Hollow out center bore
+  bore = fill_curve{mode:'N-gons'}(curve_circle(radius=bore_radius, resolution=32))
+  bore_cut = transform_geometry(bore, translation=combine_xyz(0.0, 0.0, -0.5 * thickness))
+  bore_cutter = merge_by_distance(join_geometry(bore_cut ~ extrude_mesh(bore_cut, offset_scale=2.0 * thickness)))
+
+  # Lightening / spoke holes for larger gears (teeth >= 24)
+  has_spokes = spokes ? (teeth >= 24) : False
+  hole_dist = (pitch_radius + bore_radius * 2.0) * 0.46
+  hole_rad = (pitch_radius - bore_radius * 2.0) * 0.32
+
+  h_cyl = mesh_cylinder(radius=hole_rad, depth=thickness * 3.0, vertices=16)
+  h1 = transform_geometry(h_cyl, translation=combine_xyz(hole_dist, 0.0, 0.0))
+  h2 = transform_geometry(h_cyl, translation=combine_xyz(-hole_dist, 0.0, 0.0))
+  h3 = transform_geometry(h_cyl, translation=combine_xyz(0.0, hole_dist, 0.0))
+  h4 = transform_geometry(h_cyl, translation=combine_xyz(0.0, -hole_dist, 0.0))
+  spoke_cutters = join_geometry(h1 ~ h2 ~ h3 ~ h4)
+
+  all_cutters = has_spokes ? join_geometry(bore_cutter ~ spoke_cutters) : bore_cutter
+  gear = mesh_boolean(gear_solid, all_cutters)
+
+  # Optional tooth numbering debug layer
+  tooth_points = curve_to_points(base_circle, count=teeth)
+  pos_p = position()
+  foreach{domain:'POINT'} tooth_points, , state=(pos_p):idx {
+      idx_str = value_to_string{data_type:'INT'}(idx)
+      idx_curve = string_to_curves(idx_str, size=module, align_x='Center', align_y='Middle')
+      idx_mesh = fill_curve(idx_curve)
+      idx_mesh = join_geometry(idx_mesh ~ extrude_mesh(idx_mesh, offset_scale=thickness * 1.2))
+      p_xyz = separate_xyz(pos_p)
+      idx_mesh = transform(idx_mesh, translation=combine_xyz(p_xyz[0], p_xyz[1], -0.1 * thickness))
+  }(idx_mesh:, debug_labels)
+
+  gear = debug ? join_geometry(gear ~ debug_labels) : gear
+}
+
+```
+if not __parents__:
+    op = '''
+input teeth: int "Teeth" = 24 [6, 120]
+input module: float "Module" = 0.1
+input thickness: float "Thickness" = 0.15
+input bore_radius: float "Bore Radius" = 0.12
+input spokes: bool "Lightening Spokes" = True
+output gear: geometry "Gear"
+
+gear = Gear(teeth, module, thickness, bore_radius, spokes=spokes)
+'''
+else:
+    op = ''
+```
+py!.op

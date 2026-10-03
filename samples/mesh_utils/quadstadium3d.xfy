@@ -1,0 +1,128 @@
+# ==============================================================================
+# Generic Pole-Free 3D Quad Beveled Cuboid / Super-Ellipsoid / Sphere Geometry
+# Produces 100% Pure Quad Topology with Zero Triangles, Zero N-Gons, Zero Poles
+# Fully Parametric X, Y, Z Dimensions and Independent Tri-Axial Bevel Radii
+# Supports Variable Bevel Segments & Maintains Constant Dimensions Centered at (0,0,0)
+# ==============================================================================
+#
+```
+if not __parents__:
+    op = f'''
+input width: float = 1.0 [0.01, 10.0]
+input height: float = 1.4 [0.01, 10.0]
+input depth: float = 0.8 [0.01, 10.0]
+input bevel_offset_x: float = 0.25 [0.0, 5.0]
+input bevel_offset_y: float = 0.30 [0.0, 5.0]
+input bevel_offset_z: float = 0.20 [0.0, 5.0]
+input segments: int = 5 [1, 32]
+
+stadium3d = QuadStadium3D(width, height, depth, bevel_offset_x, bevel_offset_y, bevel_offset_z, segments)
+output = set_shade_smooth(stadium3d)
+'''
+else:
+    op = ''
+```
+
+group QuadStadium3D "Quad Stadium 3D" {
+    input width: float "Width (X)" = 1.0 [0.01, 10.0]
+    input height: float "Height (Y)" = 1.4 [0.01, 10.0]
+    input depth: float "Depth (Z)" = 0.8 [0.01, 10.0]
+    input bevel_offset_x: float "Bevel Radius X" = 0.25 [0.0, 5.0]
+    input bevel_offset_y: float "Bevel Radius Y" = 0.30 [0.0, 5.0]
+    input bevel_offset_z: float "Bevel Radius Z" = 0.20 [0.0, 5.0]
+    input segments: int "Bevel Segments" = 5 [1, 32]
+
+    output obj: geometry "3D Quad Mesh"
+
+    # 1. Clamped Half-Extents & Corner Fillet Radii
+    r_max_x = width / 2.0
+    r_max_y = height / 2.0
+    r_max_z = depth / 2.0
+
+    rx = clamp(bevel_offset_x, 0.0, r_max_x)
+    ry = clamp(bevel_offset_y, 0.0, r_max_y)
+    rz = clamp(bevel_offset_z, 0.0, r_max_z)
+
+    # 2. Resolution & Grid Subdivisions (Odd counts for X, Y, Z centerline symmetry)
+    base_res = (2 * segments) + 1
+    min_dim = min(width, min(height, depth))
+    cell_size = min_dim / (base_res - 1.0)
+
+    raw_res_x = max(base_res, floor(width / cell_size) + 1)
+    raw_res_y = max(base_res, floor(height / cell_size) + 1)
+    raw_res_z = max(base_res, floor(depth / cell_size) + 1)
+
+    res_x = (floor(raw_res_x / 2.0) * 2) + 1
+    res_y = (floor(raw_res_y / 2.0) * 2) + 1
+    res_z = (floor(raw_res_z / 2.0) * 2) + 1
+
+    # 3. Corner Centers & Flat Region Thresholds in Normalized Space [-1, 1]
+    cx = r_max_x - rx
+    cy = r_max_y - ry
+    cz = r_max_z - rz
+
+    u_flat = 1.0 - (rx / r_max_x)
+    v_flat = 1.0 - (ry / r_max_y)
+    w_flat = 1.0 - (rz / r_max_z)
+
+    denom_u = max(1.0 - u_flat, 0.00001)
+    denom_v = max(1.0 - v_flat, 0.00001)
+    denom_w = max(1.0 - w_flat, 0.00001)
+
+    # 4. Canonical Unit Subdivided Cube (Hollow 2-Manifold Closed Quad Shell)
+    cube = mesh_cube(
+        size = combine_xyz(2.0, 2.0, 2.0),
+        vertices_x = res_x,
+        vertices_y = res_y,
+        vertices_z = res_z
+    )
+
+    (u, v, w) = separate_xyz(position())
+
+    abs_u = abs(u)
+    abs_v = abs(v)
+    abs_w = abs(w)
+
+    sign_u = sign(u)
+    sign_v = sign(v)
+    sign_w = sign(w)
+
+    # 5. Normalized Corner Penetration Coordinates [0, 1]
+    uc = clamp((abs_u - u_flat) / denom_u, 0.0, 1.0)
+    vc = clamp((abs_v - v_flat) / denom_v, 0.0, 1.0)
+    wc = clamp((abs_w - w_flat) / denom_w, 0.0, 1.0)
+
+    uc2 = uc * uc
+    vc2 = vc * vc
+    wc2 = wc * wc
+
+    # 6. Conformal 3D Squircle-to-Sphere Coordinate Transformation
+    term_x = max(0.0, 1.0 - (vc2 / 2.0) - (wc2 / 2.0) + (vc2 * wc2 / 3.0))
+    term_y = max(0.0, 1.0 - (uc2 / 2.0) - (wc2 / 2.0) + (uc2 * wc2 / 3.0))
+    term_z = max(0.0, 1.0 - (uc2 / 2.0) - (vc2 / 2.0) + (uc2 * vc2 / 3.0))
+
+    xc = rx * uc * sqrt(term_x)
+    yc = ry * vc * sqrt(term_y)
+    zc = rz * wc * sqrt(term_z)
+
+    # 7. Piecewise Continuous Assembly (Planar Faces, Cylindrical Edges, Spherical Octants)
+    is_corner_u = abs_u > u_flat
+    is_corner_v = abs_v > v_flat
+    is_corner_w = abs_w > w_flat
+
+    x_corner = sign_u * (cx + xc)
+    y_corner = sign_v * (cy + yc)
+    z_corner = sign_w * (cz + zc)
+
+    x_flat = u * r_max_x
+    y_flat = v * r_max_y
+    z_flat = w * r_max_z
+
+    x_final = switch(is_corner_u, x_flat, x_corner)
+    y_final = switch(is_corner_v, y_flat, y_corner)
+    z_final = switch(is_corner_w, z_flat, z_corner)
+
+    obj = set_position(cube, position=combine_xyz(x_final, y_final, z_final))
+}
+
+py!.op

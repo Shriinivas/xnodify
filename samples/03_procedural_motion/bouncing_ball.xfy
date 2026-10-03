@@ -1,0 +1,122 @@
+# ==============================================================================
+# Procedural Kinetic Bouncing Ball with Squash, Stretch & Damping
+# Demonstrates physical deformation and kinematic simulation in XFY:
+# 1. Dynamic bounding-box calculation from unmodified geometry
+# 2. Physics kinematics: gravity acceleration, bounce wave, and elasticity loss
+# 3. Volume-preserving squashing and stretching along the bounce normal
+# 4. Rotational rolling matching forward surface translation
+# ==============================================================================
+
+```
+import bpy
+import bmesh
+from mathutils import Matrix
+
+if not __parents__:
+    # Setup icosphere ball object if running standalone
+    ball_obj = bpy.data.objects.get("ball")
+    if not ball_obj:
+        bm = bmesh.new()
+        bmesh.ops.create_icosphere(bm, subdivisions=3, radius=1.0)
+        mesh_data = bpy.data.meshes.new("ball")
+        bm.to_mesh(mesh_data)
+        bm.free()
+        ball_obj = bpy.data.objects.new("ball", mesh_data)
+        bpy.context.scene.collection.objects.link(ball_obj)
+
+    bpy.context.view_layer.objects.active = ball_obj
+    ball_obj.select_set(True)
+
+    # Set up viewport angle if running interactively with a UI
+    if hasattr(bpy.context, "screen") and bpy.context.screen:
+        area3d = next((a for a in bpy.context.screen.areas if a.type == 'VIEW_3D'), None)
+        if area3d and hasattr(area3d.spaces.active, "region_3d"):
+            viewport_matrix = [
+                [0.88, -0.48, 0, -2.50],
+                [0.12, 0.23, 0.96, -3.65],
+                [-0.46, -0.85, 0.26, -14.27],
+                [0.0, 0.0, 0.0, 1.0]
+            ]
+            area3d.spaces.active.region_3d.view_matrix = Matrix(viewport_matrix)
+            area3d.tag_redraw()
+```
+
+input ball: geometry "Ball"
+input ball_initial_z: float "Initial Z" = 5.0
+input time: float "Scene Time (Sec)" = -1.0
+input gravity: float "Gravity" = 9.8
+input stiffness: float "Deform Factor" = 0.3
+input elasticity: float "Bounciness" = 0.8
+input floor_z: float "Floor Z" = 0.0
+input forward_speed: vector "Forward Speed" = (2.0, 0.0, 0.0)
+
+time = time < 0 ? (input_scene_time()[0]) : time
+
+# 1. Dynamically read bounds from the original mesh geometry
+(original_bbox_mesh, bbox_min_vec, bbox_max_vec) = bound_box(ball)
+(min_x, min_y, min_z) = separate_xyz(bbox_min_vec)
+(max_x, max_y, max_z) = separate_xyz(bbox_max_vec)
+
+# Calculate height and radius for kinematics
+mesh_center_z = (max_z + min_z) / 2.0
+dynamic_radius = mesh_center_z - min_z
+
+# 2. Determine energy loss over time
+energy_loss = elasticity ** time
+current_peak_height = ball_initial_z * energy_loss
+is_at_rest = current_peak_height < 0.001
+
+# 3. Calculate procedural ball_z based on kinematics
+velocity_factor = (gravity * 0.5) ** 0.5
+cycle = time * velocity_factor
+bounce_wave = abs(cos(cycle))
+ball_z = is_at_rest ? 0.0 : (current_peak_height * bounce_wave)
+
+# 4. Calculate true velocity-driven squash behavior
+impact_velocity = is_at_rest ? 0.0 : ((2.0 * gravity * current_peak_height) ** 0.5)
+max_speed = (2.0 * gravity * ball_initial_z) ** 0.5
+speed_factor = clamp(impact_velocity / max_speed, 0.0, 1.0)
+
+# 5. Penetration depth below floor
+proposed_world_bottom = ball_z + min_z
+distance_below_surface = floor_z - proposed_world_bottom
+
+# 6. Process compression with energy dampening
+raw_compression = max(0.0, distance_below_surface) * stiffness
+energy_dampening = speed_factor ** 2
+compression = is_at_rest ? 0.0 : (raw_compression * energy_dampening)
+
+# 7. Volume-preserved scale factors
+factor = max(0.01, 1.0 - compression)
+fact_root = 1.0 / (factor ** 0.5)
+scale = combine_xyz(fact_root, fact_root, factor)
+
+# 8. XY translation and rolling rotation
+travel_distance_vector = forward_speed * time
+(travel_distance_x, travel_distance_y, _) = separate_xyz(travel_distance_vector)
+total_distance_swallowed = (travel_distance_x ** 2 + travel_distance_y ** 2) ** 0.5
+
+# Roll rotation angle: distance / radius
+roll_angle = total_distance_swallowed / dynamic_radius
+roll_rotation_vector = combine_xyz(-travel_distance_y, travel_distance_x, 0.0)
+normalized_roll_vector = vnormalize(roll_rotation_vector)
+final_rotation = normalized_roll_vector * roll_angle
+
+# 9. Final Z displacement to pin mesh to floor during squash
+z_offset = max(0.0, distance_below_surface)
+final_z_translation = ball_z + z_offset
+
+# 10. Center, spin, deform, and place in world space
+to_local_center = combine_xyz(0.0, 0.0, -(min_z + dynamic_radius))
+rotated_ball = transform_geometry(ball, translation=to_local_center)
+rotated_ball = transform_geometry(rotated_ball, rotation=final_rotation)
+
+to_local_bottom = combine_xyz(0.0, 0.0, dynamic_radius)
+primed_ball = transform_geometry(rotated_ball, translation=to_local_bottom)
+
+deformed_ball = transform_geometry(primed_ball, scale=scale)
+
+final_xyz_translation = combine_xyz(travel_distance_x, travel_distance_y, final_z_translation - dynamic_radius)
+output_ball = transform_geometry(deformed_ball, translation=final_xyz_translation)
+
+output = output_ball

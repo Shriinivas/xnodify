@@ -1,0 +1,5478 @@
+{
+  "input_bool": {
+    "bl_idname": "FunctionNodeInputBool",
+    "inputs": {},
+    "outputs": {
+      "Boolean": {
+        "index": 0,
+        "type": "BOOLEAN",
+        "identifier": "Boolean"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "FunctionNodeInputBool"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Boolean"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Provide a True/False value that can be connected to other nodes in the tree"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "boolean": {
+        "type": "BOOLEAN",
+        "default": false
+      }
+    }
+  },
+  "input_int": {
+    "bl_idname": "FunctionNodeInputInt",
+    "inputs": {},
+    "outputs": {
+      "Integer": {
+        "index": 0,
+        "type": "INT",
+        "identifier": "Integer"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "FunctionNodeInputInt"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Integer"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Provide an integer value that can be connected to other nodes in the tree"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "integer": {
+        "type": "INT",
+        "default": 0
+      }
+    }
+  },
+  "input_menu": {
+    "bl_idname": "FunctionNodeInputMenu",
+    "inputs": {},
+    "outputs": {
+      "Menu": {
+        "index": 0,
+        "type": "MENU",
+        "identifier": "Menu"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "FunctionNodeInputMenu"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Menu"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Provide a menu value that can be connected to other nodes in the tree"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "value": {
+        "type": "ENUM",
+        "default": ""
+      }
+    }
+  },
+  "input_vector": {
+    "bl_idname": "FunctionNodeInputVector",
+    "inputs": {},
+    "outputs": {
+      "Vector": {
+        "index": 0,
+        "type": "VECTOR",
+        "identifier": "Vector"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "FunctionNodeInputVector"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Vector"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Provide a vector value that can be connected to other nodes in the tree"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "vector": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "vector_dimensions": {
+        "type": "INT",
+        "default": 3
+      }
+    }
+  },
+  "input_scene_time": {
+    "bl_idname": "GeometryNodeInputSceneTime",
+    "inputs": {},
+    "outputs": {
+      "Seconds": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Seconds"
+      },
+      "Frame": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Frame"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "GeometryNodeInputSceneTime"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Scene Time"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Retrieve the current time in the scene's animation in units of seconds or frames"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      }
+    }
+  },
+  "menu_switch": {
+    "bl_idname": "GeometryNodeMenuSwitch",
+    "inputs": {
+      "Menu": {
+        "index": 0,
+        "type": "MENU",
+        "identifier": "Menu"
+      },
+      "A": {
+        "index": 1,
+        "type": "GEOMETRY",
+        "identifier": "Item_0"
+      },
+      "B": {
+        "index": 2,
+        "type": "GEOMETRY",
+        "identifier": "Item_1"
+      },
+      "": {
+        "index": 3,
+        "type": "CUSTOM",
+        "identifier": "__extend__"
+      }
+    },
+    "outputs": {
+      "Output": {
+        "index": 0,
+        "type": "GEOMETRY",
+        "identifier": "Output"
+      },
+      "A": {
+        "index": 1,
+        "type": "BOOLEAN",
+        "identifier": "Item_0"
+      },
+      "B": {
+        "index": 2,
+        "type": "BOOLEAN",
+        "identifier": "Item_1"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "GeometryNodeMenuSwitch"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Menu Switch"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Select from multiple inputs by name"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "active_index": {
+        "type": "INT",
+        "default": 1
+      },
+      "active_item": {
+        "type": "STRUCT",
+        "default": {
+          "type": "STRUCT",
+          "properties": {
+            "description": {
+              "type": "STRING",
+              "default": ""
+            }
+          }
+        }
+      },
+      "data_type": {
+        "type": "ENUM",
+        "default": "GEOMETRY"
+      }
+    }
+  },
+  "repeat_input": {
+    "bl_idname": "GeometryNodeRepeatInput",
+    "inputs": {
+      "Iterations": {
+        "index": 0,
+        "type": "INT",
+        "identifier": "Iterations"
+      },
+      "": {
+        "index": 1,
+        "type": "CUSTOM",
+        "identifier": "__extend__"
+      }
+    },
+    "outputs": {
+      "Iteration": {
+        "index": 0,
+        "type": "INT",
+        "identifier": "Iteration"
+      },
+      "": {
+        "index": 1,
+        "type": "CUSTOM",
+        "identifier": "__extend__"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "GeometryNodeRepeatInput"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Repeat Input"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": ""
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      }
+    }
+  },
+  "repeat_output": {
+    "bl_idname": "GeometryNodeRepeatOutput",
+    "inputs": {
+      "Geometry": {
+        "index": 0,
+        "type": "GEOMETRY",
+        "identifier": "Item_0"
+      },
+      "": {
+        "index": 1,
+        "type": "CUSTOM",
+        "identifier": "__extend__"
+      }
+    },
+    "outputs": {
+      "Geometry": {
+        "index": 0,
+        "type": "GEOMETRY",
+        "identifier": "Item_0"
+      },
+      "": {
+        "index": 1,
+        "type": "CUSTOM",
+        "identifier": "__extend__"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "GeometryNodeRepeatOutput"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Repeat Output"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": ""
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "active_index": {
+        "type": "INT",
+        "default": 0
+      },
+      "active_item": {
+        "type": "STRUCT",
+        "default": {
+          "type": "STRUCT",
+          "properties": {
+            "socket_type": {
+              "type": "ENUM",
+              "default": "GEOMETRY"
+            }
+          }
+        }
+      },
+      "inspection_index": {
+        "type": "INT",
+        "default": 0
+      }
+    }
+  },
+  "closure_input": {
+    "bl_idname": "NodeClosureInput",
+    "inputs": {},
+    "outputs": {
+      "": {
+        "index": 0,
+        "type": "CUSTOM",
+        "identifier": "__extend__"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "NodeClosureInput"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Closure Input"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": ""
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      }
+    }
+  },
+  "closure_output": {
+    "bl_idname": "NodeClosureOutput",
+    "inputs": {
+      "": {
+        "index": 0,
+        "type": "CUSTOM",
+        "identifier": "__extend__"
+      }
+    },
+    "outputs": {
+      "Closure": {
+        "index": 0,
+        "type": "CLOSURE",
+        "identifier": "Closure"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "NodeClosureOutput"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Closure Output"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": ""
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "active_input_index": {
+        "type": "INT",
+        "default": 0
+      },
+      "active_output_index": {
+        "type": "INT",
+        "default": 0
+      },
+      "define_signature": {
+        "type": "BOOLEAN",
+        "default": false
+      }
+    }
+  },
+  "combine_bundle": {
+    "bl_idname": "NodeCombineBundle",
+    "inputs": {
+      "": {
+        "index": 0,
+        "type": "CUSTOM",
+        "identifier": "__extend__"
+      }
+    },
+    "outputs": {
+      "Bundle": {
+        "index": 0,
+        "type": "BUNDLE",
+        "identifier": "Bundle"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "NodeCombineBundle"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Combine Bundle"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Combine multiple socket values into one."
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "active_index": {
+        "type": "INT",
+        "default": 0
+      },
+      "define_signature": {
+        "type": "BOOLEAN",
+        "default": false
+      }
+    }
+  },
+  "evaluate_closure": {
+    "bl_idname": "NodeEvaluateClosure",
+    "inputs": {
+      "Closure": {
+        "index": 0,
+        "type": "CLOSURE",
+        "identifier": "Closure"
+      },
+      "": {
+        "index": 1,
+        "type": "CUSTOM",
+        "identifier": "__extend__"
+      }
+    },
+    "outputs": {
+      "": {
+        "index": 0,
+        "type": "CUSTOM",
+        "identifier": "__extend__"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "NodeEvaluateClosure"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Evaluate Closure"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Execute a given closure"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "active_input_index": {
+        "type": "INT",
+        "default": 0
+      },
+      "active_output_index": {
+        "type": "INT",
+        "default": 0
+      },
+      "define_signature": {
+        "type": "BOOLEAN",
+        "default": false
+      }
+    }
+  },
+  "join_bundle": {
+    "bl_idname": "NodeJoinBundle",
+    "inputs": {
+      "Bundle": {
+        "index": 0,
+        "type": "BUNDLE",
+        "identifier": "Bundle"
+      }
+    },
+    "outputs": {
+      "Bundle": {
+        "index": 0,
+        "type": "BUNDLE",
+        "identifier": "Bundle"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "NodeJoinBundle"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Join Bundle"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Join multiple bundles together"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      }
+    }
+  },
+  "separate_bundle": {
+    "bl_idname": "NodeSeparateBundle",
+    "inputs": {
+      "Bundle": {
+        "index": 0,
+        "type": "BUNDLE",
+        "identifier": "Bundle"
+      }
+    },
+    "outputs": {
+      "": {
+        "index": 0,
+        "type": "CUSTOM",
+        "identifier": "__extend__"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "NodeSeparateBundle"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Separate Bundle"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Split a bundle into multiple sockets."
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "active_index": {
+        "type": "INT",
+        "default": 0
+      },
+      "define_signature": {
+        "type": "BOOLEAN",
+        "default": false
+      }
+    }
+  },
+  "blackbody": {
+    "bl_idname": "ShaderNodeBlackbody",
+    "inputs": {
+      "Temperature": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Temperature"
+      }
+    },
+    "outputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeBlackbody"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Blackbody"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Convert a blackbody temperature to an RGB value"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 160.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      }
+    }
+  },
+  "clamp": {
+    "bl_idname": "ShaderNodeClamp",
+    "inputs": {
+      "Value": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Value"
+      },
+      "Min": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Min"
+      },
+      "Max": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Max"
+      }
+    },
+    "outputs": {
+      "Result": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Result"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeClamp"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Clamp"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Clamp a value between a minimum and a maximum"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "clamp_type": {
+        "type": "ENUM",
+        "default": "MINMAX"
+      }
+    }
+  },
+  "combine_xyz": {
+    "bl_idname": "ShaderNodeCombineXYZ",
+    "inputs": {
+      "X": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "X"
+      },
+      "Y": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Y"
+      },
+      "Z": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Z"
+      }
+    },
+    "outputs": {
+      "Vector": {
+        "index": 0,
+        "type": "VECTOR",
+        "identifier": "Vector"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeCombineXYZ"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Combine XYZ"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Create a vector from X, Y, and Z components"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      }
+    }
+  },
+  "float_curve": {
+    "bl_idname": "ShaderNodeFloatCurve",
+    "inputs": {
+      "Factor": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Factor"
+      },
+      "Value": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Value"
+      }
+    },
+    "outputs": {
+      "Value": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Value"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeFloatCurve"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Float Curve"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Map an input float to a curve and outputs a float value"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 240.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "mapping": {
+        "type": "STRUCT",
+        "default": {
+          "type": "STRUCT",
+          "properties": {
+            "tone": {
+              "type": "ENUM",
+              "default": "STANDARD"
+            },
+            "use_clip": {
+              "type": "BOOLEAN",
+              "default": true
+            },
+            "clip_min_x": {
+              "type": "FLOAT",
+              "default": 0.0
+            },
+            "clip_min_y": {
+              "type": "FLOAT",
+              "default": 0.0
+            },
+            "clip_max_x": {
+              "type": "FLOAT",
+              "default": 1.0
+            },
+            "clip_max_y": {
+              "type": "FLOAT",
+              "default": 1.0
+            },
+            "extend": {
+              "type": "ENUM",
+              "default": "EXTRAPOLATED"
+            },
+            "black_level": {
+              "type": "FLOAT",
+              "default": "<Color (r=0.0000, g=0.0000, b=0.0000)>"
+            },
+            "white_level": {
+              "type": "FLOAT",
+              "default": "<Color (r=1.0000, g=1.0000, b=1.0000)>"
+            }
+          }
+        }
+      }
+    }
+  },
+  "gamma": {
+    "bl_idname": "ShaderNodeGamma",
+    "inputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      },
+      "Gamma": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Gamma"
+      }
+    },
+    "outputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeGamma"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Gamma"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Apply a gamma correction"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      }
+    }
+  },
+  "map_range": {
+    "bl_idname": "ShaderNodeMapRange",
+    "inputs": {
+      "Value": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Value"
+      },
+      "From Min": {
+        "index": 7,
+        "type": "VECTOR",
+        "identifier": "From_Min_FLOAT3"
+      },
+      "From Max": {
+        "index": 8,
+        "type": "VECTOR",
+        "identifier": "From_Max_FLOAT3"
+      },
+      "To Min": {
+        "index": 9,
+        "type": "VECTOR",
+        "identifier": "To_Min_FLOAT3"
+      },
+      "To Max": {
+        "index": 10,
+        "type": "VECTOR",
+        "identifier": "To_Max_FLOAT3"
+      },
+      "Steps": {
+        "index": 11,
+        "type": "VECTOR",
+        "identifier": "Steps_FLOAT3"
+      },
+      "Vector": {
+        "index": 6,
+        "type": "VECTOR",
+        "identifier": "Vector"
+      }
+    },
+    "outputs": {
+      "Result": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Result"
+      },
+      "Vector": {
+        "index": 1,
+        "type": "VECTOR",
+        "identifier": "Vector"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeMapRange"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Map Range"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Remap a value from a range to a target range"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "clamp": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "interpolation_type": {
+        "type": "ENUM",
+        "default": "LINEAR"
+      },
+      "data_type": {
+        "type": "ENUM",
+        "default": "FLOAT"
+      }
+    }
+  },
+  "math": {
+    "bl_idname": "ShaderNodeMath",
+    "inputs": {
+      "Value": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Value_002"
+      }
+    },
+    "outputs": {
+      "Value": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Value"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeMath"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Math"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Perform math operations"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "operation": {
+        "type": "ENUM",
+        "default": "ADD"
+      },
+      "use_clamp": {
+        "type": "BOOLEAN",
+        "default": false
+      }
+    }
+  },
+  "mix": {
+    "bl_idname": "ShaderNodeMix",
+    "inputs": {
+      "Factor": {
+        "index": 1,
+        "type": "VECTOR",
+        "identifier": "Factor_Vector"
+      },
+      "A": {
+        "index": 8,
+        "type": "ROTATION",
+        "identifier": "A_Rotation"
+      },
+      "B": {
+        "index": 9,
+        "type": "ROTATION",
+        "identifier": "B_Rotation"
+      }
+    },
+    "outputs": {
+      "Result": {
+        "index": 3,
+        "type": "ROTATION",
+        "identifier": "Result_Rotation"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeMix"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Mix"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Mix values by a factor"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "data_type": {
+        "type": "ENUM",
+        "default": "FLOAT"
+      },
+      "factor_mode": {
+        "type": "ENUM",
+        "default": "UNIFORM"
+      },
+      "blend_type": {
+        "type": "ENUM",
+        "default": "MIX"
+      },
+      "clamp_factor": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "clamp_result": {
+        "type": "BOOLEAN",
+        "default": false
+      }
+    }
+  },
+  "mix_rgb": {
+    "bl_idname": "ShaderNodeMixRGB",
+    "inputs": {
+      "Factor": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Fac"
+      },
+      "Color1": {
+        "index": 1,
+        "type": "RGBA",
+        "identifier": "Color1"
+      },
+      "Color2": {
+        "index": 2,
+        "type": "RGBA",
+        "identifier": "Color2"
+      }
+    },
+    "outputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeMixRGB"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Mix (Legacy)"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Mix two input colors"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "blend_type": {
+        "type": "ENUM",
+        "default": "MIX"
+      },
+      "use_alpha": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "use_clamp": {
+        "type": "BOOLEAN",
+        "default": false
+      }
+    }
+  },
+  "rgb_curve": {
+    "bl_idname": "ShaderNodeRGBCurve",
+    "inputs": {
+      "Factor": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Fac"
+      },
+      "Color": {
+        "index": 1,
+        "type": "RGBA",
+        "identifier": "Color"
+      }
+    },
+    "outputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeRGBCurve"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "RGB Curves"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Apply color corrections for each color channel"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 240.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "mapping": {
+        "type": "STRUCT",
+        "default": {
+          "type": "STRUCT",
+          "properties": {
+            "tone": {
+              "type": "ENUM",
+              "default": "STANDARD"
+            },
+            "use_clip": {
+              "type": "BOOLEAN",
+              "default": true
+            },
+            "clip_min_x": {
+              "type": "FLOAT",
+              "default": 0.0
+            },
+            "clip_min_y": {
+              "type": "FLOAT",
+              "default": 0.0
+            },
+            "clip_max_x": {
+              "type": "FLOAT",
+              "default": 1.0
+            },
+            "clip_max_y": {
+              "type": "FLOAT",
+              "default": 1.0
+            },
+            "extend": {
+              "type": "ENUM",
+              "default": "EXTRAPOLATED"
+            },
+            "black_level": {
+              "type": "FLOAT",
+              "default": "<Color (r=0.0000, g=0.0000, b=0.0000)>"
+            },
+            "white_level": {
+              "type": "FLOAT",
+              "default": "<Color (r=1.0000, g=1.0000, b=1.0000)>"
+            }
+          }
+        }
+      }
+    }
+  },
+  "radial_tiling": {
+    "bl_idname": "ShaderNodeRadialTiling",
+    "inputs": {
+      "Vector": {
+        "index": 0,
+        "type": "VECTOR",
+        "identifier": "Vector"
+      },
+      "Sides": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Sides"
+      },
+      "Roundness": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Roundness"
+      }
+    },
+    "outputs": {
+      "Segment Coordinates": {
+        "index": 0,
+        "type": "VECTOR",
+        "identifier": "Segment Coordinates"
+      },
+      "Segment ID": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Segment ID"
+      },
+      "Segment Width": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Segment Width"
+      },
+      "Segment Rotation": {
+        "index": 3,
+        "type": "VALUE",
+        "identifier": "Segment Rotation"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeRadialTiling"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Radial Tiling"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Transform Coordinate System for Radial Tiling"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "normalize": {
+        "type": "BOOLEAN",
+        "default": false
+      }
+    }
+  },
+  "separate_xyz": {
+    "bl_idname": "ShaderNodeSeparateXYZ",
+    "inputs": {
+      "Vector": {
+        "index": 0,
+        "type": "VECTOR",
+        "identifier": "Vector"
+      }
+    },
+    "outputs": {
+      "X": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "X"
+      },
+      "Y": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Y"
+      },
+      "Z": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Z"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeSeparateXYZ"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Separate XYZ"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Split a vector into its X, Y, and Z components"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      }
+    }
+  },
+  "tex_brick": {
+    "bl_idname": "ShaderNodeTexBrick",
+    "inputs": {
+      "Vector": {
+        "index": 0,
+        "type": "VECTOR",
+        "identifier": "Vector"
+      },
+      "Color1": {
+        "index": 1,
+        "type": "RGBA",
+        "identifier": "Color1"
+      },
+      "Color2": {
+        "index": 2,
+        "type": "RGBA",
+        "identifier": "Color2"
+      },
+      "Mortar": {
+        "index": 3,
+        "type": "RGBA",
+        "identifier": "Mortar"
+      },
+      "Scale": {
+        "index": 4,
+        "type": "VALUE",
+        "identifier": "Scale"
+      },
+      "Mortar Size": {
+        "index": 5,
+        "type": "VALUE",
+        "identifier": "Mortar Size"
+      },
+      "Mortar Smooth": {
+        "index": 6,
+        "type": "VALUE",
+        "identifier": "Mortar Smooth"
+      },
+      "Bias": {
+        "index": 7,
+        "type": "VALUE",
+        "identifier": "Bias"
+      },
+      "Brick Width": {
+        "index": 8,
+        "type": "VALUE",
+        "identifier": "Brick Width"
+      },
+      "Row Height": {
+        "index": 9,
+        "type": "VALUE",
+        "identifier": "Row Height"
+      }
+    },
+    "outputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      },
+      "Factor": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Fac"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeTexBrick"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Brick Texture"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Generate a procedural texture producing bricks"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 180.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "texture_mapping": {
+        "type": "STRUCT",
+        "default": {
+          "type": "STRUCT",
+          "properties": {
+            "vector_type": {
+              "type": "ENUM",
+              "default": "POINT"
+            },
+            "translation": {
+              "type": "FLOAT",
+              "default": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            "rotation": {
+              "type": "FLOAT",
+              "default": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>"
+            },
+            "scale": {
+              "type": "FLOAT",
+              "default": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            "min": {
+              "type": "FLOAT",
+              "default": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            "max": {
+              "type": "FLOAT",
+              "default": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            "use_min": {
+              "type": "BOOLEAN",
+              "default": false
+            },
+            "use_max": {
+              "type": "BOOLEAN",
+              "default": false
+            },
+            "mapping_x": {
+              "type": "ENUM",
+              "default": "X"
+            },
+            "mapping_y": {
+              "type": "ENUM",
+              "default": "Y"
+            },
+            "mapping_z": {
+              "type": "ENUM",
+              "default": "Z"
+            },
+            "mapping": {
+              "type": "ENUM",
+              "default": "FLAT"
+            }
+          }
+        }
+      },
+      "color_mapping": {
+        "type": "STRUCT",
+        "default": {
+          "type": "STRUCT",
+          "properties": {
+            "use_color_ramp": {
+              "type": "BOOLEAN",
+              "default": false
+            },
+            "color_ramp": {
+              "type": "STRUCT",
+              "default": {
+                "type": "STRUCT",
+                "properties": {
+                  "interpolation": {
+                    "type": "ENUM",
+                    "default": "LINEAR"
+                  },
+                  "hue_interpolation": {
+                    "type": "ENUM",
+                    "default": "NEAR"
+                  },
+                  "color_mode": {
+                    "type": "ENUM",
+                    "default": "RGB"
+                  }
+                }
+              }
+            },
+            "brightness": {
+              "type": "FLOAT",
+              "default": 1.0
+            },
+            "contrast": {
+              "type": "FLOAT",
+              "default": 1.0
+            },
+            "saturation": {
+              "type": "FLOAT",
+              "default": 1.0
+            },
+            "blend_type": {
+              "type": "ENUM",
+              "default": "MIX"
+            },
+            "blend_color": {
+              "type": "FLOAT",
+              "default": "<Color (r=0.8000, g=0.8000, b=0.8000)>"
+            },
+            "blend_factor": {
+              "type": "FLOAT",
+              "default": 0.0
+            }
+          }
+        }
+      },
+      "offset_frequency": {
+        "type": "INT",
+        "default": 2
+      },
+      "squash_frequency": {
+        "type": "INT",
+        "default": 2
+      },
+      "offset": {
+        "type": "FLOAT",
+        "default": 0.5
+      },
+      "squash": {
+        "type": "FLOAT",
+        "default": 1.0
+      }
+    }
+  },
+  "tex_checker": {
+    "bl_idname": "ShaderNodeTexChecker",
+    "inputs": {
+      "Vector": {
+        "index": 0,
+        "type": "VECTOR",
+        "identifier": "Vector"
+      },
+      "Color1": {
+        "index": 1,
+        "type": "RGBA",
+        "identifier": "Color1"
+      },
+      "Color2": {
+        "index": 2,
+        "type": "RGBA",
+        "identifier": "Color2"
+      },
+      "Scale": {
+        "index": 3,
+        "type": "VALUE",
+        "identifier": "Scale"
+      }
+    },
+    "outputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      },
+      "Factor": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Fac"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeTexChecker"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Checker Texture"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Generate a checkerboard texture"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "texture_mapping": {
+        "type": "STRUCT",
+        "default": {
+          "type": "STRUCT",
+          "properties": {
+            "vector_type": {
+              "type": "ENUM",
+              "default": "POINT"
+            },
+            "translation": {
+              "type": "FLOAT",
+              "default": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            "rotation": {
+              "type": "FLOAT",
+              "default": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>"
+            },
+            "scale": {
+              "type": "FLOAT",
+              "default": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            "min": {
+              "type": "FLOAT",
+              "default": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            "max": {
+              "type": "FLOAT",
+              "default": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            "use_min": {
+              "type": "BOOLEAN",
+              "default": false
+            },
+            "use_max": {
+              "type": "BOOLEAN",
+              "default": false
+            },
+            "mapping_x": {
+              "type": "ENUM",
+              "default": "X"
+            },
+            "mapping_y": {
+              "type": "ENUM",
+              "default": "Y"
+            },
+            "mapping_z": {
+              "type": "ENUM",
+              "default": "Z"
+            },
+            "mapping": {
+              "type": "ENUM",
+              "default": "FLAT"
+            }
+          }
+        }
+      },
+      "color_mapping": {
+        "type": "STRUCT",
+        "default": {
+          "type": "STRUCT",
+          "properties": {
+            "use_color_ramp": {
+              "type": "BOOLEAN",
+              "default": false
+            },
+            "color_ramp": {
+              "type": "STRUCT",
+              "default": {
+                "type": "STRUCT",
+                "properties": {
+                  "interpolation": {
+                    "type": "ENUM",
+                    "default": "LINEAR"
+                  },
+                  "hue_interpolation": {
+                    "type": "ENUM",
+                    "default": "NEAR"
+                  },
+                  "color_mode": {
+                    "type": "ENUM",
+                    "default": "RGB"
+                  }
+                }
+              }
+            },
+            "brightness": {
+              "type": "FLOAT",
+              "default": 1.0
+            },
+            "contrast": {
+              "type": "FLOAT",
+              "default": 1.0
+            },
+            "saturation": {
+              "type": "FLOAT",
+              "default": 1.0
+            },
+            "blend_type": {
+              "type": "ENUM",
+              "default": "MIX"
+            },
+            "blend_color": {
+              "type": "FLOAT",
+              "default": "<Color (r=0.8000, g=0.8000, b=0.8000)>"
+            },
+            "blend_factor": {
+              "type": "FLOAT",
+              "default": 0.0
+            }
+          }
+        }
+      }
+    }
+  },
+  "tex_gabor": {
+    "bl_idname": "ShaderNodeTexGabor",
+    "inputs": {
+      "Vector": {
+        "index": 0,
+        "type": "VECTOR",
+        "identifier": "Vector"
+      },
+      "Scale": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Scale"
+      },
+      "Frequency": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Frequency"
+      },
+      "Anisotropy": {
+        "index": 3,
+        "type": "VALUE",
+        "identifier": "Anisotropy"
+      },
+      "Orientation": {
+        "index": 5,
+        "type": "VECTOR",
+        "identifier": "Orientation 3D"
+      }
+    },
+    "outputs": {
+      "Value": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Value"
+      },
+      "Phase": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Phase"
+      },
+      "Intensity": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Intensity"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeTexGabor"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Gabor Texture"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Generate Gabor noise"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "texture_mapping": {
+        "type": "STRUCT",
+        "default": {
+          "type": "STRUCT",
+          "properties": {
+            "vector_type": {
+              "type": "ENUM",
+              "default": "POINT"
+            },
+            "translation": {
+              "type": "FLOAT",
+              "default": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            "rotation": {
+              "type": "FLOAT",
+              "default": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>"
+            },
+            "scale": {
+              "type": "FLOAT",
+              "default": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            "min": {
+              "type": "FLOAT",
+              "default": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            "max": {
+              "type": "FLOAT",
+              "default": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            "use_min": {
+              "type": "BOOLEAN",
+              "default": false
+            },
+            "use_max": {
+              "type": "BOOLEAN",
+              "default": false
+            },
+            "mapping_x": {
+              "type": "ENUM",
+              "default": "X"
+            },
+            "mapping_y": {
+              "type": "ENUM",
+              "default": "Y"
+            },
+            "mapping_z": {
+              "type": "ENUM",
+              "default": "Z"
+            },
+            "mapping": {
+              "type": "ENUM",
+              "default": "FLAT"
+            }
+          }
+        }
+      },
+      "color_mapping": {
+        "type": "STRUCT",
+        "default": {
+          "type": "STRUCT",
+          "properties": {
+            "use_color_ramp": {
+              "type": "BOOLEAN",
+              "default": false
+            },
+            "color_ramp": {
+              "type": "STRUCT",
+              "default": {
+                "type": "STRUCT",
+                "properties": {
+                  "interpolation": {
+                    "type": "ENUM",
+                    "default": "LINEAR"
+                  },
+                  "hue_interpolation": {
+                    "type": "ENUM",
+                    "default": "NEAR"
+                  },
+                  "color_mode": {
+                    "type": "ENUM",
+                    "default": "RGB"
+                  }
+                }
+              }
+            },
+            "brightness": {
+              "type": "FLOAT",
+              "default": 1.0
+            },
+            "contrast": {
+              "type": "FLOAT",
+              "default": 1.0
+            },
+            "saturation": {
+              "type": "FLOAT",
+              "default": 1.0
+            },
+            "blend_type": {
+              "type": "ENUM",
+              "default": "MIX"
+            },
+            "blend_color": {
+              "type": "FLOAT",
+              "default": "<Color (r=0.8000, g=0.8000, b=0.8000)>"
+            },
+            "blend_factor": {
+              "type": "FLOAT",
+              "default": 0.0
+            }
+          }
+        }
+      },
+      "gabor_type": {
+        "type": "ENUM",
+        "default": "2D"
+      }
+    }
+  },
+  "tex_gradient": {
+    "bl_idname": "ShaderNodeTexGradient",
+    "inputs": {
+      "Vector": {
+        "index": 0,
+        "type": "VECTOR",
+        "identifier": "Vector"
+      }
+    },
+    "outputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      },
+      "Factor": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Fac"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeTexGradient"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Gradient Texture"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Generate interpolated color and intensity values based on the input vector"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "texture_mapping": {
+        "type": "STRUCT",
+        "default": {
+          "type": "STRUCT",
+          "properties": {
+            "vector_type": {
+              "type": "ENUM",
+              "default": "POINT"
+            },
+            "translation": {
+              "type": "FLOAT",
+              "default": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            "rotation": {
+              "type": "FLOAT",
+              "default": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>"
+            },
+            "scale": {
+              "type": "FLOAT",
+              "default": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            "min": {
+              "type": "FLOAT",
+              "default": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            "max": {
+              "type": "FLOAT",
+              "default": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            "use_min": {
+              "type": "BOOLEAN",
+              "default": false
+            },
+            "use_max": {
+              "type": "BOOLEAN",
+              "default": false
+            },
+            "mapping_x": {
+              "type": "ENUM",
+              "default": "X"
+            },
+            "mapping_y": {
+              "type": "ENUM",
+              "default": "Y"
+            },
+            "mapping_z": {
+              "type": "ENUM",
+              "default": "Z"
+            },
+            "mapping": {
+              "type": "ENUM",
+              "default": "FLAT"
+            }
+          }
+        }
+      },
+      "color_mapping": {
+        "type": "STRUCT",
+        "default": {
+          "type": "STRUCT",
+          "properties": {
+            "use_color_ramp": {
+              "type": "BOOLEAN",
+              "default": false
+            },
+            "color_ramp": {
+              "type": "STRUCT",
+              "default": {
+                "type": "STRUCT",
+                "properties": {
+                  "interpolation": {
+                    "type": "ENUM",
+                    "default": "LINEAR"
+                  },
+                  "hue_interpolation": {
+                    "type": "ENUM",
+                    "default": "NEAR"
+                  },
+                  "color_mode": {
+                    "type": "ENUM",
+                    "default": "RGB"
+                  }
+                }
+              }
+            },
+            "brightness": {
+              "type": "FLOAT",
+              "default": 1.0
+            },
+            "contrast": {
+              "type": "FLOAT",
+              "default": 1.0
+            },
+            "saturation": {
+              "type": "FLOAT",
+              "default": 1.0
+            },
+            "blend_type": {
+              "type": "ENUM",
+              "default": "MIX"
+            },
+            "blend_color": {
+              "type": "FLOAT",
+              "default": "<Color (r=0.8000, g=0.8000, b=0.8000)>"
+            },
+            "blend_factor": {
+              "type": "FLOAT",
+              "default": 0.0
+            }
+          }
+        }
+      },
+      "gradient_type": {
+        "type": "ENUM",
+        "default": "LINEAR"
+      }
+    }
+  },
+  "tex_magic": {
+    "bl_idname": "ShaderNodeTexMagic",
+    "inputs": {
+      "Vector": {
+        "index": 0,
+        "type": "VECTOR",
+        "identifier": "Vector"
+      },
+      "Scale": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Scale"
+      },
+      "Distortion": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Distortion"
+      }
+    },
+    "outputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      },
+      "Factor": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Fac"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeTexMagic"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Magic Texture"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Generate a psychedelic color texture"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "texture_mapping": {
+        "type": "STRUCT",
+        "default": {
+          "type": "STRUCT",
+          "properties": {
+            "vector_type": {
+              "type": "ENUM",
+              "default": "POINT"
+            },
+            "translation": {
+              "type": "FLOAT",
+              "default": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            "rotation": {
+              "type": "FLOAT",
+              "default": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>"
+            },
+            "scale": {
+              "type": "FLOAT",
+              "default": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            "min": {
+              "type": "FLOAT",
+              "default": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            "max": {
+              "type": "FLOAT",
+              "default": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            "use_min": {
+              "type": "BOOLEAN",
+              "default": false
+            },
+            "use_max": {
+              "type": "BOOLEAN",
+              "default": false
+            },
+            "mapping_x": {
+              "type": "ENUM",
+              "default": "X"
+            },
+            "mapping_y": {
+              "type": "ENUM",
+              "default": "Y"
+            },
+            "mapping_z": {
+              "type": "ENUM",
+              "default": "Z"
+            },
+            "mapping": {
+              "type": "ENUM",
+              "default": "FLAT"
+            }
+          }
+        }
+      },
+      "color_mapping": {
+        "type": "STRUCT",
+        "default": {
+          "type": "STRUCT",
+          "properties": {
+            "use_color_ramp": {
+              "type": "BOOLEAN",
+              "default": false
+            },
+            "color_ramp": {
+              "type": "STRUCT",
+              "default": {
+                "type": "STRUCT",
+                "properties": {
+                  "interpolation": {
+                    "type": "ENUM",
+                    "default": "LINEAR"
+                  },
+                  "hue_interpolation": {
+                    "type": "ENUM",
+                    "default": "NEAR"
+                  },
+                  "color_mode": {
+                    "type": "ENUM",
+                    "default": "RGB"
+                  }
+                }
+              }
+            },
+            "brightness": {
+              "type": "FLOAT",
+              "default": 1.0
+            },
+            "contrast": {
+              "type": "FLOAT",
+              "default": 1.0
+            },
+            "saturation": {
+              "type": "FLOAT",
+              "default": 1.0
+            },
+            "blend_type": {
+              "type": "ENUM",
+              "default": "MIX"
+            },
+            "blend_color": {
+              "type": "FLOAT",
+              "default": "<Color (r=0.8000, g=0.8000, b=0.8000)>"
+            },
+            "blend_factor": {
+              "type": "FLOAT",
+              "default": 0.0
+            }
+          }
+        }
+      },
+      "turbulence_depth": {
+        "type": "INT",
+        "default": 2
+      }
+    }
+  },
+  "tex_noise": {
+    "bl_idname": "ShaderNodeTexNoise",
+    "inputs": {
+      "Vector": {
+        "index": 0,
+        "type": "VECTOR",
+        "identifier": "Vector"
+      },
+      "W": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "W"
+      },
+      "Scale": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Scale"
+      },
+      "Detail": {
+        "index": 3,
+        "type": "VALUE",
+        "identifier": "Detail"
+      },
+      "Roughness": {
+        "index": 4,
+        "type": "VALUE",
+        "identifier": "Roughness"
+      },
+      "Lacunarity": {
+        "index": 5,
+        "type": "VALUE",
+        "identifier": "Lacunarity"
+      },
+      "Offset": {
+        "index": 6,
+        "type": "VALUE",
+        "identifier": "Offset"
+      },
+      "Gain": {
+        "index": 7,
+        "type": "VALUE",
+        "identifier": "Gain"
+      },
+      "Distortion": {
+        "index": 8,
+        "type": "VALUE",
+        "identifier": "Distortion"
+      }
+    },
+    "outputs": {
+      "Factor": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Fac"
+      },
+      "Color": {
+        "index": 1,
+        "type": "RGBA",
+        "identifier": "Color"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeTexNoise"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Noise Texture"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Generate fractal Perlin noise"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 160.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "texture_mapping": {
+        "type": "STRUCT",
+        "default": {
+          "type": "STRUCT",
+          "properties": {
+            "vector_type": {
+              "type": "ENUM",
+              "default": "POINT"
+            },
+            "translation": {
+              "type": "FLOAT",
+              "default": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            "rotation": {
+              "type": "FLOAT",
+              "default": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>"
+            },
+            "scale": {
+              "type": "FLOAT",
+              "default": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            "min": {
+              "type": "FLOAT",
+              "default": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            "max": {
+              "type": "FLOAT",
+              "default": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            "use_min": {
+              "type": "BOOLEAN",
+              "default": false
+            },
+            "use_max": {
+              "type": "BOOLEAN",
+              "default": false
+            },
+            "mapping_x": {
+              "type": "ENUM",
+              "default": "X"
+            },
+            "mapping_y": {
+              "type": "ENUM",
+              "default": "Y"
+            },
+            "mapping_z": {
+              "type": "ENUM",
+              "default": "Z"
+            },
+            "mapping": {
+              "type": "ENUM",
+              "default": "FLAT"
+            }
+          }
+        }
+      },
+      "color_mapping": {
+        "type": "STRUCT",
+        "default": {
+          "type": "STRUCT",
+          "properties": {
+            "use_color_ramp": {
+              "type": "BOOLEAN",
+              "default": false
+            },
+            "color_ramp": {
+              "type": "STRUCT",
+              "default": {
+                "type": "STRUCT",
+                "properties": {
+                  "interpolation": {
+                    "type": "ENUM",
+                    "default": "LINEAR"
+                  },
+                  "hue_interpolation": {
+                    "type": "ENUM",
+                    "default": "NEAR"
+                  },
+                  "color_mode": {
+                    "type": "ENUM",
+                    "default": "RGB"
+                  }
+                }
+              }
+            },
+            "brightness": {
+              "type": "FLOAT",
+              "default": 1.0
+            },
+            "contrast": {
+              "type": "FLOAT",
+              "default": 1.0
+            },
+            "saturation": {
+              "type": "FLOAT",
+              "default": 1.0
+            },
+            "blend_type": {
+              "type": "ENUM",
+              "default": "MIX"
+            },
+            "blend_color": {
+              "type": "FLOAT",
+              "default": "<Color (r=0.8000, g=0.8000, b=0.8000)>"
+            },
+            "blend_factor": {
+              "type": "FLOAT",
+              "default": 0.0
+            }
+          }
+        }
+      },
+      "noise_dimensions": {
+        "type": "ENUM",
+        "default": "3D"
+      },
+      "noise_type": {
+        "type": "ENUM",
+        "default": "FBM"
+      },
+      "normalize": {
+        "type": "BOOLEAN",
+        "default": true
+      }
+    }
+  },
+  "tex_voronoi": {
+    "bl_idname": "ShaderNodeTexVoronoi",
+    "inputs": {
+      "Vector": {
+        "index": 0,
+        "type": "VECTOR",
+        "identifier": "Vector"
+      },
+      "W": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "W"
+      },
+      "Scale": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Scale"
+      },
+      "Detail": {
+        "index": 3,
+        "type": "VALUE",
+        "identifier": "Detail"
+      },
+      "Roughness": {
+        "index": 4,
+        "type": "VALUE",
+        "identifier": "Roughness"
+      },
+      "Lacunarity": {
+        "index": 5,
+        "type": "VALUE",
+        "identifier": "Lacunarity"
+      },
+      "Smoothness": {
+        "index": 6,
+        "type": "VALUE",
+        "identifier": "Smoothness"
+      },
+      "Exponent": {
+        "index": 7,
+        "type": "VALUE",
+        "identifier": "Exponent"
+      },
+      "Randomness": {
+        "index": 8,
+        "type": "VALUE",
+        "identifier": "Randomness"
+      }
+    },
+    "outputs": {
+      "Distance": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Distance"
+      },
+      "Color": {
+        "index": 1,
+        "type": "RGBA",
+        "identifier": "Color"
+      },
+      "Position": {
+        "index": 2,
+        "type": "VECTOR",
+        "identifier": "Position"
+      },
+      "W": {
+        "index": 3,
+        "type": "VALUE",
+        "identifier": "W"
+      },
+      "Radius": {
+        "index": 4,
+        "type": "VALUE",
+        "identifier": "Radius"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeTexVoronoi"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Voronoi Texture"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Generate Worley noise based on the distance to random points. Typically used to generate textures such as stones, water, or biological cells"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 160.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "texture_mapping": {
+        "type": "STRUCT",
+        "default": {
+          "type": "STRUCT",
+          "properties": {
+            "vector_type": {
+              "type": "ENUM",
+              "default": "POINT"
+            },
+            "translation": {
+              "type": "FLOAT",
+              "default": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            "rotation": {
+              "type": "FLOAT",
+              "default": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>"
+            },
+            "scale": {
+              "type": "FLOAT",
+              "default": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            "min": {
+              "type": "FLOAT",
+              "default": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            "max": {
+              "type": "FLOAT",
+              "default": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            "use_min": {
+              "type": "BOOLEAN",
+              "default": false
+            },
+            "use_max": {
+              "type": "BOOLEAN",
+              "default": false
+            },
+            "mapping_x": {
+              "type": "ENUM",
+              "default": "X"
+            },
+            "mapping_y": {
+              "type": "ENUM",
+              "default": "Y"
+            },
+            "mapping_z": {
+              "type": "ENUM",
+              "default": "Z"
+            },
+            "mapping": {
+              "type": "ENUM",
+              "default": "FLAT"
+            }
+          }
+        }
+      },
+      "color_mapping": {
+        "type": "STRUCT",
+        "default": {
+          "type": "STRUCT",
+          "properties": {
+            "use_color_ramp": {
+              "type": "BOOLEAN",
+              "default": false
+            },
+            "color_ramp": {
+              "type": "STRUCT",
+              "default": {
+                "type": "STRUCT",
+                "properties": {
+                  "interpolation": {
+                    "type": "ENUM",
+                    "default": "LINEAR"
+                  },
+                  "hue_interpolation": {
+                    "type": "ENUM",
+                    "default": "NEAR"
+                  },
+                  "color_mode": {
+                    "type": "ENUM",
+                    "default": "RGB"
+                  }
+                }
+              }
+            },
+            "brightness": {
+              "type": "FLOAT",
+              "default": 1.0
+            },
+            "contrast": {
+              "type": "FLOAT",
+              "default": 1.0
+            },
+            "saturation": {
+              "type": "FLOAT",
+              "default": 1.0
+            },
+            "blend_type": {
+              "type": "ENUM",
+              "default": "MIX"
+            },
+            "blend_color": {
+              "type": "FLOAT",
+              "default": "<Color (r=0.8000, g=0.8000, b=0.8000)>"
+            },
+            "blend_factor": {
+              "type": "FLOAT",
+              "default": 0.0
+            }
+          }
+        }
+      },
+      "voronoi_dimensions": {
+        "type": "ENUM",
+        "default": "3D"
+      },
+      "distance": {
+        "type": "ENUM",
+        "default": "EUCLIDEAN"
+      },
+      "feature": {
+        "type": "ENUM",
+        "default": "F1"
+      },
+      "normalize": {
+        "type": "BOOLEAN",
+        "default": false
+      }
+    }
+  },
+  "tex_wave": {
+    "bl_idname": "ShaderNodeTexWave",
+    "inputs": {
+      "Vector": {
+        "index": 0,
+        "type": "VECTOR",
+        "identifier": "Vector"
+      },
+      "Scale": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Scale"
+      },
+      "Distortion": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Distortion"
+      },
+      "Detail": {
+        "index": 3,
+        "type": "VALUE",
+        "identifier": "Detail"
+      },
+      "Detail Scale": {
+        "index": 4,
+        "type": "VALUE",
+        "identifier": "Detail Scale"
+      },
+      "Detail Roughness": {
+        "index": 5,
+        "type": "VALUE",
+        "identifier": "Detail Roughness"
+      },
+      "Phase Offset": {
+        "index": 6,
+        "type": "VALUE",
+        "identifier": "Phase Offset"
+      }
+    },
+    "outputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      },
+      "Factor": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Fac"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeTexWave"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Wave Texture"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Generate procedural bands or rings with noise"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 160.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "texture_mapping": {
+        "type": "STRUCT",
+        "default": {
+          "type": "STRUCT",
+          "properties": {
+            "vector_type": {
+              "type": "ENUM",
+              "default": "POINT"
+            },
+            "translation": {
+              "type": "FLOAT",
+              "default": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            "rotation": {
+              "type": "FLOAT",
+              "default": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>"
+            },
+            "scale": {
+              "type": "FLOAT",
+              "default": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            "min": {
+              "type": "FLOAT",
+              "default": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            "max": {
+              "type": "FLOAT",
+              "default": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            "use_min": {
+              "type": "BOOLEAN",
+              "default": false
+            },
+            "use_max": {
+              "type": "BOOLEAN",
+              "default": false
+            },
+            "mapping_x": {
+              "type": "ENUM",
+              "default": "X"
+            },
+            "mapping_y": {
+              "type": "ENUM",
+              "default": "Y"
+            },
+            "mapping_z": {
+              "type": "ENUM",
+              "default": "Z"
+            },
+            "mapping": {
+              "type": "ENUM",
+              "default": "FLAT"
+            }
+          }
+        }
+      },
+      "color_mapping": {
+        "type": "STRUCT",
+        "default": {
+          "type": "STRUCT",
+          "properties": {
+            "use_color_ramp": {
+              "type": "BOOLEAN",
+              "default": false
+            },
+            "color_ramp": {
+              "type": "STRUCT",
+              "default": {
+                "type": "STRUCT",
+                "properties": {
+                  "interpolation": {
+                    "type": "ENUM",
+                    "default": "LINEAR"
+                  },
+                  "hue_interpolation": {
+                    "type": "ENUM",
+                    "default": "NEAR"
+                  },
+                  "color_mode": {
+                    "type": "ENUM",
+                    "default": "RGB"
+                  }
+                }
+              }
+            },
+            "brightness": {
+              "type": "FLOAT",
+              "default": 1.0
+            },
+            "contrast": {
+              "type": "FLOAT",
+              "default": 1.0
+            },
+            "saturation": {
+              "type": "FLOAT",
+              "default": 1.0
+            },
+            "blend_type": {
+              "type": "ENUM",
+              "default": "MIX"
+            },
+            "blend_color": {
+              "type": "FLOAT",
+              "default": "<Color (r=0.8000, g=0.8000, b=0.8000)>"
+            },
+            "blend_factor": {
+              "type": "FLOAT",
+              "default": 0.0
+            }
+          }
+        }
+      },
+      "wave_type": {
+        "type": "ENUM",
+        "default": "BANDS"
+      },
+      "bands_direction": {
+        "type": "ENUM",
+        "default": "X"
+      },
+      "rings_direction": {
+        "type": "ENUM",
+        "default": "X"
+      },
+      "wave_profile": {
+        "type": "ENUM",
+        "default": "SIN"
+      }
+    }
+  },
+  "tex_white_noise": {
+    "bl_idname": "ShaderNodeTexWhiteNoise",
+    "inputs": {
+      "Vector": {
+        "index": 0,
+        "type": "VECTOR",
+        "identifier": "Vector"
+      },
+      "W": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "W"
+      }
+    },
+    "outputs": {
+      "Value": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Value"
+      },
+      "Color": {
+        "index": 1,
+        "type": "RGBA",
+        "identifier": "Color"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeTexWhiteNoise"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "White Noise Texture"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Calculate a random value or color based on an input seed"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "noise_dimensions": {
+        "type": "ENUM",
+        "default": "3D"
+      }
+    }
+  },
+  "val_to_rgb": {
+    "bl_idname": "ShaderNodeValToRGB",
+    "inputs": {
+      "Factor": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Fac"
+      }
+    },
+    "outputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      },
+      "Alpha": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Alpha"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeValToRGB"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Color Ramp"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Map values to colors with the use of a gradient"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 240.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "color_ramp": {
+        "type": "STRUCT",
+        "default": {
+          "type": "STRUCT",
+          "properties": {
+            "interpolation": {
+              "type": "ENUM",
+              "default": "LINEAR"
+            },
+            "hue_interpolation": {
+              "type": "ENUM",
+              "default": "NEAR"
+            },
+            "color_mode": {
+              "type": "ENUM",
+              "default": "RGB"
+            }
+          }
+        }
+      }
+    }
+  },
+  "value": {
+    "bl_idname": "ShaderNodeValue",
+    "inputs": {},
+    "outputs": {
+      "Value": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Value"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeValue"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Value"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Input numerical values to other nodes in the tree"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      }
+    }
+  },
+  "vector_curve": {
+    "bl_idname": "ShaderNodeVectorCurve",
+    "inputs": {
+      "Factor": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Fac"
+      },
+      "Vector": {
+        "index": 1,
+        "type": "VECTOR",
+        "identifier": "Vector"
+      }
+    },
+    "outputs": {
+      "Vector": {
+        "index": 0,
+        "type": "VECTOR",
+        "identifier": "Vector"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeVectorCurve"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Vector Curves"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Map input vector components with curves"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 240.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "mapping": {
+        "type": "STRUCT",
+        "default": {
+          "type": "STRUCT",
+          "properties": {
+            "tone": {
+              "type": "ENUM",
+              "default": "STANDARD"
+            },
+            "use_clip": {
+              "type": "BOOLEAN",
+              "default": true
+            },
+            "clip_min_x": {
+              "type": "FLOAT",
+              "default": -1.0
+            },
+            "clip_min_y": {
+              "type": "FLOAT",
+              "default": -1.0
+            },
+            "clip_max_x": {
+              "type": "FLOAT",
+              "default": 1.0
+            },
+            "clip_max_y": {
+              "type": "FLOAT",
+              "default": 1.0
+            },
+            "extend": {
+              "type": "ENUM",
+              "default": "EXTRAPOLATED"
+            },
+            "black_level": {
+              "type": "FLOAT",
+              "default": "<Color (r=0.0000, g=0.0000, b=0.0000)>"
+            },
+            "white_level": {
+              "type": "FLOAT",
+              "default": "<Color (r=1.0000, g=1.0000, b=1.0000)>"
+            }
+          }
+        }
+      }
+    }
+  },
+  "vector_math": {
+    "bl_idname": "ShaderNodeVectorMath",
+    "inputs": {
+      "Vector": {
+        "index": 2,
+        "type": "VECTOR",
+        "identifier": "Vector_002"
+      },
+      "Scale": {
+        "index": 3,
+        "type": "VALUE",
+        "identifier": "Scale"
+      }
+    },
+    "outputs": {
+      "Vector": {
+        "index": 0,
+        "type": "VECTOR",
+        "identifier": "Vector"
+      },
+      "Value": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Value"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeVectorMath"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Vector Math"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Perform vector math operation"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "operation": {
+        "type": "ENUM",
+        "default": "ADD"
+      }
+    }
+  },
+  "vector_rotate": {
+    "bl_idname": "ShaderNodeVectorRotate",
+    "inputs": {
+      "Vector": {
+        "index": 0,
+        "type": "VECTOR",
+        "identifier": "Vector"
+      },
+      "Center": {
+        "index": 1,
+        "type": "VECTOR",
+        "identifier": "Center"
+      },
+      "Axis": {
+        "index": 2,
+        "type": "VECTOR",
+        "identifier": "Axis"
+      },
+      "Angle": {
+        "index": 3,
+        "type": "VALUE",
+        "identifier": "Angle"
+      },
+      "Rotation": {
+        "index": 4,
+        "type": "VECTOR",
+        "identifier": "Rotation"
+      }
+    },
+    "outputs": {
+      "Vector": {
+        "index": 0,
+        "type": "VECTOR",
+        "identifier": "Vector"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeVectorRotate"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Vector Rotate"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Rotate a vector around a pivot point (center)"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "rotation_type": {
+        "type": "ENUM",
+        "default": "AXIS_ANGLE"
+      },
+      "invert": {
+        "type": "BOOLEAN",
+        "default": false
+      }
+    }
+  }
+}

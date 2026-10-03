@@ -1,0 +1,55 @@
+# ==============================================================================
+# Python Embedding: Macros, Deferred Blocks, and the Compilation Pipeline
+# Demonstrates:
+# 1. Preprocessing Python blocks: calculating math & configuration upfront
+# 2. Text macro expansion via py!.var
+# 3. Direct variable injection via py.var
+# 4. Inclusion hierarchy guard via __parents__
+# 5. Deferred post-compilation execution via #defer (accessing __tree__ and bpy)
+# ==============================================================================
+
+```
+import math
+
+# 1. Preprocessing Python stage: compute golden ratio proportions
+phi = (1 + math.sqrt(5)) / 2.0
+base_radius = 1.0
+golden_radius = round(base_radius / phi, 4)
+
+# 2. Build dynamic XFY statements to expand as a macro
+macro_inputs = f'''
+input segments: int "Base Segments" = {round(phi * 10)}
+input height: float "Pedestal Height" = {round(phi, 3)}
+'''
+
+# 3. Inclusion check
+if __parents__:
+    status_msg = "Included from parent script"
+else:
+    status_msg = "Executing as root standalone script"
+print(f"[XNodify Python Stage] {status_msg}")
+```
+
+# Expand dynamic macro inputs
+py!.macro_inputs
+
+output sculpture: geometry "Sculpture"
+
+# Access socket inputs directly, and inject py.golden_radius from Python namespace
+core = mesh_cylinder(vertices=segments, radius=py.golden_radius, depth=height)
+halo = mesh_circle(vertices=64, radius=py.golden_radius * 1.5, fill_type='NGON')
+halo = transform_geometry(halo, translation=combine_xyz(0.0, 0.0, height / 2.0))
+
+sculpture = join_geometry(core ~ halo)
+
+```#defer
+import bpy
+
+# 5. Deferred stage: executes AFTER node tree compilation and modifier creation
+if __trees__:
+    print(f"[XNodify #defer Stage] Successfully compiled {len(__trees__)} tree(s): {[t.name for t in __trees__]}")
+
+# Direct access to the active Blender object via __context__
+if __context__.object:
+    __context__.object.name = "XNodify_Golden_Sculpture"
+```

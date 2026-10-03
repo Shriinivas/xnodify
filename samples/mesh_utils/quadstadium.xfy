@@ -1,0 +1,84 @@
+# ==============================================================================
+# Generic Pole-Free 2D Quad Beveled Rectangle / Superellipse / Circle Geometry
+# Produces 100% Pure Quad Topology with Zero Collapsed Poles (All-Valence-4)
+# Fully Parametric X & Y Bevel Offsets & Variable Bevel Segments
+# Constant Total Width & Height, Centered at Origin (0, 0, 0)
+# ==============================================================================
+#
+```
+if not __parents__:
+  op = f'''
+input width: float = 0.14 [0.01, 10.0]
+input height: float = 0.6 [0.01, 10.0]
+input bevel_offset_x: float = 0.07 [0.0, 5.0]
+input bevel_offset_y: float = 0.07 [0.0, 5.0]
+input segments: int = 5 [1, 32]
+
+stadium = QuadStadium2D(width, height, bevel_offset_x, bevel_offset_y, segments)
+output = set_shade_smooth(stadium)
+'''
+else:
+  op = ''
+```
+group QuadStadium2D "Quad Stadium 2D" {
+  input width: float = 0.14 [0.01, 10.0]
+  input height: float = 0.6 [0.01, 10.0]
+  input bevel_offset_x: float = 0.07 [0.0, 5.0]
+  input bevel_offset_y: float = 0.07 [0.0, 5.0]
+  input segments: int = 5 [1, 32]
+  output obj: geometry "2D Quad Mesh"
+
+  r_max_x = width / 2.0
+  r_max_y = height / 2.0
+  rx = clamp(bevel_offset_x, 0.0, r_max_x)
+  ry = clamp(bevel_offset_y, 0.0, r_max_y)
+
+  # Resolution & Grid Dimensions (Odd counts for X and Y centerline symmetry)
+  base_res = (2 * segments) + 1
+  cell_size = min(width, height) / (base_res - 1.0)
+  
+  raw_res_x = max(base_res, floor(width / cell_size) + 1)
+  raw_res_y = max(base_res, floor(height / cell_size) + 1)
+  
+  res_x = (floor(raw_res_x / 2.0) * 2) + 1
+  res_y = (floor(raw_res_y / 2.0) * 2) + 1
+
+  # Corner Centers & Flat Split Thresholds
+  cx = r_max_x - rx
+  cy = r_max_y - ry
+
+  u_flat = 1.0 - (rx / r_max_x)
+  v_flat = 1.0 - (ry / r_max_y)
+  denom_u = max(1.0 - u_flat, 0.00001)
+  denom_v = max(1.0 - v_flat, 0.00001)
+
+  # Pristine Single Quad Grid
+  grid = mesh_grid(size_x=2.0, size_y=2.0, vertices_x=res_x, vertices_y=res_y)
+  (u, v, _) = separate_xyz(position())
+
+  abs_u = abs(u)
+  abs_v = abs(v)
+  sign_u = sign(u)
+  sign_v = sign(v)
+
+  is_corner = (abs_u > u_flat) & (abs_v > v_flat)
+
+  uc = clamp((abs_u - u_flat) / denom_u, 0.0, 1.0)
+  vc = clamp((abs_v - v_flat) / denom_v, 0.0, 1.0)
+
+  # Conformal Squircle Elliptical Quadrant Mapping
+  xc = rx * uc * sqrt(max(0.0, 1.0 - (vc * vc / 2.0)))
+  yc = ry * vc * sqrt(max(0.0, 1.0 - (uc * uc / 2.0)))
+
+  x_corner = sign_u * (cx + xc)
+  y_corner = sign_v * (cy + yc)
+
+  x_flat = u * r_max_x
+  y_flat = v * r_max_y
+
+  x_final = switch(is_corner, x_flat, x_corner)
+  y_final = switch(is_corner, y_flat, y_corner)
+
+  obj = set_position(grid, position=combine_xyz(x_final, y_final, 0.0))
+}
+py!.op

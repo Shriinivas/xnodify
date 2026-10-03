@@ -1,0 +1,77 @@
+#Blender ver 4.2+ Mesh Distance Measurement
+include distance_common.xfy
+
+```
+if not __parents__:
+  clear_objects()
+  do_distance_setup('mesh')
+  op = ingeom_param + distance_params + f'''
+input textThickness: float "Text Thickness" = 0.001
+input mainLineMat: mat "Main Line Material" = "Main Line Material"
+input refLineMat: mat "Ref Line Material" = "Ref Line Material"
+input textMat: mat "Text Material" = "Text Material"
+input dotMat: mat "Dot Material" = "Dot Material"
+{outgeom_param}
+  result = fn_distance_mesh(ingeom, {passed_distance_params}, textThickness, mainLineMat, refLineMat, textMat, dotMat)
+  '''
+else:
+  op = ''
+```
+
+group fn_distance_mesh "Measure Distance Mesh" {
+  py!.ingeom_param
+  py!.distance_params
+  input textThickness: float "Text Thickness" = 0.001
+  input mainLineMat: mat "Main Line Material" = "Main Line Material"
+  input refLineMat: mat "Ref Line Material" = "Ref Line Material"
+  input textMat: mat "Text Material" = "Text Material"
+  input dotMat: mat "Dot Material" = "Dot Material"
+  py!.outgeom_param
+
+  # Get common calculations
+  py!.do_conversions
+  py!.common_distance_call
+
+  # Mesh-specific rendering
+  # Reference line
+  refProfCirc = curve_primitive_circle(,refLineThickness)
+  refLine = curve_to_mesh(curve_primitive_line(pt0, pt1), refProfCirc, True)
+
+  # Arrow lines
+  profCirc = curve_primitive_circle(,lineThickness)
+  arrow0 = curve_primitive_line(arrow0Co0, arrow0Co1)
+  arrow0 = curve_to_mesh(arrow0, profCirc, True)
+  arrow1 = curve_primitive_line(arrow1Co0, arrow1Co1)
+  arrow1 = curve_to_mesh(arrow1, profCirc, True)
+
+  # Arrowheads using helper
+  arrowhead0 = fn_mesh_arrowhead(arrow0Co0, mainVect * -1, 0, headRad, headLen)
+  arrowhead1 = fn_mesh_arrowhead(arrow1Co1, mainVect, 0, headRad, headLen)
+
+  # Connector lines
+  connProfCirc = curve_primitive_circle(,connLineThickness)
+  connector0 = curve_primitive_line(pt0, pt0Off)
+  connector0 = curve_to_mesh(connector0, connProfCirc, True)
+  connector1 = curve_primitive_line(pt1, pt1Off)
+  connector1 = curve_to_mesh(connector1, connProfCirc, True)
+
+  # Point markers (using helper from measure_common)
+  marker0 = fn_mesh_marker(pt0Off, ptRad)
+  marker1 = fn_mesh_marker(pt1Off, ptRad)
+  marker2 = fn_mesh_marker(pt0, ptRad)
+  marker3 = fn_mesh_marker(pt1, ptRad)
+
+  # Text mesh using helper (flipText is True for distance, text already centered)
+  text = fn_text_mesh(textCurves, offsetMidPt, textRot, textThickness, True, textMat)
+
+  # Combine geometry
+  dots = join_geometry(marker0 ~ marker1 ~ marker2 ~ marker3)
+  dots = set_material(dots, ,dotMat)
+  result0 = join_geometry(arrow0 ~ arrow1 ~ arrowhead0 ~ arrowhead1)
+  result1 = join_geometry(refLine ~ connector0 ~ connector1)
+  result0 = set_material(result0, ,mainLineMat)
+  result1 = set_material(result1, ,refLineMat)
+  text = set_material(text, ,textMat)
+  result = join_geometry(result0 ~ result1 ~ dots ~ text)
+}
+py!.op

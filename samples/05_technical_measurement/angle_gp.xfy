@@ -1,0 +1,109 @@
+include angle_common.xfy
+include ./gp_text.xfy
+
+```
+if not __parents__:
+  clear_objects()
+  do_angle_setup(outType='gp')
+  op = ingeom_param + common_angle_params + f'''
+input mainLineColor: color "Main Line Color" = {mainLineColor}
+input refLineColor: color "Ref Line Color" = {refLineColor}
+input arcColor: color "Arc Color" = {arcColor}
+input textMat : mat "Text Material" = "GP_TextFill"
+input dotMat : mat "Marker Dot Material" = "GP_DotFill"
+input arrowheadMat : mat "Arrowhead Material" = "GP_ArrowFill"
+input for_blender_ver: menu "Blender Version" = "5.1+" 
+{outgeom_param}
+  result = fn_angle_gp(ingeom, {passed_common_angle_params}, mainLineColor, refLineColor, arcColor, textMat, dotMat, arrowheadMat, for_blender_ver)
+  '''
+else:
+  op = ''
+```
+
+group fn_angle_gp "Measure Angle GP" {
+  py!.ingeom_param
+  py!.common_angle_params
+  input mainLineColor: color "Main Line Color"
+  input refLineColor: color "Ref Line Color"
+  input arcColor: color "Arc Color"
+  input textMat: mat "Text Material"
+  input dotMat: mat "Marker Dot Material"
+  input arrowheadMat: mat "Arrowhead Material"
+  input for_blender_ver: menu "Blender Version" = "5.1+" 
+  py!.outgeom_param
+
+# Get common calculations
+  py!.common_angle_call
+  py!.do_conversions
+
+# GP-specific rendering
+# Main lines as curves
+  line0 = curve_primitive_line(pt0Off, pt1Off)
+  line1 = curve_primitive_line(pt1Off, pt2Off)
+
+# Reference lines
+  refLine0 = curve_primitive_line(pt0, pt1)
+  refLine1 = curve_primitive_line(pt1, pt2)
+
+# Connecting lines
+  conn0 = curve_primitive_line(pt0, pt0Off)
+  conn1 = curve_primitive_line(pt1, pt1Off)
+  conn2 = curve_primitive_line(pt2, pt2Off)
+
+# Trim arcs to leave room for arrowheads
+  (arc0Trimmed, arc1Trimmed, arc0End, arc1Start, textPos) = fn_trim_curves(arc0, arc1, arcLen, headLen, outer)
+
+# Arrowheads using helper
+  baseRot = align_rotation_to_vector{axis:'Z'}(,,planeNormal)
+  arc0Out = vnormalize((sample_curve{mode:'LENGTH'}(arc0, ,headLen)[1] - arc0Start) * -1)
+  head0 = fn_gp_arrowhead(arc0Start, arc0Out, baseRot, headRad, headLen)
+  arc1Out = vnormalize((sample_curve{mode:'LENGTH'}(arc1, ,arcLen - headLen)[1] - arc1End) * -1)
+  head1 = fn_gp_arrowhead(arc1End, arc1Out, baseRot, headRad, headLen)
+
+# Marker dots at offset positions (using helper from measure_common)
+  markerDot0 = fn_gp_marker(pt0Off, ptRad, baseRot, dotMat)
+  markerDot1 = fn_gp_marker(pt1Off, ptRad, baseRot, dotMat)
+  markerDot2 = fn_gp_marker(pt2Off, ptRad, baseRot, dotMat)
+
+# Marker dots at original positions
+  markerDot3 = fn_gp_marker(pt0, ptRad, baseRot, dotMat)
+  markerDot4 = fn_gp_marker(pt1, ptRad, baseRot, dotMat)
+  markerDot5 = fn_gp_marker(pt2, ptRad, baseRot, dotMat)
+
+# Combine all curves
+  arcCurves = join_geometry(arc0Trimmed ~ arc1Trimmed)
+  mainCurves = join_geometry(line0 ~ line1)
+  headCurves = join_geometry(head0 ~ head1)
+  refCurves = join_geometry(refLine0 ~ refLine1)
+  connCurves = join_geometry(conn0 ~ conn1 ~ conn2)
+
+# Set stroke widths using radius attribute
+  arcCurves = store_named_attribute{data_type:'FLOAT', domain:'POINT'}(arcCurves, ,"radius", lineThickness)
+  mainCurves = store_named_attribute{data_type:'FLOAT', domain:'POINT'}(mainCurves, ,"radius", lineThickness)
+  refCurves = store_named_attribute{data_type:'FLOAT', domain:'POINT'}(refCurves, ,"radius", refLineThickness)
+  connCurves = store_named_attribute{data_type:'FLOAT', domain:'POINT'}(connCurves, ,"radius", connLineThickness)
+
+# Convert curves to Grease Pencil
+  gpArc = curves_to_grease_pencil(geometry_to_instance(arcCurves))
+  gpMain = curves_to_grease_pencil(geometry_to_instance(mainCurves))
+  # Store attribute required for 5.1 and set_grease_pencil_depth required for 5
+  headCurves = store_named_attribute{data_type:'BOOLEAN'}(headCurves, , 'hide_stroke', True)
+  headCurves = store_named_attribute{data_type:'INT'}(headCurves, , 'fill_id', 1)
+  gpHeads = geometry_to_instance(set_material(set_grease_pencil_depth(curves_to_grease_pencil(geometry_to_instance(headCurves))), , arrowheadMat))
+  gpRef = curves_to_grease_pencil(geometry_to_instance(refCurves))
+  gpConn = curves_to_grease_pencil(geometry_to_instance(connCurves))
+  gpText = gp_text(textCurves, textMat)
+  gpText = geometry_to_instance(gpText)
+  gpText = transform(gpText, ,textPos, textRot, switch{input_type:'VECTOR'}(flipText, (-1, 1, 1), (1, 1, 1)))
+
+# Apply colors
+  gpArc = set_grease_pencil_color(gpArc, , arcColor)
+  gpMain = set_grease_pencil_color(gpMain, , mainLineColor)
+  gpRef = set_grease_pencil_color(gpRef, , refLineColor)
+  gpConn = set_grease_pencil_color(gpConn, , refLineColor)
+
+# Combine all GP
+  output = join_geometry(gpArc ~ gpMain ~ gpHeads ~ gpRef ~ gpConn ~ gpText ~ markerDot0 ~ markerDot1 ~ markerDot2 ~ markerDot3 ~ markerDot4 ~ markerDot5)
+}
+
+py!.op

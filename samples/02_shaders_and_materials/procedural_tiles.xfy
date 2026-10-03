@@ -1,0 +1,46 @@
+# ==============================================================================
+# Procedural Tiles: Mathematical Grid Tiling & Mortar Masking
+# Demonstrates procedural surface shading in XFY with coordinate manipulation,
+# procedural mortar masking, and principled BSDF surface output.
+# ==============================================================================
+
+# Input controls for the shader
+count_x = 8.0
+count_y = 8.0
+mortar_thickness = 0.04
+
+# 1. Texture Coordinates (UV space [0, 1])
+uv = tex_coord()[2] # UV coordinates
+(u, v, _) = separate_xyz(uv)
+
+# 2. Compute periodic tile coordinates
+grid_u = (u * count_x) % 1.0
+grid_v = (v * count_y) % 1.0
+
+# 3. Mortar border mask using edge distance
+dist_x = min(grid_u, 1.0 - grid_u)
+dist_y = min(grid_v, 1.0 - grid_v)
+min_edge_dist = min(dist_x, dist_y)
+is_mortar = min_edge_dist < mortar_thickness
+
+# 4. Subtle per-tile color variation using floor(uv)
+tile_id = (floor(u * count_x) * 13.0) + floor(v * count_y)
+noise_rand = tex_noise(combine_xyz(tile_id, 0.0, 0.0), scale=2.0)[0]
+
+# Tile face color (warm ceramic terracotta)
+tile_color = color_ramp{
+    remove:'0',
+    add:'0.0:(0.65, 0.28, 0.16, 1.0)',
+    add:'1.0:(0.82, 0.42, 0.25, 1.0)'
+}(noise_rand)
+
+# Mortar color (soft cement gray)
+mortar_color = (0.35, 0.35, 0.38, 1.0)
+
+# Final surface color blended by mortar mask
+final_color = mix_rgb(is_mortar, tile_color, mortar_color)
+final_roughness = mix_rgb(is_mortar, (0.25, 0.25, 0.25, 1.0), (0.85, 0.85, 0.85, 1.0))[0]
+
+# 5. Output Material Surface
+surface = bsdf_principled(base_color=final_color, roughness=final_roughness)
+output_material(surface=surface)

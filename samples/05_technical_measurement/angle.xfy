@@ -1,0 +1,42 @@
+include ./angle_gp.xfy
+include ./angle_mesh.xfy
+```
+angle_op_block = f'''
+{ingeom_param} 
+input outputType: menu "Output Type" = "Grease Pencil" @ "Output type Grease Pencil or Mesh"
+{common_angle_params}  
+input textThickness: float "Text Thickness" = 0.001 @ "Thickness of Text String"
+input mainLineMat: mat "Mesh Main Line Material" = "Main Line Material"
+input refLineMat: mat "Mesh Ref Line Material" = "Ref Line Material"
+input meshTextMat: mat "Mesh Text Material" = "Text Material"
+input meshDotMat: mat "Mesh Dot Material" = "Dot Material"
+input mainLineColor: color "GP Main Line Color" = {mainLineColor}
+input refLineColor: color "GP Ref Line Color" = {refLineColor}
+input arcColor: color "GP Arc Color" = {arcColor}
+input gpTextMat : mat "GP Text Material" = "GP_TextFill"
+input gpDotMat : mat "GP Marker Dot Material" = "GP_DotFill"
+input gpArrowheadMat : mat "GP Arrowhead Material" = "GP_ArrowFill"
+input for_blender_ver: menu "Blender Version" = "5.1+" 
+{outgeom_param}
+'''
+angle_grp_call = f'''
+  result = angle_measurement(ingeom, outputType, {passed_common_angle_params}, textThickness, mainLineMat, refLineMat, meshTextMat, meshDotMat, mainLineColor, refLineColor, arcColor, gpTextMat, gpDotMat, gpArrowheadMat, for_blender_ver)
+'''
+if not __parents__:
+  clear_objects()
+  do_angle_setup(outType='both')
+  op = angle_op_block + angle_grp_call
+else:
+  op = ''
+```
+group angle_measurement "Angle Measurement" {
+  py!.angle_op_block
+  outputTypeStr = menu_switch{data_type:'STRING'}(outputType, \
+    'Grease Pencil'@'Grease Pencil', \
+    'Mesh'@'Mesh')
+
+  result_mesh = fn_angle_mesh(ingeom, py!.passed_common_angle_params, textThickness, mainLineMat, refLineMat, meshTextMat, meshDotMat)
+  result_gp = fn_angle_gp(ingeom, py!.passed_common_angle_params, mainLineColor, refLineColor, arcColor, gpTextMat, gpDotMat, gpArrowheadMat, for_blender_ver)
+  result = switch{input_type:'GEOMETRY'}(outputTypeStr == 'Grease Pencil', result_mesh, result_gp)
+}
+py!.op

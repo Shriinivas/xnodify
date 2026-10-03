@@ -1,0 +1,143 @@
+# ==============================================================================
+# CANONICAL BOOK NAMED ATTRIBUTES CONTRACT & TILE COORDINATE CALCULATOR
+# ==============================================================================
+# All attributes follow a strict, uniform snake_case naming convention.
+#
+# 1. Page Geometry Attributes (Exported on realized book page meshes):
+#    - "page_pos"     : FLOAT_VECTOR (domain: POINT)  — Rest-position 3D coords of flat page
+#    - "page_uv"      : FLOAT_VECTOR (domain: CORNER) — Normalized UV [0, 1] x [0, 1] per page face
+#    - "page_idx"     : INT          (domain: CORNER) — 0-based page index
+#    - "is_front"     : BOOLEAN      (domain: CORNER) — True for front face, False for back/rim
+#    - "is_clip"      : BOOLEAN      (domain: POINT)  — False for page mesh, True for binder clips
+#    - "art_scale_x"  : FLOAT        (domain: CORNER) — Artwork X scale factor; negative flips horizontally
+#    - "art_scale_y"  : FLOAT        (domain: CORNER) — Artwork Y scale factor; negative flips vertically
+#    - "art_offset_x" : FLOAT        (domain: CORNER) — Artwork X offset; 0 is center, negative shifts left
+#    - "art_offset_y" : FLOAT        (domain: CORNER) — Artwork Y offset; 0 is center, negative shifts down
+#    - "blank_back"   : BOOLEAN      (domain: CORNER) — Whether back side of sheet is blank
+#
+# 2. Binder / Clip Attributes:
+#    - "clip_pos"     : FLOAT_VECTOR (domain: POINT)  — Rest-position 3D coords of binder clip
+#    - "is_clip"      : BOOLEAN      (domain: POINT)  — True for binder clip
+#
+# 3. Internal Kinematic Attributes (Used strictly during Page_Turn instance realization):
+#    - "inst_pos"     : FLOAT_VECTOR (domain: INSTANCE) — Spawn position of instance on curve
+#    - "page_xform"   : FLOAT4X4     (domain: INSTANCE) — 4x4 matrix aligning page to curve
+#    - "page_rot_x"   : FLOAT        (domain: INSTANCE) — Euler X rotation angle along curve
+#    - "index"        : INT          (domain: INSTANCE) — 0-based instance index
+# ==============================================================================
+
+group Store_Page_Attributes {
+    input geom: geometry "Geometry"
+    input page_uv: vector "Page UV"
+    input page_idx: int "Page Index"
+    input is_front: bool "Is Front"
+    input art_scale_x: float "Artwork Scale X" = 0.85
+    input art_scale_y: float "Artwork Scale Y" = 0.85
+    input art_offset_x: float "Artwork Offset X" = 0.0
+    input art_offset_y: float "Artwork Offset Y" = 0.0
+    input blank_back: bool "Blank Back Side" = False
+    output geom: geometry "Geometry"
+
+    geom = store_named_attribute{data_type:'FLOAT_VECTOR', domain:'CORNER'}(geom, , "page_uv", page_uv)
+    geom = store_named_attribute{data_type:'BOOLEAN', domain:'CORNER'}(geom, , "is_front", is_front)
+    geom = store_named_attribute{data_type:'INT', domain:'CORNER'}(geom, , "page_idx", page_idx)
+    geom = store_named_attribute{data_type:'FLOAT', domain:'CORNER'}(geom, , "art_scale_x", art_scale_x)
+    geom = store_named_attribute{data_type:'FLOAT', domain:'CORNER'}(geom, , "art_scale_y", art_scale_y)
+    geom = store_named_attribute{data_type:'FLOAT', domain:'CORNER'}(geom, , "art_offset_x", art_offset_x)
+    geom = store_named_attribute{data_type:'FLOAT', domain:'CORNER'}(geom, , "art_offset_y", art_offset_y)
+    geom = store_named_attribute{data_type:'BOOLEAN', domain:'CORNER'}(geom, , "blank_back", blank_back)
+}
+
+group material Page_Tile_Coords "Page Tile Coords" {
+    input override_vector: vector "Vector" = (0.0, 0.0, 0.0) @ "Optional UV override (defaults to page_uv attribute)"
+    input override_page_idx: int "Page Index" = -1 @ "Optional index override (defaults to page_idx attribute)"
+    input override_is_front: int "Is Front" = -1 @ "Optional face override (defaults to is_front attribute)"
+    input override_art_scale_x: float "Artwork Scale X" = 0.0 @ "Optional X scale override (0 defaults to art_scale_x attribute)"
+    input override_art_scale_y: float "Artwork Scale Y" = 0.0 @ "Optional Y scale override (0 defaults to art_scale_y attribute)"
+    input override_art_offset_x: float "Artwork Offset X" = 999.0 @ "Optional X offset override (defaults to art_offset_x attribute)"
+    input override_art_offset_y: float "Artwork Offset Y" = 999.0 @ "Optional Y offset override (defaults to art_offset_y attribute)"
+    input override_blank_back: int "Blank Back" = -1 @ "Optional blank back override (defaults to blank_back attribute)"
+    input max_tiles: int "Max Available Tiles" = -1 @ "Max image tile count (-1 for unlimited). Beyond this, mask=0 and is_blank=1"
+    output udim_vec: vector "UDIM Vector" @ "Clamped sampling coordinate for tex_image(UDIM)"
+    output mask: float "Artwork Mask" @ "1.0 inside artwork, 0.0 in margins or blank"
+    output is_blank: float "Is Blank" @ "1.0 if sheet side is blank or art_scale <= 0 or past max_tiles, 0.0 otherwise"
+    output tile_idx: float "Tile Index" @ "UDIM tile index (0, 1, 2... or -1 if blank)"
+
+    # Default to reading canonical geometry attributes
+    attr_uv = attribute(name="page_uv")[1]
+    attr_page_idx = attribute(name="page_idx")[2]
+    attr_is_front = attribute(name="is_front")[2]
+    attr_art_scale_x = attribute(name="art_scale_x")[2]
+    attr_art_scale_y = attribute(name="art_scale_y")[2]
+    attr_art_offset_x = attribute(name="art_offset_x")[2]
+    attr_art_offset_y = attribute(name="art_offset_y")[2]
+    attr_blank_back = attribute(name="blank_back")[2]
+
+    # Resolve overrides if provided, else use geometry attributes
+    has_uv_override = (vlength(override_vector) > 0.0)
+    uv = has_uv_override ? override_vector : attr_uv
+    page_idx = (override_page_idx >= 0) ? override_page_idx : attr_page_idx
+    is_front = (override_is_front >= 0) ? (override_is_front > 0) : (attr_is_front > 0.5)
+    has_scale_x_override = (abs(override_art_scale_x) > 0.0001)
+    art_scale_x = has_scale_x_override ? override_art_scale_x : attr_art_scale_x
+    has_scale_y_override = (abs(override_art_scale_y) > 0.0001)
+    art_scale_y = has_scale_y_override ? override_art_scale_y : attr_art_scale_y
+    has_offset_x_override = (abs(override_art_offset_x - 999.0) > 0.001)
+    art_offset_x = has_offset_x_override ? override_art_offset_x : attr_art_offset_x
+    has_offset_y_override = (abs(override_art_offset_y - 999.0) > 0.001)
+    art_offset_y = has_offset_y_override ? override_art_offset_y : attr_art_offset_y
+    blank_back = (override_blank_back >= 0) ? (override_blank_back > 0) : attr_blank_back
+
+    uv_xyz = separate_xyz(uv)
+    u_base = uv_xyz[0]
+    v_base = uv_xyz[1]
+
+    # Mirror U on back face so text and imagery read normally (left-to-right) on reverse side
+    local_u = is_front ? u_base : (1.0 - u_base)
+    local_v = v_base
+
+    # Page sequencing logic:
+    # If blank_back: front face = page_idx, back face = -1 (blank)
+    # If double-sided: front face = 2 * page_idx, back face = 2 * page_idx + 1
+    front_tile = blank_back ? page_idx : (2 * page_idx)
+    back_tile = blank_back ? -1 : ((2 * page_idx) + 1)
+    tile = (is_front > 0.5) ? front_tile : back_tile
+
+    # Blank condition: negative tile (blank back), past max available tiles, or zero artwork scale
+    is_past_max = (max_tiles >= 0) * (tile >= max_tiles)
+    blank_cond = (tile < 0) + is_past_max + (abs(art_scale_x) <= 0.001) + (abs(art_scale_y) <= 0.001)
+
+    # UDIM layout math (10 tiles per row, UDIM 1001+ starts at col 0, row 0)
+    # Guard against negative tile values (e.g. blank back = -1) or blank pages so floor() never flips to -1.0
+    # and tex_image never attempts to sample missing UDIM tiles
+    safe_tile = (blank_cond > 0.5) ? 0 : max(tile, 0)
+    col = safe_tile % 10
+    row = floor(safe_tile / 10.0)
+
+    # Scaling, offsetting and centering within the page (negative scale flips automatically around center 0.5)
+    sign_x = (art_scale_x >= 0.0) ? 1.0 : -1.0
+    safe_scale_x = sign_x * max(abs(art_scale_x), 0.001)
+    inv_scale_x = 1.0 / safe_scale_x
+    scaled_u = ((local_u - 0.5 - art_offset_x) * inv_scale_x) + 0.5
+
+    sign_y = (art_scale_y >= 0.0) ? 1.0 : -1.0
+    safe_scale_y = sign_y * max(abs(art_scale_y), 0.001)
+    inv_scale_y = 1.0 / safe_scale_y
+    scaled_v = ((local_v - 0.5 - art_offset_y) * inv_scale_y) + 0.5
+
+    # Border padding mask: 1.0 inside artwork, 0.0 outside in margins or blank
+    outside_u = (scaled_u < 0.0) + (scaled_u > 1.0)
+    outside_v = (scaled_v < 0.0) + (scaled_v > 1.0)
+    border_mask = clamp(outside_u + outside_v + blank_cond, 0.0, 1.0)[0]
+    artwork_mask = 1.0 - border_mask
+
+    # Safe clamped coordinates inside target UDIM tile (prevents bleeding into adjacent tiles)
+    u_clamped = clamp(scaled_u, 0.001, 0.999)[0]
+    v_clamped = clamp(scaled_v, 0.001, 0.999)[0]
+    sample_vec = combine_xyz(col + u_clamped, row + v_clamped, 0.0)
+
+    udim_vec = sample_vec
+    mask = artwork_mask
+    is_blank = clamp(blank_cond, 0.0, 1.0)[0]
+    tile_idx = tile
+}

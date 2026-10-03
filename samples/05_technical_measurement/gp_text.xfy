@@ -1,0 +1,32 @@
+# ==============================================================================
+# Native Grease Pencil 3D Text (Blender 5.2+)
+# Converts curve text directly into filled Grease Pencil geometry.
+# ==============================================================================
+
+```
+import sys
+from pathlib import Path
+_common_path = str(Path(__file__).resolve().parent.parent / "common")
+if _common_path not in sys.path:
+    sys.path.insert(0, _common_path)
+from xfy_utils import create_gp_mat
+
+if __parents__:
+  op = ''
+else:
+  m1 = create_gp_mat("GP_RedFill", fill=(1, 0, 0, 1), show_stroke=False)
+  op = '''
+curves = string_to_curves{align_x:'CENTER', align_y:'MIDDLE'}('Hello', 1)
+output = gp_text(curves, 'GP_RedFill')
+'''
+```
+
+group gp_text "Create Grease Pencil Text" {
+  input curves: geometry "Geometry"
+  input fill_mat: mat "Material"
+  output result: geometry "Geometry"
+  str_curves = store_named_attribute{data_type:'BOOLEAN'}(curves, ,'hide_stroke', True)
+  str_curves = store_named_attribute{data_type:'INT'}(str_curves, ,'fill_id', 1)
+  result = set_material(curves_to_grease_pencil(str_curves), , fill_mat)
+}
+py!.op

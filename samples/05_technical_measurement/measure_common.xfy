@@ -1,0 +1,197 @@
+include ./grp_string_to_curves.xfy
+```
+import sys
+from pathlib import Path
+_common_path = str(Path(__file__).resolve().parent.parent / "common")
+if _common_path not in sys.path:
+    sys.path.insert(0, _common_path)
+from xfy_utils import delete_obj, create_obj, create_mat, create_gp_mat
+
+twopi = 6.283185307179586
+footMult = 3.28084
+inchMult = 39.37008
+arcColor      = (0.4, 1.0, 0.7, 1.0)  # Mint Green
+arrowColor    = (0.4, 1.0, 0.7, 1.0)   # Mint Green
+mainLineColor = (0.8, 0.8, 0.8, 1.0)  # Light Silver
+refLineColor  = (0.8, 0.8, 0.8, 0.2)   # Ghostly Silver
+connLineColor  = (0.8, 0.8, 0.8, 0.2)   # Ghostly Silver
+textColor     = (0.4, 1.0, 0.7, 1.0)   # Matches Arrow (Mint Green)
+dotColor      = (0.4, 0.7, 1.0, 1.0)   # Sky Blue
+connLineColor = (0.6, 0.6, 0.6, 0.5)   # Light Gray for GP
+
+def clear_objects():
+  for o in list(bpy.data.objects):
+    if o.name != 'DummyObject' and o.type not in {'CAMERA', 'LIGHT'} and not o.name.startswith('_'):
+      try:
+        delete_obj(o)
+      except Exception:
+        pass
+
+def do_measure_setup(obj, outType='both'):
+  import bpy
+
+  if outType != 'mesh':
+    m1 = create_gp_mat("GP_TextFill", fill=textColor, show_stroke=False)
+    m2 = create_gp_mat("GP_ArrowFill", fill=arcColor, show_stroke=False)
+    m3 = create_gp_mat("GP_DotFill", fill=dotColor, show_stroke=False)
+    if obj and hasattr(obj, "data") and hasattr(obj.data, "materials"):
+      if m1.name not in obj.data.materials: obj.data.materials.append(m1)
+      if m2.name not in obj.data.materials: obj.data.materials.append(m2)
+      if m3.name not in obj.data.materials: obj.data.materials.append(m3)
+  if outType != 'gp':
+    create_mat(obj, 'Main Line Material', color_val=arcColor, emission_strength=1)
+    create_mat(obj, 'Ref Line Material', color_val=refLineColor, emission_strength=1)
+    create_mat(obj, 'Conn Line Material', color_val=connLineColor, emission_strength=1)
+    create_mat(obj, 'Text Material', color_val=textColor, emission_strength=1)
+    create_mat(obj, 'Dot Material', color_val=dotColor, emission_strength=1)
+
+  light = bpy.data.objects.get('Light')
+  if light:
+    light.location = (2.10, -1.02, 3.23)
+
+do_conversions = '''
+scale_factor = 100
+lineThickness = lineThickness / scale_factor
+refLineThickness = refLineThickness / scale_factor
+connLineThickness = connLineThickness / scale_factor
+headRad = headRad / scale_factor
+headLen = headLen / scale_factor
+ptRad = ptRad / scale_factor
+'''
+
+ingeom_param = '''
+input ingeom: geometry "Geometry"
+'''
+outgeom_param = '''
+output result: geometry "Output Geometry"
+'''
+
+# Common render parameters used by both angle and distance
+render_params = '''
+input lineThickness: float "Line Thickness" = 0.3
+input refLineThickness: float "Ref Line Thickness" = 0.2 @ "Thickness of ref line"
+input connLineThickness: float "Conn Line Thickness" = 0.2 @ "Thickness of connecting line"
+input headRad: float "Arrowhead Width" = 1.5
+input headLen: float "Arrowhead Length" = 8
+input ptRad: float "Point Radius" = 0.75 @ "Radius of point markers"
+input flipText: bool "Flip Text" = False
+'''
+passed_render_params = '''lineThickness, refLineThickness, connLineThickness, headRad, headLen, ptRad, flipText'''
+
+# Common calculation parameters used by both angle and distance
+calc_params = '''
+input precision: int "Precision" = 2 @ "Value precision"
+input unitselection: menu "Unit" @ "Unit for measurement"
+input offset: float "Offset" = 0.1 @ "Offset from measured edge"
+input subtext: string "Substitute Text" @ "Replacement text"
+input textSize: float "Text Size" = 0.05 @ "Size of displayed text"
+input textGap: float "Text Gap" = 0.02 @ "Gap between text and visual"
+input xtraTextRot: int "Text Rotation" = 0 @ "Additional rotation of text"
+'''
+passed_calc_params = '''precision, unitselection, offset, subtext, textSize, textGap, xtraTextRot'''
+```
+
+# Helper: Create GP marker dot at position
+group fn_gp_marker "GP Marker Dot" {
+  input pos: vector "Position"
+  input radius: float "Radius" = 0.01
+  input baseRot: vector "Base Rotation"
+  input mat: mat "Material"
+  output result: geometry "GP Marker"
+
+  dot = curve_primitive_circle(32, radius)
+  dot = transform(dot, , , baseRot)
+  dot = set_position(dot, , , pos)
+  # Store attribute required for 5.1 and set_grease_pencil_depth required for 5
+  dot = store_named_attribute{data_type:'BOOLEAN'}(dot, , 'hide_stroke', True)
+  dot = store_named_attribute{data_type:'INT'}(dot, , 'fill_id', 1)
+  result = geometry_to_instance(set_material(set_grease_pencil_depth(curves_to_grease_pencil(geometry_to_instance(dot))), , mat))
+}
+
+# Helper: Create mesh sphere marker at position  
+group fn_mesh_marker "Mesh Marker Sphere" {
+  input pos: vector "Position"
+  input radius: float "Radius" = 0.01
+  output result: geometry "Mesh Marker"
+
+  result = transform(uvsphere(32, 16, radius), , pos)
+}
+
+# Helper: Create GP triangle arrowhead
+# Used for arc arrowheads in GP mode
+group fn_gp_arrowhead "GP Arrowhead Triangle" {
+  input pos: vector "Position"
+  input dir: vector "Direction"
+  input baseRot: vector "Base Rotation"
+  input headRad: float "Head Radius"
+  input headLen: float "Head Length"
+  output result: geometry "GP Arrowhead"
+
+  # Create triangle shape (circle with 3 vertices)
+  headCircleRadius = headLen * 0.6667
+  triShape = curve_primitive_circle(3, headCircleRadius)
+  triShape = set_position(triShape, , , combine_xyz(-0.667 * headLen, 0, 0))
+  headScale = combine_xyz(1, headRad / headCircleRadius, 1)
+  
+  # Rotate to align with direction
+  headRot = align_rotation_to_vector{axis:'X', pivot_axis:'Z'}(baseRot, , dir)
+  result = transform(triShape, , pos, headRot, headScale)
+}
+
+# Helper: Create mesh cone arrowhead
+group fn_mesh_arrowhead "Mesh Arrowhead Cone" {
+  input pos: vector "Position"
+  input dir: vector "Direction"
+  input headRadTop: float "Top Head Radius"
+  input headRadBottom: float "Bottom Head Radius"
+  input headLen: float "Head Length"
+  output result: geometry "Mesh Arrowhead"
+
+  rot = align_rotation_to_vector{axis:'Z'}(, , dir)
+  cone = set_shade_smooth(mesh_cone(, , , headRadTop, headRadBottom, headLen), face_neighbors() < 4)
+  result = transform(cone, , pos, rot)
+}
+
+# Helper: Create extruded text mesh
+group fn_text_mesh "Extruded Text Mesh" {
+  input textCurves: geometry "Text Curves"
+  input pos: vector "Position"
+  input rot: vector "Rotation"
+  input thickness: float "Thickness" = 0.001
+  input flipText: bool "Flip Text" = False
+  input mat: mat "Material"
+  output result: geometry "Text Mesh"
+
+  filled = fill_curve(textCurves)
+  extruded = extrude_mesh(filled, , combine_xyz(0, 0, thickness))
+  combined = join_geometry(filled ~ extruded)
+  flipScale = switch{input_type:'VECTOR'}(flipText, (-1, 1, 1), (1, 1, 1))
+  result = set_material(transform(combined, , pos, rot, flipScale), , mat)
+}
+
+# Helper: Generate text curves with subtext substitution and width calculation
+# Used by both fn_angle_calc and fn_distance_calc
+group fn_make_text_curves "Make Text Curves" {
+  input calculatedStr: string "Calculated String" @ "The computed measurement string"
+  input subtext: string "Substitute Text" @ "Override text (if non-empty)"
+  input textSize: float "Text Size" = 0.05
+  input flipText: bool "Flip Text" = False
+  output textCurves: geometry "Text Curves"
+  output textWidth: float "Text Width"
+  output displayStr: string "Display String"
+
+  # Apply subtext substitution if provided
+  subtextLen = string_length(subtext)
+  displayStr = switch{input_type:'STRING'}(subtextLen > 0, calculatedStr, subtext)
+
+  # Generate text curves
+  textCurves = get_text_curves(displayStr, textSize) #string_to_curves{align_x:'CENTER', align_y:'MIDDLE'}(displayStr, textSize)
+  
+  # Apply flip if needed
+  flippedText = transform(textCurves, , , , combine_xyz(-1, 1, 1))
+  textCurves = switch{input_type:'GEOMETRY'}(flipText, textCurves, flippedText)
+  
+  # Calculate text width from bounding box
+  (_, _, _, _, _, bbSize) = attribute_statistic{data_type:'FLOAT_VECTOR', domain:'POINT'}(realize_instances(textCurves), , position())
+  textWidth = separate_xyz(bbSize)[0]
+}

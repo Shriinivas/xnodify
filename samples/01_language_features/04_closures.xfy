@@ -1,0 +1,41 @@
+# ==============================================================================
+# Closures: First-Class Functional Geometry Generation in XFY
+# Demonstrates:
+# 1. Anonymous closure assignment: fn = closure(...) { ... }(outputs)
+# 2. Closure evaluation: evaluate_closure(fn, ...)
+# 3. First-class closure passing: closures as typed inputs to node groups
+# 4. Procedural geometry closures producing parametric meshes
+# ==============================================================================
+
+# 1. Assignment syntax: math closure computing polynomial
+sqr_fn = closure(x: float) {
+    y = x * x
+}(y)
+
+# 2. Statement syntax with named output binding
+closure(scale: float, v: vector) {
+    out_v = v * scale
+}(scale_fn = out_v)
+
+# 3. Direct closure evaluation with named arguments
+val_squared = evaluate_closure(sqr_fn, x=2.5)
+
+# 4. Group accepting a typed closure signature: closure(x: float) -> (y: float)
+group ApplyTransform {
+    input fn: closure(x: float) -> (y: float) "Transform Function"
+    input input_val: float "Input Value" = 1.0
+    output result: float "Result"
+
+    result = fn(input_val)
+}
+
+result_val = ApplyTransform(sqr_fn, 3.0)
+
+# 5. Geometry closure generating parametric mesh primitive
+geo_fn = closure(radius: float, depth: float) {
+    cylinder = mesh_cylinder(vertices=32, radius=radius, depth=depth)
+}(cylinder)
+
+# Generate geometry by evaluating the closure with computed values
+output sculpture: geometry "Output"
+sculpture = geo_fn(radius=0.5, depth=result_val * 0.2)

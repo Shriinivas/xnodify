@@ -1,0 +1,83 @@
+#Blender ver 4.2+ Mesh Angle Measurement
+include angle_common.xfy
+
+```
+if not __parents__:
+  clear_objects()
+  do_angle_setup(outType='mesh')
+  op = ingeom_param + common_angle_params + f'''
+input textThickness: float "Text Thickness" = 0.001 @ "Thickness of Text String"
+input mainLineMat: mat "Main Line Material" = "Main Line Material"
+input refLineMat: mat "Ref Line Material" = "Ref Line Material"
+input textMat: mat "Text Material" = "Text Material"
+input dotMat: mat "Dot Material" = "Dot Material"
+{outgeom_param}
+  result = fn_angle_mesh(ingeom, {passed_common_angle_params}, textThickness, mainLineMat, refLineMat, textMat, dotMat)
+ '''
+else:
+  op = ''
+```
+
+group fn_angle_mesh "Measure Angle Mesh" {
+  py!.ingeom_param
+  py!.common_angle_params
+  input textThickness: float "Text Thickness" = 0.001 @ "Thickness of Text String"
+  input mainLineMat: mat "Main Line Material" = "Main Line Material"
+  input refLineMat: mat "Ref Line Material" = "Ref Line Material"
+  input textMat: mat "Text Material" = "Text Material"
+  input dotMat: mat "Dot Material" = "Dot Material"
+  py!.outgeom_param
+
+  # Get common calculations
+  py!.common_angle_call
+  py!.do_conversions
+
+  # Mesh-specific rendering
+  # Main lines
+  mainProfile = curve_primitive_circle(,lineThickness)
+  line0 = curve_to_mesh(curve_primitive_line(pt0Off, pt1Off), mainProfile, True)
+  line1 = curve_to_mesh(curve_primitive_line(pt1Off, pt2Off), mainProfile, True)
+
+  # Reference lines
+  refProfile = curve_primitive_circle(,refLineThickness)
+  refLine0 = curve_to_mesh(curve_primitive_line(pt0, pt1), refProfile, True)
+  refLine1 = curve_to_mesh(curve_primitive_line(pt1, pt2), refProfile, True)
+
+  # Connecting lines
+  connProfile = curve_primitive_circle(,connLineThickness)
+  conn0 = curve_to_mesh(curve_primitive_line(pt0, pt0Off), connProfile, True)
+  conn1 = curve_to_mesh(curve_primitive_line(pt1, pt1Off), connProfile, True)
+  conn2 = curve_to_mesh(curve_primitive_line(pt2, pt2Off), connProfile, True)
+
+  # Arc meshes (trimmed for arrowheads)
+  (arc0, arc1, arc0End, arc1Start, textPos) = fn_trim_curves(arc0, arc1, arcLen, headLen, outer)
+  arc0Mesh = curve_to_mesh(arc0, mainProfile, True)
+  arc1Mesh = curve_to_mesh(arc1, mainProfile, True)
+
+  # Arc heads using helper
+  arc0Vect = sample_curve{mode:'LENGTH'}(arc0, ,0)[1] - arc0Start
+  head0 = fn_mesh_arrowhead(arc0Start, arc0Vect, headRad, 0, headLen)
+  arc1Vect = sample_curve{mode:'LENGTH'}(arc1, ,arcLen - headLen)[1] - arc1End
+  head1 = fn_mesh_arrowhead(arc1End, arc1Vect, headRad, 0, headLen)
+
+  # Point markers (using helper from measure_common)
+  marker0 = fn_mesh_marker(pt0Off, ptRad)
+  marker1 = fn_mesh_marker(pt1Off, ptRad)
+  marker2 = fn_mesh_marker(pt2Off, ptRad)
+  marker3 = fn_mesh_marker(pt0, ptRad)
+  marker4 = fn_mesh_marker(pt1, ptRad)
+  marker5 = fn_mesh_marker(pt2, ptRad)
+
+  # Text mesh using helper
+  angleTxt = fn_text_mesh(textCurves, textPos, textRot, textThickness, flipText, textMat)
+
+  # Combine geometry with separate materials
+  dots = join_geometry(marker0 ~ marker1 ~ marker2 ~ marker3 ~ marker4 ~ marker5)
+  dots = set_material(dots, ,dotMat)
+  mainGeom = join_geometry(arc0Mesh ~ arc1Mesh ~ head0 ~ head1 ~ line0 ~ line1)
+  mainGeom = set_material(mainGeom, ,mainLineMat)
+  refGeom = join_geometry(refLine0 ~ refLine1 ~ conn0 ~ conn1 ~ conn2)
+  refGeom = set_material(refGeom, ,refLineMat)
+  result = join_geometry(mainGeom ~ refGeom ~ dots ~ angleTxt)
+}
+py!.op

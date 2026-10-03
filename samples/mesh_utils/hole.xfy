@@ -1,0 +1,210 @@
+```
+inputs = '''
+input geom: geometry "Geometry"
+input hole_radius: float "Hole Radius" = 0.1
+input hole_cos: string = '0.2:0.2,0.8:0.2,0.5:0.5'
+input proxim_obj: object "Proximity Object"
+input use_proxim: bool "Use proxmity object points" = False
+'''  
+
+inputs2 = '''
+input geom: geometry "Geometry"
+input hole_radius: float "Hole Radius" = 0.1
+input x_offset: float "X offset from left (0 to 1)" = 0.1
+input y_offset: float "Y offset from top (0 to 1)" = 0.1
+input abs_pos: vector "Absolute hole position" = (0, 0, 0)
+input use_abs_pos: bool "Use absolute position" = False
+'''  
+if not __parents__:
+  op = f'''
+  {inputs}
+  output geom_with_hole: geometry
+  output hole_pos_pts: geometry
+  output hole_edge_sel: bool
+  geom_replace = mesh_grid(3, 3, 20, 20)
+  (geom_with_hole, hole_pos_pts, hole_edge_sel) = punch_holes(geom_replace, hole_radius, hole_cos, proxim_obj, use_proxim)
+'''
+else:
+  op = ''
+```
+group punch_hole{
+  py!.inputs2
+  output geom_with_hole: geometry
+  output target_pos: vector
+  output hole_edge_sel: bool
+
+  # ==========================================
+  # 1. CALCULATE SAFE MARGINS & TARGET POS
+  # ==========================================
+  safe_margin = hole_radius * 1.5
+
+  bbox = bound_box(geom)
+  min_pos = bbox[1] 
+  max_pos = bbox[2] 
+
+  (min_x, min_y, _) = separate_xyz(min_pos)
+  (max_x, max_y, _) = separate_xyz(max_pos)
+
+  raw_x = min_x + (x_offset * (max_x - min_x))
+  target_x = clamp(raw_x, min_x + safe_margin, max_x - safe_margin)
+
+  raw_y = min_y + (y_offset * (max_y - min_y))
+  target_y = clamp(raw_y, min_y + safe_margin, max_y - safe_margin)
+
+  target_pos = switch{input_type:'VECTOR'}(use_abs_pos, combine_xyz(target_x, target_y, 0.0), abs_pos)
+
+  # ==========================================
+  # 2. BULLETPROOF BOUNDARY SHIELD (NAMED ATTRIBUTES)
+  # ==========================================
+  edge_bound = "Is Edge Boundary"()[0]
+  geom = store_named_attribute{data_type:'BOOLEAN', domain:'EDGE'}(geom, , 'outer_edge', edge_bound)
+  geom = store_named_attribute{data_type:'BOOLEAN', domain:'POINT'}(geom, , 'outer_pt', edge_bound)
+
+  # ==========================================
+  # 3. TOPOLOGICAL DELETION (SYMMETRIC CUTOUT)
+  # ==========================================
+  target_idx = sample_nearest(geom, target_pos)
+  
+  pos = position()
+  vert_pos = sample_index{data_type:'FLOAT_VECTOR'}(geom, pos, target_idx)
+
+  (tar_x, tar_y, _) = separate_xyz(target_pos)
+  (_, _, mesh_z) = separate_xyz(vert_pos)
+  target_pos = combine_xyz(tar_x, tar_y, mesh_z)
+
+  dist_to_vert = vdist(pos, vert_pos)
+
+  # Safely evaluate named outer point boundary
+  outer_pt = input_named_attribute{data_type:'BOOLEAN'}('outer_pt')
+  
+  points_to_delete = ((dist_to_vert == hole_radius | dist_to_vert < hole_radius) | (index() == target_idx)) & !outer_pt
+  modmesh = delete_geometry(geom, points_to_delete)
+
+  # Precise boolean math to isolate ONLY the fresh hole edges
+  new_edge_bound = "Is Edge Boundary"()[0]
+  outer_edge = input_named_attribute{data_type:'BOOLEAN'}('outer_edge')
+  hole_edge_sel = input_named_attribute{data_type:'BOOLEAN'}('hole_edge_sel') # previous holes if any
+  holeboundary_edges = new_edge_bound & !outer_edge
+  modmesh = store_named_attribute{data_type:'BOOLEAN', domain:'EDGE'}(modmesh, , 'hole_edge_sel', holeboundary_edges | hole_edge_sel)
+
+  # Tag each vertex with its mesh index for bijective transfer
+  modmesh = store_named_attribute{data_type:'INT', domain:'POINT'}(modmesh, , 'vidx', index())
+
+  # ==========================================
+  # 4. PERFECT EVEN SPACING VIA LOOP-ORDERED CURVE
+  # ==========================================
+  boundary_mesh = separate_geometry{domain:'EDGE'}(modmesh, holeboundary_edges)[0]
+  hole_curve = mesh_to_curve(boundary_mesh)
+
+  num_pts = attribute_domain_size{component:'CURVE'}(hole_curve)[0]
+  first_pos = sample_index{data_type:'FLOAT_VECTOR'}(hole_curve, position(), 0)
+  second_pos = sample_index{data_type:'FLOAT_VECTOR'}(hole_curve, position(), 1)
+  
+  (first_rx, first_ry, _) = separate_xyz(first_pos - target_pos)
+  (second_rx, second_ry, _) = separate_xyz(second_pos - target_pos)
+  start_angle = atan2(first_ry, first_rx)
+
+  cross_z = first_rx * second_ry - first_ry * second_rx
+  direction = switch{input_type:'FLOAT'}(cross_z > 0, -1.0, 1.0)
+  loop_step = direction * 6.2831853 / num_pts
+  even_angle = start_angle + (index() * loop_step)
+
+  even_dir = combine_xyz(cos(even_angle), sin(even_angle), 0.0)
+  hole_curve = set_position(hole_curve, , target_pos + (even_dir * hole_radius))
+
+  repeat num_pts, , state=(modmesh:geometry):iter_idx, {
+      vidx = sample_index{data_type:'INT'}(hole_curve, input_named_attribute{data_type:'INT'}('vidx'), iter_idx)
+      ep = sample_index{data_type:'FLOAT_VECTOR'}(hole_curve, position(), iter_idx)
+      modmesh = set_position(modmesh, index() == vidx, ep)
+  }(, modmesh)
+
+  # ==========================================
+  # 5. LAPLACIAN SMOOTHING (RELAX MESH)
+  # ==========================================
+  # Precise point mask for pinning
+  new_pt_bound = "Is Edge Boundary"()[0]
+  holeboundary_pts = new_pt_bound & !outer_pt
+  
+  dist_to_hole = vdist(position(), target_pos)
+  is_near_hole = dist_to_hole < (hole_radius * 4.0)
+
+  is_pinned = holeboundary_pts | outer_pt | !is_near_hole
+
+  smooth_weight = switch{input_type:'FLOAT'}(is_pinned, 1.0, 0.0)
+  smoothed_pos = blur_attribute{data_type:'FLOAT_VECTOR'}(position(), 10, smooth_weight)
+
+  modmesh = set_position(modmesh, , smoothed_pos)
+
+  geom_with_hole = merge_by_distance(modmesh, holeboundary_edges, , 0.0001)
+  hole_edge_sel = input_named_attribute{data_type:'BOOLEAN'}('hole_edge_sel')
+}
+
+group punch_holes{
+  py!.inputs
+  output geom_with_holes: geometry
+  output hole_pos_pts: geometry
+  output hole_edge_sel: bool
+
+  xy_sep = ':'
+  co_sep=','
+  hole_cos = string_join(,hole_cos ~ co_sep)
+  str_len = string_length(hole_cos)
+  x = 0.0
+
+  obj_info = object_info{transform_space:'RELATIVE'}(proxim_obj)
+  obj_loc = obj_info[1]
+  proxim_geom = obj_info[4]
+
+  ads_mesh = attribute_domain_size{component:'MESH'}(proxim_geom)
+  ads_curve = attribute_domain_size{component:'CURVE'}(proxim_geom)
+  ads_pc = attribute_domain_size{component:'POINTCLOUD'}(proxim_geom)
+
+  mesh_pts = ads_mesh[0]
+  mesh_faces = ads_mesh[2]
+  curve_pts = ads_curve[0]
+  pc_pts = ads_pc[0]
+  pt_cnt = mesh_pts + curve_pts + pc_pts
+
+  is_single_locator = (mesh_faces > 0) | (pt_cnt <= 1)
+  repeat_cnt = switch{input_type:'INT'}(is_single_locator, pt_cnt, 0)
+
+  punched_plane_multi = geom 
+  repeat repeat_cnt, , state=(punched_plane_multi, pos_pts_multi:geometry):idx, {
+      pos = sample_index{data_type:'FLOAT_VECTOR'}(proxim_geom, value=position(), index=idx)
+      (punched_plane_multi, punch_pos_multi, hole_edge_sel_multi) = punch_hole(punched_plane_multi, hole_radius, , , pos, True)
+      pos_pts_multi = join_geometry(pos_pts_multi ~ set_position(points(1), , punch_pos_multi))
+  }(,punched_plane_multi, pos_pts_multi, hole_edge_sel_multi)
+
+  (punched_plane_single, punch_pos_single, hole_edge_sel_single) = punch_hole(geom, hole_radius, , , obj_loc, True)
+  pos_pts_single = set_position(points(1), , punch_pos_single)
+
+  punched_plane_abs = switch{input_type:'GEOMETRY'}(is_single_locator, punched_plane_multi, punched_plane_single)
+  pos_pts_abs = switch{input_type:'GEOMETRY'}(is_single_locator, pos_pts_multi, pos_pts_single)
+  hole_edge_sel_abs = switch{input_type:'BOOLEAN'}(is_single_locator, hole_edge_sel_multi, hole_edge_sel_single)
+
+  punched_plane_offset = geom 
+  repeat str_len, , state=(punched_plane_offset, curr_word:string, x, x_vals:string, pos_pts:geometry):idx, {
+      char = slice_string(hole_cos, idx, 1)
+      is_xy_sep = char == xy_sep
+      is_co_sep = char == co_sep
+      is_separator = is_co_sep | is_xy_sep
+
+      x = switch{input_type:'FLOAT'}(is_xy_sep, x, string_to_value(curr_word))
+      y = switch{input_type:'FLOAT'}(is_co_sep, 0, string_to_value(curr_word))
+      (punched_plane_new, punch_pos, hole_edge_sel_offset) = punch_hole(punched_plane_offset, hole_radius, x, y)
+
+      punched_plane_offset = switch{input_type:'GEOMETRY'}(is_co_sep, punched_plane_offset, punched_plane_new)
+
+      pos_pt = set_position(points(1), , punch_pos)
+
+      pos_pts = switch{input_type:'GEOMETRY'}(is_co_sep, pos_pts, join_geometry(pos_pts ~ pos_pt))
+
+      curr_word = switch{input_type:'STRING'}(is_separator, string_join(,curr_word ~ char), '')
+  }(,punched_plane_offset, curr_word, x, x_vals, pos_pts, hole_edge_sel_offset)
+
+  geom_with_holes = switch{input_type:'GEOMETRY'}(use_proxim, punched_plane_offset, punched_plane_abs)
+  hole_edge_sel = switch{input_type:'BOOLEAN'}(use_proxim, hole_edge_sel_offset, hole_edge_sel_abs)
+  hole_pos_pts = switch{input_type:'GEOMETRY'}(use_proxim, pos_pts, pos_pts_abs)
+}
+py!.op
+
