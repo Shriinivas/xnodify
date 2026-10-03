@@ -2,7 +2,7 @@
 
 [![Blender 4.2+](https://img.shields.io/badge/Blender-4.2%20%7C%205.x-orange.svg)](https://www.blender.org/)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version: 1.0.0](https://img.shields.io/badge/Version-1.0.0-green.svg)](https://github.com/)
+[![Version: 1.0.0](https://img.shields.io/badge/Version-1.0.0-green.svg)](https://github.com/Shriinivas/xnodify)
 
 **XNodify** is a declarative scripting language and compiler (`.xfy`) for Blender. It allows you to build complex **Geometry Nodes**, **Shader Nodes** (Materials), and **World Shaders** using readable, concise Pythonic code instead of wiring endless spaghetti nodes in the graph editor.
 
@@ -11,11 +11,13 @@
 ## Key Features
 
 - **Multi-Context Tree Support**: First-class generation for **Geometry Node Trees**, **Object Shader Trees**, and **World Shader Trees**.
-- **Pythonic Syntax**: Clean arithmetic, tuple unpacking (`(a, b) = ...`), keyword arguments, and node shortcuts.
-- **Loops & Control Flow**: Native syntax for `repeat` and `foreach` zones with state accumulator management.
-- **Subgraphs & Modularity**: Define reusable `group` blocks directly in scripts with auto-generated interfaces.
+- **First-Class Zones**: Native, intuitive syntax for **Repeat**, **Simulation**, and **Foreach** zones with explicit state variable tracking.
+- **Pythonic Syntax**: Clean arithmetic, tuple unpacking (`(a, b) = ...`), keyword arguments, and math shortcuts.
+- **Modular Subgraphs & Nesting**: Define reusable `group` blocks directly in scripts with auto-generated interfaces and multi-file `include` support.
+- **Closures & Typed Bundles**: First-class functional closures, custom signatures, and strongly-typed attribute bundles.
+- **Seamless Python Interop**: Inline Python calculations, `py!` code macros, dynamic socket evaluation, and `#defer` blocks.
 - **Zero-Dependency Quickstart**: Bundles the `lark` parsing engine internally in `vendor/lark` — install the ZIP and start scripting immediately with zero terminal commands.
-- **Blender 4.2+ & 5.x Extensions Support**: Modern `blender_manifest.toml` packaging with full backward compatibility via `bl_info`.
+- **Blender 4.2+ & 5.2+ Native**: Modern `blender_manifest.toml` packaging with full support for Matrix sockets, relative coordinate spaces, and integrated auto-layout (`lineupnodes`).
 - **Offline Validation & CLI**: Validate syntax, semantics, and socket typing from your terminal or CI without starting Blender GUI.
 - **Editor Tooling**: Neovim LSP server and syntax highlighting for diagnostics, auto-completion, and parameter hints.
 
@@ -39,7 +41,7 @@ If you clone the repository directly or prefer managing dependencies via Python:
 
 ```bash
 # Clone the repository
-git clone https://github.com/<your-username>/xnodify.git
+git clone https://github.com/Shriinivas/xnodify.git
 ```
 
 Symlink or copy the `xnodify` folder into your Blender addons / extensions directory:
@@ -111,31 +113,38 @@ shader = principled_bsdf(base_color=base_col, metallic=1.0, roughness=0.15)
 output = material_output(surface=shader)
 ```
 
-### 2. Repeat Loops
+### 2. Repeat Zones & Simulation Zones
 
-Accumulate transformations across iterations:
+Iterative state accumulation with explicit state tracking:
 
 ```python
-input count: int "Iterations" = 10
-output geo: geometry
+input steps: int "Step Count" = 20
+input step_height: float "Step Height" = 0.18
+output staircase: geometry
 
-base = mesh_cube(size=1.0)
+base_step = mesh_cube(size=(1.2, 0.35, 0.08))
 
-# repeat loop: iterates over geometry with custom parameters
-result = repeat(base, iterations=count, offset=0.2) {
-    geo = transform(geo, translation=(0, 0, offset))
-    return geo
-}
+# Repeat Zone: accumulates geometry across steps
+repeat steps, base_step, state=():idx, current_geom {
+    z_offset = idx * step_height
+    rot_z = idx * 0.314
+    step = transform_geometry(base_step, translation=combine_xyz(0.0, 0.0, z_offset), rotation=combine_xyz(0.0, 0.0, rot_z))
+    current_geom = join_geometry(current_geom ~ step)
+}(accumulated=current_geom)
 
-geo = result
+staircase = accumulated
 ```
 
 ### 3. Reusable Subgraphs (`group`)
 
-Define encapsulated node groups with custom inputs and outputs:
+Define encapsulated node groups with typed interface sockets:
 
 ```python
-group MySubdiv(mesh: geometry, levels: int) -> (out: geometry) {
+group MySubdiv {
+    input mesh: geometry
+    input levels: int "Levels" = 2
+    output out: geometry
+
     sub = subdivide_mesh(mesh, level=levels)
     out = set_shade_smooth(sub)
 }
@@ -145,6 +154,24 @@ output geo: geometry
 
 cube = mesh_cube(size=1.0)
 geo = MySubdiv(cube, count)
+```
+
+### 4. Closures & Typed Bundles
+
+First-class functional closures and strongly typed data bundles:
+
+```python
+# First-class closure definition
+closure square(x: float) -> (sq: float) {
+    sq = x * x
+}
+
+# Evaluate closure dynamically
+result = evaluate_closure(square, 4.0)
+
+# Typed data bundle packing & unpacking
+stats = combine_bundle(area=12.5, count=4, label='panel')
+(area, count, label) = separate_bundle(stats)
 ```
 
 ---

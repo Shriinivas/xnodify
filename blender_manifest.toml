@@ -7,7 +7,7 @@ tagline = "Declarative scripting language (XFY) for Blender Node Trees"
 maintainer = "Shrinivas Kulkarni <shrinivk@gmail.com>"
 type = "add-on"
 
-website = "https://github.com/shrinivk/xnodify"
+website = "https://github.com/Shriinivas/xnodify"
 
 blender_version_min = "4.2.0"
 

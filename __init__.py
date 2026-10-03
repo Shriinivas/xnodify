@@ -6,6 +6,8 @@ bl_info = {
     "location": "Node Editor / Text Editor > Sidebar > XNodify",
     "description": "Declarative scripting language (XFY) for Blender Geometry Nodes and Shader Nodes",
     "category": "Node",
+    "doc_url": "https://github.com/Shriinivas/xnodify",
+    "tracker_url": "https://github.com/Shriinivas/xnodify/issues",
 }
 
 import bpy
