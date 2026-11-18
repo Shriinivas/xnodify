@@ -136,6 +136,21 @@ class BlenderNodeBuilder(NodeBuilder):
                 # Create new index switch item
                 node.index_switch_items.new()
                 return node.inputs[-2]
+            elif node.bl_idname == "GeometryNodeCombineList":
+                if hasattr(node, "combine_list_items"):
+                    node.combine_list_items.new()
+                    return node.inputs[-2]
+            elif node.bl_idname == "GeometryNodeRasterizePoints":
+                if hasattr(node, "rasterize_items"):
+                    item_count = len(node.rasterize_items) + 1
+                    name_to_use = getattr(from_socket, "name", f"Grid {item_count}")
+                    if not name_to_use or name_to_use == "Value":
+                        name_to_use = f"Grid {item_count}"
+                    item = node.rasterize_items.new(name=name_to_use)
+                    from_id = getattr(from_socket, "bl_idname", "")
+                    if "Vector" in from_id:
+                        item.type = "VECTOR"
+                    return node.inputs[-2]
             elif node.bl_idname in ("GeometryNodeCaptureAttribute", "GeometryNodeFieldToGrid"):
                 from_id = getattr(from_socket, "bl_idname", "")
                 type_name, name = get_dynamic_item_type_and_label(from_id, for_capture=True)

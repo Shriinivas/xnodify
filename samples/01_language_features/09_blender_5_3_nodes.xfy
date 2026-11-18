@@ -1,0 +1,36 @@
+# ==============================================================================
+# Blender 5.3 New Nodes Demonstration
+# ==============================================================================
+# Demonstrates new nodes introduced in Blender 5.3:
+# - combine_list: Construct dynamic lists
+# - get_vector_component: Extract component from vector by index
+# - points_set_type: Configure point cloud display/render types
+# - enable_output: Dynamically control node output execution
+# - construct_curves: Generate curves from positions and offset buffers
+# ==============================================================================
+
+group blender_5_3_features {
+  input in_geo: geometry
+  input enable_feature: bool = true
+  output result_geo: geometry
+  output out_val: float
+
+  # 1. Component indexing with get_vector_component
+  vec = (10.0, 25.0, 50.0)
+  val_y = get_vector_component(vec, 1)
+
+  # 2. Dynamic list creation with combine_list
+  val_list = combine_list(val_y, 100.0, 200.0)
+
+  # 3. Create and configure point cloud with points_set_type
+  pts = points(count=20, position=position())
+  styled_pts = points_set_type{type:'SPHERE'}(pts)
+
+  # 4. Conditionally enable geometry output using enable_output
+  active_pts = enable_output{data_type:'GEOMETRY'}(enable_feature, styled_pts)
+
+  # Combine and output
+  joined = in_geo ~ active_pts
+  result_geo = joined
+  out_val = val_y
+}

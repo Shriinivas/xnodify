@@ -53,6 +53,7 @@ def transform_node_name(bl_idname, is_geometry=False, is_common=False, is_materi
         'u_s_d': 'usd',
         'g_l_t_f': 'gltf',
         'f_b_x': 'fbx',
+        's_p_z': 'spz',
     }
 
     for old_pattern, new_pattern in acronym_map.items():
@@ -124,7 +125,8 @@ def generate_registries():
     bundle_closure_nodes = {
         'NodeCombineBundle', 'NodeSeparateBundle', 'NodeJoinBundle',
         'NodeGetBundleItem', 'NodeStoreBundleItem', 'NodeGetNestedBundlePaths',
-        'NodeClosureInput', 'NodeClosureOutput', 'NodeEvaluateClosure'
+        'NodeClosureInput', 'NodeClosureOutput', 'NodeEvaluateClosure',
+        'NodeEnableOutput', 'NodeComment',
     }
     for type_name in dir(bpy.types):
         if (any(type_name.startswith(prefix) for prefix in ['GeometryNode', 'ShaderNode', 'FunctionNode']) or

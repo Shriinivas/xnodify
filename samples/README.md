@@ -28,7 +28,8 @@ samples/
 │   ├── 05_typed_bundles.xfy     # Typed bundles: packing, unpacking, and geometry attachment
 │   ├── 06_groups_and_nesting.xfy# Reusable custom node groups and nested hierarchical assemblies
 │   ├── 07_python_embedding.xfy  # Preprocessing Python, py! macros, py. vars, __parents__, and #defer
-│   └── 08_multi_tree_scene.xfy  # Unified Geo modifier, Object shader, and World background
+│   ├── 08_multi_tree_scene.xfy  # Unified Geo modifier, Object shader, and World background
+│   └── 09_blender_5_3_nodes.xfy # Blender 5.3 new nodes: combine_list, get_vector_component, enable_output, points_set_type
 │
 ├── 02_shaders_and_materials/    # Pure declarative surface and world shader graphs
 │   ├── procedural_tiles.xfy     # Mathematical grid tiling, mortar masks & per-tile color variation

@@ -94,6 +94,8 @@ def validate_file(filepath: str, verbose: bool = False, strict: bool = False) ->
                 target_version = '5.1'
             elif 'ver_5.2' in filepath_str:
                 target_version = '5.2'
+            elif 'ver_5.3' in filepath_str:
+                target_version = '5.3'
             elif 'ver_4.x' in filepath_str:
                 target_version = '4.2'
             elif 'ver_3.x' in filepath_str:

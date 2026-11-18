@@ -208,7 +208,13 @@
   },
   "attribute": {
     "bl_idname": "ShaderNodeAttribute",
-    "inputs": {},
+    "inputs": {
+      "LightIndex": {
+        "index": 0,
+        "type": "INT",
+        "identifier": "LightIndex"
+      }
+    },
     "outputs": {
       "Color": {
         "index": 0,
@@ -854,28 +860,43 @@
         "type": "VALUE",
         "identifier": "Roughness"
       },
-      "IOR": {
+      "Anisotropy": {
         "index": 2,
+        "type": "VALUE",
+        "identifier": "Anisotropy"
+      },
+      "Rotation": {
+        "index": 3,
+        "type": "VALUE",
+        "identifier": "Rotation"
+      },
+      "IOR": {
+        "index": 4,
         "type": "VALUE",
         "identifier": "IOR"
       },
       "Normal": {
-        "index": 3,
+        "index": 5,
         "type": "VECTOR",
         "identifier": "Normal"
       },
+      "Tangent": {
+        "index": 6,
+        "type": "VECTOR",
+        "identifier": "Tangent"
+      },
       "Weight": {
-        "index": 4,
+        "index": 7,
         "type": "VALUE",
         "identifier": "Weight"
       },
       "Thin Film Thickness": {
-        "index": 5,
+        "index": 8,
         "type": "VALUE",
         "identifier": "Thin Film Thickness"
       },
       "Thin Film IOR": {
-        "index": 6,
+        "index": 9,
         "type": "VALUE",
         "identifier": "Thin Film IOR"
       }
@@ -1523,63 +1544,73 @@
         "type": "VALUE",
         "identifier": "Transmission Weight"
       },
-      "Coat Weight": {
+      "Transmission Dispersion Scale": {
         "index": 20,
+        "type": "VALUE",
+        "identifier": "Transmission Dispersion Scale"
+      },
+      "Transmission Dispersion Abbe Number": {
+        "index": 21,
+        "type": "VALUE",
+        "identifier": "Transmission Dispersion Abbe Number"
+      },
+      "Coat Weight": {
+        "index": 22,
         "type": "VALUE",
         "identifier": "Coat Weight"
       },
       "Coat Roughness": {
-        "index": 21,
+        "index": 23,
         "type": "VALUE",
         "identifier": "Coat Roughness"
       },
       "Coat IOR": {
-        "index": 22,
+        "index": 24,
         "type": "VALUE",
         "identifier": "Coat IOR"
       },
       "Coat Tint": {
-        "index": 23,
+        "index": 25,
         "type": "RGBA",
         "identifier": "Coat Tint"
       },
       "Coat Normal": {
-        "index": 24,
+        "index": 26,
         "type": "VECTOR",
         "identifier": "Coat Normal"
       },
       "Sheen Weight": {
-        "index": 25,
+        "index": 27,
         "type": "VALUE",
         "identifier": "Sheen Weight"
       },
       "Sheen Roughness": {
-        "index": 26,
+        "index": 28,
         "type": "VALUE",
         "identifier": "Sheen Roughness"
       },
       "Sheen Tint": {
-        "index": 27,
+        "index": 29,
         "type": "RGBA",
         "identifier": "Sheen Tint"
       },
       "Emission Color": {
-        "index": 28,
+        "index": 30,
         "type": "RGBA",
         "identifier": "Emission Color"
       },
       "Emission Strength": {
-        "index": 29,
+        "index": 31,
         "type": "VALUE",
         "identifier": "Emission Strength"
       },
       "Thin Film Thickness": {
-        "index": 30,
+        "index": 32,
         "type": "VALUE",
         "identifier": "Thin Film Thickness"
       },
       "Thin Film IOR": {
-        "index": 31,
+        "index": 33,
         "type": "VALUE",
         "identifier": "Thin Film IOR"
       }
@@ -3647,6 +3678,255 @@
       }
     }
   },
+  "light_accumulation": {
+    "bl_idname": "ShaderNodeLightAccumulation",
+    "inputs": {
+      "LightIndex": {
+        "index": 0,
+        "type": "INT",
+        "identifier": "LightIndex"
+      },
+      "Diffuse Light": {
+        "index": 1,
+        "type": "RGBA",
+        "identifier": "Diffuse Light"
+      },
+      "Diffuse Color": {
+        "index": 2,
+        "type": "RGBA",
+        "identifier": "Diffuse Color"
+      },
+      "Glossy Light": {
+        "index": 3,
+        "type": "RGBA",
+        "identifier": "Glossy Light"
+      },
+      "Glossy Color": {
+        "index": 4,
+        "type": "RGBA",
+        "identifier": "Glossy Color"
+      },
+      "Transmission Light": {
+        "index": 5,
+        "type": "RGBA",
+        "identifier": "Transmission Light"
+      },
+      "Transmission Color": {
+        "index": 6,
+        "type": "RGBA",
+        "identifier": "Transmission Color"
+      },
+      "Weight": {
+        "index": 7,
+        "type": "VALUE",
+        "identifier": "Weight"
+      }
+    },
+    "outputs": {
+      "Shader": {
+        "index": 0,
+        "type": "SHADER",
+        "identifier": "Shader"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeLightAccumulation"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Light Accumulation"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Adds the result of all the evaluated lights and stores each input into its respective Compositing Pass.\nThe combined result is computed as (Diffuse Light * Diffuse Color) + (Glossy Light * Glossy Color)"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      }
+    }
+  },
+  "light_evaluation": {
+    "bl_idname": "ShaderNodeLightEvaluation",
+    "inputs": {
+      "LightIndex": {
+        "index": 0,
+        "type": "INT",
+        "identifier": "LightIndex"
+      },
+      "Position": {
+        "index": 1,
+        "type": "VECTOR",
+        "identifier": "Position"
+      },
+      "Normal": {
+        "index": 2,
+        "type": "VECTOR",
+        "identifier": "Normal"
+      },
+      "Roughness": {
+        "index": 3,
+        "type": "VALUE",
+        "identifier": "Roughness"
+      }
+    },
+    "outputs": {
+      "Factor": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Factor"
+      },
+      "Mask": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Mask"
+      },
+      "Direction": {
+        "index": 2,
+        "type": "VECTOR",
+        "identifier": "Direction"
+      },
+      "Distance": {
+        "index": 3,
+        "type": "VALUE",
+        "identifier": "Distance"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeLightEvaluation"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Light Evaluation"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Light Evaluation"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "mode": {
+        "type": "ENUM",
+        "default": "DIFFUSE"
+      }
+    }
+  },
   "light_falloff": {
     "bl_idname": "ShaderNodeLightFalloff",
     "inputs": {
@@ -3729,6 +4009,268 @@
       "bl_width_default": {
         "type": "FLOAT",
         "default": 160.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      }
+    }
+  },
+  "light_info": {
+    "bl_idname": "ShaderNodeLightInfo",
+    "inputs": {
+      "LightIndex": {
+        "index": 0,
+        "type": "INT",
+        "identifier": "LightIndex"
+      }
+    },
+    "outputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      },
+      "Power": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Power"
+      },
+      "Position": {
+        "index": 2,
+        "type": "VECTOR",
+        "identifier": "Position"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeLightInfo"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Light Info"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Exposes physical properties of the light being evaluated and computes basic information relative to the evaluation position"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      }
+    }
+  },
+  "light_iter_internal_input": {
+    "bl_idname": "ShaderNodeLightIterInternalInput",
+    "inputs": {},
+    "outputs": {
+      "LightIndex": {
+        "index": 0,
+        "type": "INT",
+        "identifier": "LightIndex"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeLightIterInternalInput"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Light Iter Internal Input"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Light Iter Internal Input"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      }
+    }
+  },
+  "light_iter_internal_output": {
+    "bl_idname": "ShaderNodeLightIterInternalOutput",
+    "inputs": {},
+    "outputs": {},
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeLightIterInternalOutput"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Light Iter Internal Output"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Light Iter Internal Output"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
       },
       "bl_width_min": {
         "type": "FLOAT",
@@ -5887,6 +6429,106 @@
       }
     }
   },
+  "shadow_raycast": {
+    "bl_idname": "ShaderNodeShadowRaycast",
+    "inputs": {
+      "LightIndex": {
+        "index": 0,
+        "type": "INT",
+        "identifier": "LightIndex"
+      },
+      "Position": {
+        "index": 1,
+        "type": "VECTOR",
+        "identifier": "Position"
+      },
+      "Softness": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Softness"
+      }
+    },
+    "outputs": {
+      "Color": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Color"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "ShaderNodeShadowRaycast"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Shadow Raycast"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Shadow Raycast"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      }
+    }
+  },
   "squeeze": {
     "bl_idname": "ShaderNodeSqueeze",
     "inputs": {
@@ -7547,8 +8189,13 @@
   "vector_transform": {
     "bl_idname": "ShaderNodeVectorTransform",
     "inputs": {
-      "Vector": {
+      "LightIndex": {
         "index": 0,
+        "type": "INT",
+        "identifier": "LightIndex"
+      },
+      "Vector": {
+        "index": 1,
         "type": "VECTOR",
         "identifier": "Vector"
       }

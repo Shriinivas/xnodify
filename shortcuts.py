@@ -135,6 +135,13 @@ FUNCTION_SHORTCUTS = {
     'edge_length_constraint': 'Edge Length Constraint',
     'xpbd_simulation': 'XPBD Simulation',
     'xpbd_solver': 'XPBD Solver',
+
+    # Aliases & Acronyms
+    'import_s_p_z': 'import_spz',
+    'nurbs_order': 'n_u_r_b_s_order',
+    'nurbs_weight': 'n_u_r_b_s_weight',
+    'set_nurbs_order': 'set_n_u_r_b_s_order',
+    'set_nurbs_weight': 'set_n_u_r_b_s_weight',
     
     # Old xnodify2 aliases for backward compatibility
     'objinfo': 'object_info',

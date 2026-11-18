@@ -2339,6 +2339,8 @@ class Compiler:
                 "NodeClosureOutput",
                 "NodeEvaluateClosure",
                 "GeometryNodeClosureToList",
+                "GeometryNodeCombineList",
+                "GeometryNodeRasterizePoints",
             ]
             if socket_obj is None and hasattr(node, "bl_idname") and node.bl_idname in dynamic_nodes:
                  # Pass the index directly to builder.connect later
@@ -2809,6 +2811,8 @@ class Compiler:
                 "NodeClosureOutput",
                 "NodeEvaluateClosure",
                 "GeometryNodeClosureToList",
+                "GeometryNodeCombineList",
+                "GeometryNodeRasterizePoints",
             ]
 
             # For MenuSwitch nodes, clear default enum_items before adding custom ones

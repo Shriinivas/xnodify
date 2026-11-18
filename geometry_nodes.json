@@ -517,100 +517,6 @@
       }
     }
   },
-  "boolean_math": {
-    "bl_idname": "FunctionNodeBooleanMath",
-    "inputs": {
-      "Boolean": {
-        "index": 1,
-        "type": "BOOLEAN",
-        "identifier": "Boolean_001"
-      }
-    },
-    "outputs": {
-      "Boolean": {
-        "index": 0,
-        "type": "BOOLEAN",
-        "identifier": "Boolean"
-      }
-    },
-    "properties": {
-      "location_absolute": {
-        "type": "FLOAT",
-        "default": [
-          0.0,
-          0.0
-        ]
-      },
-      "warning_propagation": {
-        "type": "ENUM",
-        "default": "ALL"
-      },
-      "show_options": {
-        "type": "BOOLEAN",
-        "default": true
-      },
-      "show_preview": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "hide": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "mute": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "show_texture": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "bl_idname": {
-        "type": "STRING",
-        "default": "FunctionNodeBooleanMath"
-      },
-      "bl_label": {
-        "type": "STRING",
-        "default": "Boolean Math"
-      },
-      "bl_description": {
-        "type": "STRING",
-        "default": "Perform a logical operation on the given boolean inputs"
-      },
-      "bl_icon": {
-        "type": "ENUM",
-        "default": "NONE"
-      },
-      "bl_width_default": {
-        "type": "FLOAT",
-        "default": 140.0
-      },
-      "bl_width_min": {
-        "type": "FLOAT",
-        "default": 100.0
-      },
-      "bl_width_max": {
-        "type": "FLOAT",
-        "default": 700.0
-      },
-      "bl_height_default": {
-        "type": "FLOAT",
-        "default": 100.0
-      },
-      "bl_height_min": {
-        "type": "FLOAT",
-        "default": 30.0
-      },
-      "bl_height_max": {
-        "type": "FLOAT",
-        "default": 3.4028234663852886e+38
-      },
-      "operation": {
-        "type": "ENUM",
-        "default": "AND"
-      }
-    }
-  },
   "combine_color": {
     "bl_idname": "FunctionNodeCombineColor",
     "inputs": {
@@ -1182,111 +1088,6 @@
       }
     }
   },
-  "find_in_string": {
-    "bl_idname": "FunctionNodeFindInString",
-    "inputs": {
-      "String": {
-        "index": 0,
-        "type": "STRING",
-        "identifier": "String"
-      },
-      "Search": {
-        "index": 1,
-        "type": "STRING",
-        "identifier": "Search"
-      },
-      "Mode": {
-        "index": 2,
-        "type": "MENU",
-        "identifier": "Mode"
-      }
-    },
-    "outputs": {
-      "First Found": {
-        "index": 0,
-        "type": "INT",
-        "identifier": "First Found"
-      },
-      "Count": {
-        "index": 1,
-        "type": "INT",
-        "identifier": "Count"
-      }
-    },
-    "properties": {
-      "location_absolute": {
-        "type": "FLOAT",
-        "default": [
-          0.0,
-          0.0
-        ]
-      },
-      "warning_propagation": {
-        "type": "ENUM",
-        "default": "ALL"
-      },
-      "show_options": {
-        "type": "BOOLEAN",
-        "default": true
-      },
-      "show_preview": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "hide": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "mute": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "show_texture": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "bl_idname": {
-        "type": "STRING",
-        "default": "FunctionNodeFindInString"
-      },
-      "bl_label": {
-        "type": "STRING",
-        "default": "Find in String"
-      },
-      "bl_description": {
-        "type": "STRING",
-        "default": "Find the number of times a given string occurs in another string and the position of the first match"
-      },
-      "bl_icon": {
-        "type": "ENUM",
-        "default": "NONE"
-      },
-      "bl_width_default": {
-        "type": "FLOAT",
-        "default": 140.0
-      },
-      "bl_width_min": {
-        "type": "FLOAT",
-        "default": 100.0
-      },
-      "bl_width_max": {
-        "type": "FLOAT",
-        "default": 700.0
-      },
-      "bl_height_default": {
-        "type": "FLOAT",
-        "default": 100.0
-      },
-      "bl_height_min": {
-        "type": "FLOAT",
-        "default": 30.0
-      },
-      "bl_height_max": {
-        "type": "FLOAT",
-        "default": 3.4028234663852886e+38
-      }
-    }
-  },
   "float_to_int": {
     "bl_idname": "FunctionNodeFloatToInt",
     "inputs": {
@@ -1378,105 +1179,6 @@
       "rounding_mode": {
         "type": "ENUM",
         "default": "ROUND"
-      }
-    }
-  },
-  "format_string": {
-    "bl_idname": "FunctionNodeFormatString",
-    "inputs": {
-      "Format": {
-        "index": 0,
-        "type": "STRING",
-        "identifier": "Format"
-      },
-      "": {
-        "index": 1,
-        "type": "CUSTOM",
-        "identifier": "__extend__"
-      }
-    },
-    "outputs": {
-      "String": {
-        "index": 0,
-        "type": "STRING",
-        "identifier": "String"
-      }
-    },
-    "properties": {
-      "location_absolute": {
-        "type": "FLOAT",
-        "default": [
-          0.0,
-          0.0
-        ]
-      },
-      "warning_propagation": {
-        "type": "ENUM",
-        "default": "ALL"
-      },
-      "show_options": {
-        "type": "BOOLEAN",
-        "default": true
-      },
-      "show_preview": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "hide": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "mute": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "show_texture": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "bl_idname": {
-        "type": "STRING",
-        "default": "FunctionNodeFormatString"
-      },
-      "bl_label": {
-        "type": "STRING",
-        "default": "Format String"
-      },
-      "bl_description": {
-        "type": "STRING",
-        "default": "Insert values into a string using a Python and path template compatible formatting syntax"
-      },
-      "bl_icon": {
-        "type": "ENUM",
-        "default": "NONE"
-      },
-      "bl_width_default": {
-        "type": "FLOAT",
-        "default": 140.0
-      },
-      "bl_width_min": {
-        "type": "FLOAT",
-        "default": 100.0
-      },
-      "bl_width_max": {
-        "type": "FLOAT",
-        "default": 700.0
-      },
-      "bl_height_default": {
-        "type": "FLOAT",
-        "default": 100.0
-      },
-      "bl_height_min": {
-        "type": "FLOAT",
-        "default": 30.0
-      },
-      "bl_height_max": {
-        "type": "FLOAT",
-        "default": 3.4028234663852886e+38
-      },
-      "active_index": {
-        "type": "INT",
-        "default": 0
       }
     }
   },
@@ -1856,281 +1558,6 @@
       }
     }
   },
-  "input_special_characters": {
-    "bl_idname": "FunctionNodeInputSpecialCharacters",
-    "inputs": {},
-    "outputs": {
-      "Line Break": {
-        "index": 0,
-        "type": "STRING",
-        "identifier": "Line Break"
-      },
-      "Tab": {
-        "index": 1,
-        "type": "STRING",
-        "identifier": "Tab"
-      }
-    },
-    "properties": {
-      "location_absolute": {
-        "type": "FLOAT",
-        "default": [
-          0.0,
-          0.0
-        ]
-      },
-      "warning_propagation": {
-        "type": "ENUM",
-        "default": "ALL"
-      },
-      "show_options": {
-        "type": "BOOLEAN",
-        "default": true
-      },
-      "show_preview": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "hide": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "mute": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "show_texture": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "bl_idname": {
-        "type": "STRING",
-        "default": "FunctionNodeInputSpecialCharacters"
-      },
-      "bl_label": {
-        "type": "STRING",
-        "default": "Special Characters"
-      },
-      "bl_description": {
-        "type": "STRING",
-        "default": "Output string characters that cannot be typed directly with the keyboard"
-      },
-      "bl_icon": {
-        "type": "ENUM",
-        "default": "NONE"
-      },
-      "bl_width_default": {
-        "type": "FLOAT",
-        "default": 140.0
-      },
-      "bl_width_min": {
-        "type": "FLOAT",
-        "default": 100.0
-      },
-      "bl_width_max": {
-        "type": "FLOAT",
-        "default": 700.0
-      },
-      "bl_height_default": {
-        "type": "FLOAT",
-        "default": 100.0
-      },
-      "bl_height_min": {
-        "type": "FLOAT",
-        "default": 30.0
-      },
-      "bl_height_max": {
-        "type": "FLOAT",
-        "default": 3.4028234663852886e+38
-      }
-    }
-  },
-  "input_string": {
-    "bl_idname": "FunctionNodeInputString",
-    "inputs": {},
-    "outputs": {
-      "String": {
-        "index": 0,
-        "type": "STRING",
-        "identifier": "String"
-      }
-    },
-    "properties": {
-      "location_absolute": {
-        "type": "FLOAT",
-        "default": [
-          0.0,
-          0.0
-        ]
-      },
-      "warning_propagation": {
-        "type": "ENUM",
-        "default": "ALL"
-      },
-      "show_options": {
-        "type": "BOOLEAN",
-        "default": true
-      },
-      "show_preview": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "hide": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "mute": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "show_texture": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "bl_idname": {
-        "type": "STRING",
-        "default": "FunctionNodeInputString"
-      },
-      "bl_label": {
-        "type": "STRING",
-        "default": "String"
-      },
-      "bl_description": {
-        "type": "STRING",
-        "default": "Provide a string value that can be connected to other nodes in the tree"
-      },
-      "bl_icon": {
-        "type": "ENUM",
-        "default": "NONE"
-      },
-      "bl_width_default": {
-        "type": "FLOAT",
-        "default": 140.0
-      },
-      "bl_width_min": {
-        "type": "FLOAT",
-        "default": 100.0
-      },
-      "bl_width_max": {
-        "type": "FLOAT",
-        "default": 700.0
-      },
-      "bl_height_default": {
-        "type": "FLOAT",
-        "default": 100.0
-      },
-      "bl_height_min": {
-        "type": "FLOAT",
-        "default": 30.0
-      },
-      "bl_height_max": {
-        "type": "FLOAT",
-        "default": 3.4028234663852886e+38
-      },
-      "string": {
-        "type": "STRING",
-        "default": ""
-      },
-      "textbox_state": {
-        "type": "POINTER",
-        "default": "COMPLEX"
-      }
-    }
-  },
-  "integer_math": {
-    "bl_idname": "FunctionNodeIntegerMath",
-    "inputs": {
-      "Value": {
-        "index": 2,
-        "type": "INT",
-        "identifier": "Value_002"
-      }
-    },
-    "outputs": {
-      "Value": {
-        "index": 0,
-        "type": "INT",
-        "identifier": "Value"
-      }
-    },
-    "properties": {
-      "location_absolute": {
-        "type": "FLOAT",
-        "default": [
-          0.0,
-          0.0
-        ]
-      },
-      "warning_propagation": {
-        "type": "ENUM",
-        "default": "ALL"
-      },
-      "show_options": {
-        "type": "BOOLEAN",
-        "default": true
-      },
-      "show_preview": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "hide": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "mute": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "show_texture": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "bl_idname": {
-        "type": "STRING",
-        "default": "FunctionNodeIntegerMath"
-      },
-      "bl_label": {
-        "type": "STRING",
-        "default": "Integer Math"
-      },
-      "bl_description": {
-        "type": "STRING",
-        "default": "Perform various math operations on the given integer inputs"
-      },
-      "bl_icon": {
-        "type": "ENUM",
-        "default": "NONE"
-      },
-      "bl_width_default": {
-        "type": "FLOAT",
-        "default": 140.0
-      },
-      "bl_width_min": {
-        "type": "FLOAT",
-        "default": 100.0
-      },
-      "bl_width_max": {
-        "type": "FLOAT",
-        "default": 700.0
-      },
-      "bl_height_default": {
-        "type": "FLOAT",
-        "default": 100.0
-      },
-      "bl_height_min": {
-        "type": "FLOAT",
-        "default": 30.0
-      },
-      "bl_height_max": {
-        "type": "FLOAT",
-        "default": 3.4028234663852886e+38
-      },
-      "operation": {
-        "type": "ENUM",
-        "default": "ADD"
-      }
-    }
-  },
   "invert_matrix": {
     "bl_idname": "FunctionNodeInvertMatrix",
     "inputs": {
@@ -2285,106 +1712,6 @@
       "bl_description": {
         "type": "STRING",
         "default": "Compute the inverse of the given rotation"
-      },
-      "bl_icon": {
-        "type": "ENUM",
-        "default": "NONE"
-      },
-      "bl_width_default": {
-        "type": "FLOAT",
-        "default": 140.0
-      },
-      "bl_width_min": {
-        "type": "FLOAT",
-        "default": 100.0
-      },
-      "bl_width_max": {
-        "type": "FLOAT",
-        "default": 700.0
-      },
-      "bl_height_default": {
-        "type": "FLOAT",
-        "default": 100.0
-      },
-      "bl_height_min": {
-        "type": "FLOAT",
-        "default": 30.0
-      },
-      "bl_height_max": {
-        "type": "FLOAT",
-        "default": 3.4028234663852886e+38
-      }
-    }
-  },
-  "match_string": {
-    "bl_idname": "FunctionNodeMatchString",
-    "inputs": {
-      "String": {
-        "index": 0,
-        "type": "STRING",
-        "identifier": "String"
-      },
-      "Operation": {
-        "index": 1,
-        "type": "MENU",
-        "identifier": "Operation"
-      },
-      "Key": {
-        "index": 2,
-        "type": "STRING",
-        "identifier": "Key"
-      }
-    },
-    "outputs": {
-      "Result": {
-        "index": 0,
-        "type": "BOOLEAN",
-        "identifier": "Result"
-      }
-    },
-    "properties": {
-      "location_absolute": {
-        "type": "FLOAT",
-        "default": [
-          0.0,
-          0.0
-        ]
-      },
-      "warning_propagation": {
-        "type": "ENUM",
-        "default": "ALL"
-      },
-      "show_options": {
-        "type": "BOOLEAN",
-        "default": true
-      },
-      "show_preview": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "hide": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "mute": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "show_texture": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "bl_idname": {
-        "type": "STRING",
-        "default": "FunctionNodeMatchString"
-      },
-      "bl_label": {
-        "type": "STRING",
-        "default": "Match String"
-      },
-      "bl_description": {
-        "type": "STRING",
-        "default": "Check if a given string exists within another string"
       },
       "bl_icon": {
         "type": "ENUM",
@@ -3002,196 +2329,6 @@
       "data_type": {
         "type": "ENUM",
         "default": "FLOAT"
-      }
-    }
-  },
-  "replace_string": {
-    "bl_idname": "FunctionNodeReplaceString",
-    "inputs": {
-      "String": {
-        "index": 0,
-        "type": "STRING",
-        "identifier": "String"
-      },
-      "Find": {
-        "index": 1,
-        "type": "STRING",
-        "identifier": "Find"
-      },
-      "Replace": {
-        "index": 2,
-        "type": "STRING",
-        "identifier": "Replace"
-      }
-    },
-    "outputs": {
-      "String": {
-        "index": 0,
-        "type": "STRING",
-        "identifier": "String"
-      }
-    },
-    "properties": {
-      "location_absolute": {
-        "type": "FLOAT",
-        "default": [
-          0.0,
-          0.0
-        ]
-      },
-      "warning_propagation": {
-        "type": "ENUM",
-        "default": "ALL"
-      },
-      "show_options": {
-        "type": "BOOLEAN",
-        "default": true
-      },
-      "show_preview": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "hide": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "mute": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "show_texture": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "bl_idname": {
-        "type": "STRING",
-        "default": "FunctionNodeReplaceString"
-      },
-      "bl_label": {
-        "type": "STRING",
-        "default": "Replace String"
-      },
-      "bl_description": {
-        "type": "STRING",
-        "default": "Replace a given string segment with another"
-      },
-      "bl_icon": {
-        "type": "ENUM",
-        "default": "NONE"
-      },
-      "bl_width_default": {
-        "type": "FLOAT",
-        "default": 140.0
-      },
-      "bl_width_min": {
-        "type": "FLOAT",
-        "default": 100.0
-      },
-      "bl_width_max": {
-        "type": "FLOAT",
-        "default": 700.0
-      },
-      "bl_height_default": {
-        "type": "FLOAT",
-        "default": 100.0
-      },
-      "bl_height_min": {
-        "type": "FLOAT",
-        "default": 30.0
-      },
-      "bl_height_max": {
-        "type": "FLOAT",
-        "default": 3.4028234663852886e+38
-      }
-    }
-  },
-  "reverse_string": {
-    "bl_idname": "FunctionNodeReverseString",
-    "inputs": {
-      "String": {
-        "index": 0,
-        "type": "STRING",
-        "identifier": "String"
-      }
-    },
-    "outputs": {
-      "String": {
-        "index": 0,
-        "type": "STRING",
-        "identifier": "String"
-      }
-    },
-    "properties": {
-      "location_absolute": {
-        "type": "FLOAT",
-        "default": [
-          0.0,
-          0.0
-        ]
-      },
-      "warning_propagation": {
-        "type": "ENUM",
-        "default": "ALL"
-      },
-      "show_options": {
-        "type": "BOOLEAN",
-        "default": true
-      },
-      "show_preview": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "hide": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "mute": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "show_texture": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "bl_idname": {
-        "type": "STRING",
-        "default": "FunctionNodeReverseString"
-      },
-      "bl_label": {
-        "type": "STRING",
-        "default": "Reverse String"
-      },
-      "bl_description": {
-        "type": "STRING",
-        "default": "Reverse the order of the characters in a string"
-      },
-      "bl_icon": {
-        "type": "ENUM",
-        "default": "NONE"
-      },
-      "bl_width_default": {
-        "type": "FLOAT",
-        "default": 140.0
-      },
-      "bl_width_min": {
-        "type": "FLOAT",
-        "default": 100.0
-      },
-      "bl_width_max": {
-        "type": "FLOAT",
-        "default": 700.0
-      },
-      "bl_height_default": {
-        "type": "FLOAT",
-        "default": 100.0
-      },
-      "bl_height_min": {
-        "type": "FLOAT",
-        "default": 30.0
-      },
-      "bl_height_max": {
-        "type": "FLOAT",
-        "default": 3.4028234663852886e+38
       }
     }
   },
@@ -4156,201 +3293,6 @@
       }
     }
   },
-  "set_string_case": {
-    "bl_idname": "FunctionNodeSetStringCase",
-    "inputs": {
-      "String": {
-        "index": 0,
-        "type": "STRING",
-        "identifier": "String"
-      },
-      "Case": {
-        "index": 1,
-        "type": "MENU",
-        "identifier": "Case"
-      }
-    },
-    "outputs": {
-      "String": {
-        "index": 0,
-        "type": "STRING",
-        "identifier": "String"
-      }
-    },
-    "properties": {
-      "location_absolute": {
-        "type": "FLOAT",
-        "default": [
-          0.0,
-          0.0
-        ]
-      },
-      "warning_propagation": {
-        "type": "ENUM",
-        "default": "ALL"
-      },
-      "show_options": {
-        "type": "BOOLEAN",
-        "default": true
-      },
-      "show_preview": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "hide": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "mute": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "show_texture": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "bl_idname": {
-        "type": "STRING",
-        "default": "FunctionNodeSetStringCase"
-      },
-      "bl_label": {
-        "type": "STRING",
-        "default": "Set String Case"
-      },
-      "bl_description": {
-        "type": "STRING",
-        "default": "Convert the case of a string"
-      },
-      "bl_icon": {
-        "type": "ENUM",
-        "default": "NONE"
-      },
-      "bl_width_default": {
-        "type": "FLOAT",
-        "default": 140.0
-      },
-      "bl_width_min": {
-        "type": "FLOAT",
-        "default": 100.0
-      },
-      "bl_width_max": {
-        "type": "FLOAT",
-        "default": 700.0
-      },
-      "bl_height_default": {
-        "type": "FLOAT",
-        "default": 100.0
-      },
-      "bl_height_min": {
-        "type": "FLOAT",
-        "default": 30.0
-      },
-      "bl_height_max": {
-        "type": "FLOAT",
-        "default": 3.4028234663852886e+38
-      }
-    }
-  },
-  "slice_string": {
-    "bl_idname": "FunctionNodeSliceString",
-    "inputs": {
-      "String": {
-        "index": 0,
-        "type": "STRING",
-        "identifier": "String"
-      },
-      "Position": {
-        "index": 1,
-        "type": "INT",
-        "identifier": "Position"
-      },
-      "Length": {
-        "index": 2,
-        "type": "INT",
-        "identifier": "Length"
-      }
-    },
-    "outputs": {
-      "String": {
-        "index": 0,
-        "type": "STRING",
-        "identifier": "String"
-      }
-    },
-    "properties": {
-      "location_absolute": {
-        "type": "FLOAT",
-        "default": [
-          0.0,
-          0.0
-        ]
-      },
-      "warning_propagation": {
-        "type": "ENUM",
-        "default": "ALL"
-      },
-      "show_options": {
-        "type": "BOOLEAN",
-        "default": true
-      },
-      "show_preview": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "hide": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "mute": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "show_texture": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "bl_idname": {
-        "type": "STRING",
-        "default": "FunctionNodeSliceString"
-      },
-      "bl_label": {
-        "type": "STRING",
-        "default": "Slice String"
-      },
-      "bl_description": {
-        "type": "STRING",
-        "default": "Extract a string segment from a larger string"
-      },
-      "bl_icon": {
-        "type": "ENUM",
-        "default": "NONE"
-      },
-      "bl_width_default": {
-        "type": "FLOAT",
-        "default": 140.0
-      },
-      "bl_width_min": {
-        "type": "FLOAT",
-        "default": 100.0
-      },
-      "bl_width_max": {
-        "type": "FLOAT",
-        "default": 700.0
-      },
-      "bl_height_default": {
-        "type": "FLOAT",
-        "default": 100.0
-      },
-      "bl_height_min": {
-        "type": "FLOAT",
-        "default": 30.0
-      },
-      "bl_height_max": {
-        "type": "FLOAT",
-        "default": 3.4028234663852886e+38
-      }
-    }
-  },
   "split_string": {
     "bl_idname": "FunctionNodeSplitString",
     "inputs": {
@@ -4443,200 +3385,6 @@
       "bl_height_max": {
         "type": "FLOAT",
         "default": 3.4028234663852886e+38
-      }
-    }
-  },
-  "string_length": {
-    "bl_idname": "FunctionNodeStringLength",
-    "inputs": {
-      "String": {
-        "index": 0,
-        "type": "STRING",
-        "identifier": "String"
-      }
-    },
-    "outputs": {
-      "Length": {
-        "index": 0,
-        "type": "INT",
-        "identifier": "Length"
-      }
-    },
-    "properties": {
-      "location_absolute": {
-        "type": "FLOAT",
-        "default": [
-          0.0,
-          0.0
-        ]
-      },
-      "warning_propagation": {
-        "type": "ENUM",
-        "default": "ALL"
-      },
-      "show_options": {
-        "type": "BOOLEAN",
-        "default": true
-      },
-      "show_preview": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "hide": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "mute": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "show_texture": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "bl_idname": {
-        "type": "STRING",
-        "default": "FunctionNodeStringLength"
-      },
-      "bl_label": {
-        "type": "STRING",
-        "default": "String Length"
-      },
-      "bl_description": {
-        "type": "STRING",
-        "default": "Output the number of characters in the given string"
-      },
-      "bl_icon": {
-        "type": "ENUM",
-        "default": "NONE"
-      },
-      "bl_width_default": {
-        "type": "FLOAT",
-        "default": 140.0
-      },
-      "bl_width_min": {
-        "type": "FLOAT",
-        "default": 100.0
-      },
-      "bl_width_max": {
-        "type": "FLOAT",
-        "default": 700.0
-      },
-      "bl_height_default": {
-        "type": "FLOAT",
-        "default": 100.0
-      },
-      "bl_height_min": {
-        "type": "FLOAT",
-        "default": 30.0
-      },
-      "bl_height_max": {
-        "type": "FLOAT",
-        "default": 3.4028234663852886e+38
-      }
-    }
-  },
-  "string_to_value": {
-    "bl_idname": "FunctionNodeStringToValue",
-    "inputs": {
-      "String": {
-        "index": 0,
-        "type": "STRING",
-        "identifier": "String"
-      },
-      "Base": {
-        "index": 1,
-        "type": "INT",
-        "identifier": "Base"
-      }
-    },
-    "outputs": {
-      "Value": {
-        "index": 0,
-        "type": "VALUE",
-        "identifier": "Value"
-      },
-      "Length": {
-        "index": 1,
-        "type": "INT",
-        "identifier": "Length"
-      }
-    },
-    "properties": {
-      "location_absolute": {
-        "type": "FLOAT",
-        "default": [
-          0.0,
-          0.0
-        ]
-      },
-      "warning_propagation": {
-        "type": "ENUM",
-        "default": "ALL"
-      },
-      "show_options": {
-        "type": "BOOLEAN",
-        "default": true
-      },
-      "show_preview": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "hide": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "mute": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "show_texture": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "bl_idname": {
-        "type": "STRING",
-        "default": "FunctionNodeStringToValue"
-      },
-      "bl_label": {
-        "type": "STRING",
-        "default": "String to Value"
-      },
-      "bl_description": {
-        "type": "STRING",
-        "default": "Derive a numeric value from a given string representation"
-      },
-      "bl_icon": {
-        "type": "ENUM",
-        "default": "NONE"
-      },
-      "bl_width_default": {
-        "type": "FLOAT",
-        "default": 140.0
-      },
-      "bl_width_min": {
-        "type": "FLOAT",
-        "default": 100.0
-      },
-      "bl_width_max": {
-        "type": "FLOAT",
-        "default": 700.0
-      },
-      "bl_height_default": {
-        "type": "FLOAT",
-        "default": 100.0
-      },
-      "bl_height_min": {
-        "type": "FLOAT",
-        "default": 30.0
-      },
-      "bl_height_max": {
-        "type": "FLOAT",
-        "default": 3.4028234663852886e+38
-      },
-      "data_type": {
-        "type": "ENUM",
-        "default": "FLOAT"
       }
     }
   },
@@ -4917,225 +3665,6 @@
       "bl_height_max": {
         "type": "FLOAT",
         "default": 3.4028234663852886e+38
-      }
-    }
-  },
-  "trim_string": {
-    "bl_idname": "FunctionNodeTrimString",
-    "inputs": {
-      "String": {
-        "index": 0,
-        "type": "STRING",
-        "identifier": "String"
-      },
-      "Characters": {
-        "index": 1,
-        "type": "STRING",
-        "identifier": "Characters"
-      },
-      "Whitespace": {
-        "index": 2,
-        "type": "BOOLEAN",
-        "identifier": "Whitespace"
-      },
-      "Start": {
-        "index": 3,
-        "type": "BOOLEAN",
-        "identifier": "Start"
-      },
-      "End": {
-        "index": 4,
-        "type": "BOOLEAN",
-        "identifier": "End"
-      }
-    },
-    "outputs": {
-      "String": {
-        "index": 0,
-        "type": "STRING",
-        "identifier": "String"
-      }
-    },
-    "properties": {
-      "location_absolute": {
-        "type": "FLOAT",
-        "default": [
-          0.0,
-          0.0
-        ]
-      },
-      "warning_propagation": {
-        "type": "ENUM",
-        "default": "ALL"
-      },
-      "show_options": {
-        "type": "BOOLEAN",
-        "default": true
-      },
-      "show_preview": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "hide": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "mute": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "show_texture": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "bl_idname": {
-        "type": "STRING",
-        "default": "FunctionNodeTrimString"
-      },
-      "bl_label": {
-        "type": "STRING",
-        "default": "Trim String"
-      },
-      "bl_description": {
-        "type": "STRING",
-        "default": "Remove characters from the beginning and end of a string"
-      },
-      "bl_icon": {
-        "type": "ENUM",
-        "default": "NONE"
-      },
-      "bl_width_default": {
-        "type": "FLOAT",
-        "default": 140.0
-      },
-      "bl_width_min": {
-        "type": "FLOAT",
-        "default": 100.0
-      },
-      "bl_width_max": {
-        "type": "FLOAT",
-        "default": 700.0
-      },
-      "bl_height_default": {
-        "type": "FLOAT",
-        "default": 100.0
-      },
-      "bl_height_min": {
-        "type": "FLOAT",
-        "default": 30.0
-      },
-      "bl_height_max": {
-        "type": "FLOAT",
-        "default": 3.4028234663852886e+38
-      }
-    }
-  },
-  "value_to_string": {
-    "bl_idname": "FunctionNodeValueToString",
-    "inputs": {
-      "Value": {
-        "index": 0,
-        "type": "VALUE",
-        "identifier": "Value"
-      },
-      "Decimals": {
-        "index": 1,
-        "type": "INT",
-        "identifier": "Decimals"
-      },
-      "Base": {
-        "index": 2,
-        "type": "INT",
-        "identifier": "Base"
-      },
-      "Padding": {
-        "index": 3,
-        "type": "INT",
-        "identifier": "Padding"
-      }
-    },
-    "outputs": {
-      "String": {
-        "index": 0,
-        "type": "STRING",
-        "identifier": "String"
-      }
-    },
-    "properties": {
-      "location_absolute": {
-        "type": "FLOAT",
-        "default": [
-          0.0,
-          0.0
-        ]
-      },
-      "warning_propagation": {
-        "type": "ENUM",
-        "default": "ALL"
-      },
-      "show_options": {
-        "type": "BOOLEAN",
-        "default": true
-      },
-      "show_preview": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "hide": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "mute": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "show_texture": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "bl_idname": {
-        "type": "STRING",
-        "default": "FunctionNodeValueToString"
-      },
-      "bl_label": {
-        "type": "STRING",
-        "default": "Value to String"
-      },
-      "bl_description": {
-        "type": "STRING",
-        "default": "Generate a string representation of the given input value"
-      },
-      "bl_icon": {
-        "type": "ENUM",
-        "default": "NONE"
-      },
-      "bl_width_default": {
-        "type": "FLOAT",
-        "default": 140.0
-      },
-      "bl_width_min": {
-        "type": "FLOAT",
-        "default": 100.0
-      },
-      "bl_width_max": {
-        "type": "FLOAT",
-        "default": 700.0
-      },
-      "bl_height_default": {
-        "type": "FLOAT",
-        "default": 100.0
-      },
-      "bl_height_min": {
-        "type": "FLOAT",
-        "default": 30.0
-      },
-      "bl_height_max": {
-        "type": "FLOAT",
-        "default": 3.4028234663852886e+38
-      },
-      "data_type": {
-        "type": "ENUM",
-        "default": "FLOAT"
       }
     }
   },
@@ -5765,6 +4294,21 @@
         "index": 5,
         "type": "BOOLEAN",
         "identifier": "Exists"
+      },
+      "Envelope Distance": {
+        "index": 6,
+        "type": "VALUE",
+        "identifier": "Envelope Distance"
+      },
+      "Radius Head": {
+        "index": 7,
+        "type": "VALUE",
+        "identifier": "Radius Head"
+      },
+      "Radius Tail": {
+        "index": 8,
+        "type": "VALUE",
+        "identifier": "Radius Tail"
       }
     },
     "properties": {
@@ -6711,6 +5255,200 @@
       "transform_space": {
         "type": "ENUM",
         "default": "ORIGINAL"
+      }
+    }
+  },
+  "combine_list": {
+    "bl_idname": "GeometryNodeCombineList",
+    "inputs": {
+      "0": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Item_0"
+      },
+      "": {
+        "index": 1,
+        "type": "CUSTOM",
+        "identifier": "__extend__"
+      }
+    },
+    "outputs": {
+      "List": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "List"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "GeometryNodeCombineList"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Combine List"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Combine an arbitrary number of values into a list"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "data_type": {
+        "type": "ENUM",
+        "default": "FLOAT"
+      }
+    }
+  },
+  "construct_curves": {
+    "bl_idname": "GeometryNodeConstructCurves",
+    "inputs": {
+      "Positions": {
+        "index": 0,
+        "type": "VECTOR",
+        "identifier": "Positions"
+      },
+      "Curve Offsets": {
+        "index": 1,
+        "type": "INT",
+        "identifier": "Curve Offsets"
+      }
+    },
+    "outputs": {
+      "Curves": {
+        "index": 0,
+        "type": "GEOMETRY",
+        "identifier": "Curves"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "GeometryNodeConstructCurves"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Construct Curves"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Construct curves from raw topology data"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
       }
     }
   },
@@ -8816,6 +7554,16 @@
         "index": 3,
         "type": "BOOLEAN",
         "identifier": "Fill Caps"
+      },
+      "Miter Scale": {
+        "index": 4,
+        "type": "BOOLEAN",
+        "identifier": "Miter Scale"
+      },
+      "Miter Scale Limit": {
+        "index": 5,
+        "type": "VALUE",
+        "identifier": "Miter Scale Limit"
       }
     },
     "outputs": {
@@ -11965,6 +10713,101 @@
       }
     }
   },
+  "geometry_materials": {
+    "bl_idname": "GeometryNodeGeometryMaterials",
+    "inputs": {
+      "Geometry": {
+        "index": 0,
+        "type": "GEOMETRY",
+        "identifier": "Geometry"
+      },
+      "Component Type": {
+        "index": 1,
+        "type": "MENU",
+        "identifier": "Component Type"
+      }
+    },
+    "outputs": {
+      "Materials": {
+        "index": 0,
+        "type": "MATERIAL",
+        "identifier": "Materials"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "GeometryNodeGeometryMaterials"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Geometry Materials"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Get a list of the materials used by a geometry component"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      }
+    }
+  },
   "geometry_to_instance": {
     "bl_idname": "GeometryNodeGeometryToInstance",
     "inputs": {
@@ -12352,6 +11195,96 @@
       "bl_width_default": {
         "type": "FLOAT",
         "default": 180.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      }
+    }
+  },
+  "get_grid_names": {
+    "bl_idname": "GeometryNodeGetGridNames",
+    "inputs": {
+      "Volume": {
+        "index": 0,
+        "type": "GEOMETRY",
+        "identifier": "Volume"
+      }
+    },
+    "outputs": {
+      "Names": {
+        "index": 0,
+        "type": "STRING",
+        "identifier": "Names"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "GeometryNodeGetGridNames"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Get Grid Names"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Retrieves the names of all grids stored in a volume as a list of strings"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
       },
       "bl_width_min": {
         "type": "FLOAT",
@@ -12842,6 +11775,525 @@
       }
     }
   },
+  "grease_pencil_color": {
+    "bl_idname": "GeometryNodeGreasePencilColor",
+    "inputs": {},
+    "outputs": {
+      "Point": {
+        "index": 0,
+        "type": "RGBA",
+        "identifier": "Point"
+      },
+      "Fill": {
+        "index": 1,
+        "type": "RGBA",
+        "identifier": "Fill"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "GeometryNodeGreasePencilColor"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Grease Pencil Color"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Retrieve the color of Grease Pencil points and fills"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      }
+    }
+  },
+  "grease_pencil_draw_time": {
+    "bl_idname": "GeometryNodeGreasePencilDrawTime",
+    "inputs": {},
+    "outputs": {
+      "Creation Time": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Creation Time"
+      },
+      "Delta Time": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Delta Time"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "GeometryNodeGreasePencilDrawTime"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Grease Pencil Draw Time"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Retrieve information as to when a Grease Pencil curve was drawn"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 180.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      }
+    }
+  },
+  "grease_pencil_fill_id": {
+    "bl_idname": "GeometryNodeGreasePencilFillID",
+    "inputs": {},
+    "outputs": {
+      "Fill ID": {
+        "index": 0,
+        "type": "INT",
+        "identifier": "Fill ID"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "GeometryNodeGreasePencilFillID"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Grease Pencil Fill ID"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Retrieve information about the grouping of Grease Pencil fills"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 160.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      }
+    }
+  },
+  "grease_pencil_opacity": {
+    "bl_idname": "GeometryNodeGreasePencilOpacity",
+    "inputs": {},
+    "outputs": {
+      "Point": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Point"
+      },
+      "Fill": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Fill"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "GeometryNodeGreasePencilOpacity"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Grease Pencil Opacity"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Retrieve the opacity of Grease Pencil points and fills"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 160.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      }
+    }
+  },
+  "grease_pencil_stroke_softness": {
+    "bl_idname": "GeometryNodeGreasePencilStrokeSoftness",
+    "inputs": {},
+    "outputs": {
+      "Softness": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Softness"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "GeometryNodeGreasePencilStrokeSoftness"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Grease Pencil Stroke Softness"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Retrieve the softness of Grease Pencil strokes"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 200.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      }
+    }
+  },
+  "grease_pencil_stroke_visibility": {
+    "bl_idname": "GeometryNodeGreasePencilStrokeVisibility",
+    "inputs": {},
+    "outputs": {
+      "Is Hidden": {
+        "index": 0,
+        "type": "BOOLEAN",
+        "identifier": "Is Hidden"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "GeometryNodeGreasePencilStrokeVisibility"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Grease Pencil Stroke Visibility"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Retrieve the visibility of Grease Pencil strokes"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 200.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      }
+    }
+  },
   "grease_pencil_to_curves": {
     "bl_idname": "GeometryNodeGreasePencilToCurves",
     "inputs": {
@@ -13267,6 +12719,105 @@
       "bl_height_max": {
         "type": "FLOAT",
         "default": 3.4028234663852886e+38
+      }
+    }
+  },
+  "grid_deactivate_voxels": {
+    "bl_idname": "GeometryNodeGridDeactivateVoxels",
+    "inputs": {
+      "Grid": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Grid"
+      },
+      "Selection": {
+        "index": 1,
+        "type": "BOOLEAN",
+        "identifier": "Selection"
+      }
+    },
+    "outputs": {
+      "Grid": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Grid"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "GeometryNodeGridDeactivateVoxels"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Deactivate Voxels"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Deactivate selected voxels and tiles"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "data_type": {
+        "type": "ENUM",
+        "default": "FLOAT"
       }
     }
   },
@@ -14060,6 +13611,166 @@
       }
     }
   },
+  "grid_solve_poisson": {
+    "bl_idname": "GeometryNodeGridSolvePoisson",
+    "inputs": {
+      "Grid": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Grid"
+      },
+      "Max Iterations": {
+        "index": 1,
+        "type": "INT",
+        "identifier": "Max Iterations"
+      },
+      "Error Threshold": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Error Threshold"
+      },
+      "Threshold Mode": {
+        "index": 3,
+        "type": "MENU",
+        "identifier": "Threshold Mode"
+      },
+      "Boundary": {
+        "index": 4,
+        "type": "MENU",
+        "identifier": "Boundary"
+      },
+      "Boundary Value": {
+        "index": 5,
+        "type": "VALUE",
+        "identifier": "Boundary Value"
+      },
+      "Boundary Gradient": {
+        "index": 6,
+        "type": "VECTOR",
+        "identifier": "Boundary Gradient"
+      },
+      "Boundary Factor": {
+        "index": 7,
+        "type": "VALUE",
+        "identifier": "Boundary Factor"
+      }
+    },
+    "outputs": {
+      "Solution": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Solution"
+      },
+      "Success": {
+        "index": 1,
+        "type": "BOOLEAN",
+        "identifier": "Success"
+      },
+      "Iterations": {
+        "index": 2,
+        "type": "INT",
+        "identifier": "Iterations"
+      },
+      "Absolute Error": {
+        "index": 3,
+        "type": "VALUE",
+        "identifier": "Absolute Error"
+      },
+      "Relative Error": {
+        "index": 4,
+        "type": "VALUE",
+        "identifier": "Relative Error"
+      },
+      "Debug Boundary Value": {
+        "index": 5,
+        "type": "VALUE",
+        "identifier": "Debug Boundary Value"
+      },
+      "Debug Boundary Gradient": {
+        "index": 6,
+        "type": "VECTOR",
+        "identifier": "Debug Boundary Gradient"
+      },
+      "Debug Boundary Factor": {
+        "index": 7,
+        "type": "VALUE",
+        "identifier": "Debug Boundary Factor"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "GeometryNodeGridSolvePoisson"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Grid Solve Poisson"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Solve the Poisson equation for a scalar field. Computes a grid whose Laplacian equals the input scalar grid."
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 200.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      }
+    }
+  },
   "grid_to_mesh": {
     "bl_idname": "GeometryNodeGridToMesh",
     "inputs": {
@@ -14257,6 +13968,110 @@
       "bl_width_default": {
         "type": "FLOAT",
         "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "data_type": {
+        "type": "ENUM",
+        "default": "FLOAT"
+      }
+    }
+  },
+  "grid_topology_boolean": {
+    "bl_idname": "GeometryNodeGridTopologyBoolean",
+    "inputs": {
+      "Operation": {
+        "index": 0,
+        "type": "MENU",
+        "identifier": "Operation"
+      },
+      "Grid 1": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Grid 1"
+      },
+      "Grid 2": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Grid 2"
+      }
+    },
+    "outputs": {
+      "Grid": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Grid"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "GeometryNodeGridTopologyBoolean"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Grid Topology Boolean"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Combine the topology of multiple grids"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 180.0
       },
       "bl_width_min": {
         "type": "FLOAT",
@@ -14883,7 +14698,7 @@
       }
     },
     "outputs": {
-      "Mesh": {
+      "Geometry": {
         "index": 0,
         "type": "GEOMETRY",
         "identifier": "Mesh"
@@ -14932,6 +14747,96 @@
       "bl_description": {
         "type": "STRING",
         "default": "Import a point cloud from a PLY file"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      }
+    }
+  },
+  "import_spz": {
+    "bl_idname": "GeometryNodeImportSPZ",
+    "inputs": {
+      "Path": {
+        "index": 0,
+        "type": "STRING",
+        "identifier": "Path"
+      }
+    },
+    "outputs": {
+      "Points": {
+        "index": 0,
+        "type": "GEOMETRY",
+        "identifier": "Points"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "GeometryNodeImportSPZ"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Import SPZ"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Import a point cloud object that is rendered as gaussian splat from an SPZ file"
       },
       "bl_icon": {
         "type": "ENUM",
@@ -15330,115 +15235,6 @@
       "bl_height_max": {
         "type": "FLOAT",
         "default": 3.4028234663852886e+38
-      }
-    }
-  },
-  "index_switch": {
-    "bl_idname": "GeometryNodeIndexSwitch",
-    "inputs": {
-      "Index": {
-        "index": 0,
-        "type": "INT",
-        "identifier": "Index"
-      },
-      "0": {
-        "index": 1,
-        "type": "VALUE",
-        "identifier": "Item_0"
-      },
-      "1": {
-        "index": 2,
-        "type": "VALUE",
-        "identifier": "Item_1"
-      },
-      "": {
-        "index": 3,
-        "type": "CUSTOM",
-        "identifier": "__extend__"
-      }
-    },
-    "outputs": {
-      "Output": {
-        "index": 0,
-        "type": "VALUE",
-        "identifier": "Output"
-      }
-    },
-    "properties": {
-      "location_absolute": {
-        "type": "FLOAT",
-        "default": [
-          0.0,
-          0.0
-        ]
-      },
-      "warning_propagation": {
-        "type": "ENUM",
-        "default": "ALL"
-      },
-      "show_options": {
-        "type": "BOOLEAN",
-        "default": true
-      },
-      "show_preview": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "hide": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "mute": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "show_texture": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "bl_idname": {
-        "type": "STRING",
-        "default": "GeometryNodeIndexSwitch"
-      },
-      "bl_label": {
-        "type": "STRING",
-        "default": "Index Switch"
-      },
-      "bl_description": {
-        "type": "STRING",
-        "default": "Choose between an arbitrary number of values with an index"
-      },
-      "bl_icon": {
-        "type": "ENUM",
-        "default": "NONE"
-      },
-      "bl_width_default": {
-        "type": "FLOAT",
-        "default": 140.0
-      },
-      "bl_width_min": {
-        "type": "FLOAT",
-        "default": 100.0
-      },
-      "bl_width_max": {
-        "type": "FLOAT",
-        "default": 700.0
-      },
-      "bl_height_default": {
-        "type": "FLOAT",
-        "default": 100.0
-      },
-      "bl_height_min": {
-        "type": "FLOAT",
-        "default": 30.0
-      },
-      "bl_height_max": {
-        "type": "FLOAT",
-        "default": 3.4028234663852886e+38
-      },
-      "data_type": {
-        "type": "ENUM",
-        "default": "FLOAT"
       }
     }
   },
@@ -19559,8 +19355,13 @@
         "type": "BOOLEAN",
         "identifier": "Selection"
       },
-      "Group ID": {
+      "Mode": {
         "index": 2,
+        "type": "MENU",
+        "identifier": "Mode"
+      },
+      "Group ID": {
+        "index": 3,
         "type": "INT",
         "identifier": "Group ID"
       }
@@ -21566,6 +21367,174 @@
       }
     }
   },
+  "n_u_r_b_s_order": {
+    "bl_idname": "GeometryNodeNURBSOrder",
+    "inputs": {},
+    "outputs": {
+      "Order": {
+        "index": 0,
+        "type": "INT",
+        "identifier": "Order"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "GeometryNodeNURBSOrder"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "NURBS Order"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Retrieve how many curve control points influence each evaluated point"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      }
+    }
+  },
+  "n_u_r_b_s_weight": {
+    "bl_idname": "GeometryNodeNURBSWeight",
+    "inputs": {},
+    "outputs": {
+      "Weight": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Weight"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "GeometryNodeNURBSWeight"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "NURBS Weight"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Retrieve the influence of each NURBS control point on the curve"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      }
+    }
+  },
   "object_info": {
     "bl_idname": "GeometryNodeObjectInfo",
     "inputs": {
@@ -22054,6 +22023,101 @@
       "bl_description": {
         "type": "STRING",
         "default": "Retrieve a point index within a curve"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      }
+    }
+  },
+  "points_set_type": {
+    "bl_idname": "GeometryNodePointsSetType",
+    "inputs": {
+      "Points": {
+        "index": 0,
+        "type": "GEOMETRY",
+        "identifier": "Points"
+      },
+      "Type": {
+        "index": 1,
+        "type": "MENU",
+        "identifier": "Type"
+      }
+    },
+    "outputs": {
+      "Points": {
+        "index": 0,
+        "type": "GEOMETRY",
+        "identifier": "Points"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "GeometryNodePointsSetType"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Set Point Cloud Type"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Change the type of point cloud"
       },
       "bl_icon": {
         "type": "ENUM",
@@ -22614,6 +22678,134 @@
       }
     }
   },
+  "rasterize_points": {
+    "bl_idname": "GeometryNodeRasterizePoints",
+    "inputs": {
+      "Points": {
+        "index": 0,
+        "type": "GEOMETRY",
+        "identifier": "Points"
+      },
+      "Grid Transform Mode": {
+        "index": 1,
+        "type": "MENU",
+        "identifier": "Grid Transform Mode"
+      },
+      "Voxel Size": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Voxel Size"
+      },
+      "Matrix": {
+        "index": 3,
+        "type": "MATRIX",
+        "identifier": "Matrix"
+      },
+      "Kernel Type": {
+        "index": 4,
+        "type": "MENU",
+        "identifier": "Kernel Type"
+      },
+      "Position": {
+        "index": 5,
+        "type": "VECTOR",
+        "identifier": "Position"
+      },
+      "": {
+        "index": 6,
+        "type": "CUSTOM",
+        "identifier": "__extend__"
+      }
+    },
+    "outputs": {
+      "": {
+        "index": 0,
+        "type": "CUSTOM",
+        "identifier": "__extend__"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "GeometryNodeRasterizePoints"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Rasterize Points"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Create volume grids from points with a weighted sum"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 200.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "active_index": {
+        "type": "INT",
+        "default": 0
+      },
+      "active_item": {
+        "type": "POINTER",
+        "default": null
+      }
+    }
+  },
   "raycast": {
     "bl_idname": "GeometryNodeRaycast",
     "inputs": {
@@ -22775,6 +22967,11 @@
         "index": 3,
         "type": "INT",
         "identifier": "Depth"
+      },
+      "Preserve Normals": {
+        "index": 4,
+        "type": "BOOLEAN",
+        "identifier": "Preserve Normals"
       }
     },
     "outputs": {
@@ -26238,13 +26435,18 @@
         "type": "BOOLEAN",
         "identifier": "Selection"
       },
-      "Color": {
+      "Mode": {
         "index": 2,
+        "type": "MENU",
+        "identifier": "Mode"
+      },
+      "Color": {
+        "index": 3,
         "type": "RGBA",
         "identifier": "Color"
       },
       "Opacity": {
-        "index": 3,
+        "index": 4,
         "type": "VALUE",
         "identifier": "Opacity"
       }
@@ -26341,6 +26543,11 @@
         "index": 0,
         "type": "GEOMETRY",
         "identifier": "Grease Pencil"
+      },
+      "Depth Order": {
+        "index": 1,
+        "type": "MENU",
+        "identifier": "Depth Order"
       }
     },
     "outputs": {
@@ -29564,110 +29771,6 @@
       }
     }
   },
-  "switch": {
-    "bl_idname": "GeometryNodeSwitch",
-    "inputs": {
-      "Switch": {
-        "index": 0,
-        "type": "BOOLEAN",
-        "identifier": "Switch"
-      },
-      "False": {
-        "index": 1,
-        "type": "VALUE",
-        "identifier": "False"
-      },
-      "True": {
-        "index": 2,
-        "type": "VALUE",
-        "identifier": "True"
-      }
-    },
-    "outputs": {
-      "Output": {
-        "index": 0,
-        "type": "VALUE",
-        "identifier": "Output"
-      }
-    },
-    "properties": {
-      "location_absolute": {
-        "type": "FLOAT",
-        "default": [
-          0.0,
-          0.0
-        ]
-      },
-      "warning_propagation": {
-        "type": "ENUM",
-        "default": "ALL"
-      },
-      "show_options": {
-        "type": "BOOLEAN",
-        "default": true
-      },
-      "show_preview": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "hide": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "mute": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "show_texture": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "bl_idname": {
-        "type": "STRING",
-        "default": "GeometryNodeSwitch"
-      },
-      "bl_label": {
-        "type": "STRING",
-        "default": "Switch"
-      },
-      "bl_description": {
-        "type": "STRING",
-        "default": "Switch between two inputs"
-      },
-      "bl_icon": {
-        "type": "ENUM",
-        "default": "NONE"
-      },
-      "bl_width_default": {
-        "type": "FLOAT",
-        "default": 140.0
-      },
-      "bl_width_min": {
-        "type": "FLOAT",
-        "default": 100.0
-      },
-      "bl_width_max": {
-        "type": "FLOAT",
-        "default": 700.0
-      },
-      "bl_height_default": {
-        "type": "FLOAT",
-        "default": 100.0
-      },
-      "bl_height_min": {
-        "type": "FLOAT",
-        "default": 30.0
-      },
-      "bl_height_max": {
-        "type": "FLOAT",
-        "default": 3.4028234663852886e+38
-      },
-      "input_type": {
-        "type": "ENUM",
-        "default": "FLOAT"
-      }
-    }
-  },
   "tag_filter": {
     "bl_idname": "GeometryNodeTagFilter",
     "inputs": {
@@ -31885,105 +31988,6 @@
       "bl_height_max": {
         "type": "FLOAT",
         "default": 3.4028234663852886e+38
-      }
-    }
-  },
-  "warning": {
-    "bl_idname": "GeometryNodeWarning",
-    "inputs": {
-      "Show": {
-        "index": 0,
-        "type": "BOOLEAN",
-        "identifier": "Show"
-      },
-      "Message": {
-        "index": 1,
-        "type": "STRING",
-        "identifier": "Message"
-      }
-    },
-    "outputs": {
-      "Show": {
-        "index": 0,
-        "type": "BOOLEAN",
-        "identifier": "Show"
-      }
-    },
-    "properties": {
-      "location_absolute": {
-        "type": "FLOAT",
-        "default": [
-          0.0,
-          0.0
-        ]
-      },
-      "warning_propagation": {
-        "type": "ENUM",
-        "default": "ALL"
-      },
-      "show_options": {
-        "type": "BOOLEAN",
-        "default": true
-      },
-      "show_preview": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "hide": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "mute": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "show_texture": {
-        "type": "BOOLEAN",
-        "default": false
-      },
-      "bl_idname": {
-        "type": "STRING",
-        "default": "GeometryNodeWarning"
-      },
-      "bl_label": {
-        "type": "STRING",
-        "default": "Warning"
-      },
-      "bl_description": {
-        "type": "STRING",
-        "default": "Create custom warnings in node groups"
-      },
-      "bl_icon": {
-        "type": "ENUM",
-        "default": "NONE"
-      },
-      "bl_width_default": {
-        "type": "FLOAT",
-        "default": 140.0
-      },
-      "bl_width_min": {
-        "type": "FLOAT",
-        "default": 100.0
-      },
-      "bl_width_max": {
-        "type": "FLOAT",
-        "default": 700.0
-      },
-      "bl_height_default": {
-        "type": "FLOAT",
-        "default": 100.0
-      },
-      "bl_height_min": {
-        "type": "FLOAT",
-        "default": 30.0
-      },
-      "bl_height_max": {
-        "type": "FLOAT",
-        "default": 3.4028234663852886e+38
-      },
-      "warning_type": {
-        "type": "ENUM",
-        "default": "ERROR"
       }
     }
   },

@@ -1,4 +1,397 @@
 {
+  "boolean_math": {
+    "bl_idname": "FunctionNodeBooleanMath",
+    "inputs": {
+      "Boolean": {
+        "index": 1,
+        "type": "BOOLEAN",
+        "identifier": "Boolean_001"
+      }
+    },
+    "outputs": {
+      "Boolean": {
+        "index": 0,
+        "type": "BOOLEAN",
+        "identifier": "Boolean"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "FunctionNodeBooleanMath"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Boolean Math"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Perform a logical operation on the given boolean inputs"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "operation": {
+        "type": "ENUM",
+        "default": "AND"
+      }
+    }
+  },
+  "find_in_string": {
+    "bl_idname": "FunctionNodeFindInString",
+    "inputs": {
+      "String": {
+        "index": 0,
+        "type": "STRING",
+        "identifier": "String"
+      },
+      "Search": {
+        "index": 1,
+        "type": "STRING",
+        "identifier": "Search"
+      },
+      "Mode": {
+        "index": 2,
+        "type": "MENU",
+        "identifier": "Mode"
+      }
+    },
+    "outputs": {
+      "First Found": {
+        "index": 0,
+        "type": "INT",
+        "identifier": "First Found"
+      },
+      "Count": {
+        "index": 1,
+        "type": "INT",
+        "identifier": "Count"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "FunctionNodeFindInString"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Find in String"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Find the number of times a given string occurs in another string and the position of the first match"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      }
+    }
+  },
+  "format_string": {
+    "bl_idname": "FunctionNodeFormatString",
+    "inputs": {
+      "Format": {
+        "index": 0,
+        "type": "STRING",
+        "identifier": "Format"
+      },
+      "": {
+        "index": 1,
+        "type": "CUSTOM",
+        "identifier": "__extend__"
+      }
+    },
+    "outputs": {
+      "String": {
+        "index": 0,
+        "type": "STRING",
+        "identifier": "String"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "FunctionNodeFormatString"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Format String"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Insert values into a string using a Python and path template compatible formatting syntax"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "active_index": {
+        "type": "INT",
+        "default": 0
+      }
+    }
+  },
+  "get_vector_component": {
+    "bl_idname": "FunctionNodeGetVectorComponent",
+    "inputs": {
+      "Vector": {
+        "index": 0,
+        "type": "VECTOR",
+        "identifier": "Vector"
+      },
+      "Index": {
+        "index": 1,
+        "type": "INT",
+        "identifier": "Index"
+      }
+    },
+    "outputs": {
+      "Value": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Value"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "FunctionNodeGetVectorComponent"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Get Vector Component"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Get the X, Y or Z component of a vector by index"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 160.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      }
+    }
+  },
   "input_bool": {
     "bl_idname": "FunctionNodeInputBool",
     "inputs": {},
@@ -263,6 +656,187 @@
       }
     }
   },
+  "input_special_characters": {
+    "bl_idname": "FunctionNodeInputSpecialCharacters",
+    "inputs": {},
+    "outputs": {
+      "Line Break": {
+        "index": 0,
+        "type": "STRING",
+        "identifier": "Line Break"
+      },
+      "Tab": {
+        "index": 1,
+        "type": "STRING",
+        "identifier": "Tab"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "FunctionNodeInputSpecialCharacters"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Special Characters"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Output string characters that cannot be typed directly with the keyboard"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      }
+    }
+  },
+  "input_string": {
+    "bl_idname": "FunctionNodeInputString",
+    "inputs": {},
+    "outputs": {
+      "String": {
+        "index": 0,
+        "type": "STRING",
+        "identifier": "String"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "FunctionNodeInputString"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "String"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Provide a string value that can be connected to other nodes in the tree"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "string": {
+        "type": "STRING",
+        "default": ""
+      },
+      "textbox_state": {
+        "type": "POINTER",
+        "default": "COMPLEX"
+      }
+    }
+  },
   "input_vector": {
     "bl_idname": "FunctionNodeInputVector",
     "inputs": {},
@@ -356,6 +930,1107 @@
       "vector_dimensions": {
         "type": "INT",
         "default": 3
+      }
+    }
+  },
+  "integer_math": {
+    "bl_idname": "FunctionNodeIntegerMath",
+    "inputs": {
+      "Value": {
+        "index": 2,
+        "type": "INT",
+        "identifier": "Value_002"
+      }
+    },
+    "outputs": {
+      "Value": {
+        "index": 0,
+        "type": "INT",
+        "identifier": "Value"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "FunctionNodeIntegerMath"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Integer Math"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Perform various math operations on the given integer inputs"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "operation": {
+        "type": "ENUM",
+        "default": "ADD"
+      }
+    }
+  },
+  "match_string": {
+    "bl_idname": "FunctionNodeMatchString",
+    "inputs": {
+      "String": {
+        "index": 0,
+        "type": "STRING",
+        "identifier": "String"
+      },
+      "Operation": {
+        "index": 1,
+        "type": "MENU",
+        "identifier": "Operation"
+      },
+      "Key": {
+        "index": 2,
+        "type": "STRING",
+        "identifier": "Key"
+      }
+    },
+    "outputs": {
+      "Result": {
+        "index": 0,
+        "type": "BOOLEAN",
+        "identifier": "Result"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "FunctionNodeMatchString"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Match String"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Check if a given string exists within another string"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      }
+    }
+  },
+  "replace_string": {
+    "bl_idname": "FunctionNodeReplaceString",
+    "inputs": {
+      "String": {
+        "index": 0,
+        "type": "STRING",
+        "identifier": "String"
+      },
+      "Find": {
+        "index": 1,
+        "type": "STRING",
+        "identifier": "Find"
+      },
+      "Replace": {
+        "index": 2,
+        "type": "STRING",
+        "identifier": "Replace"
+      }
+    },
+    "outputs": {
+      "String": {
+        "index": 0,
+        "type": "STRING",
+        "identifier": "String"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "FunctionNodeReplaceString"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Replace String"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Replace a given string segment with another"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      }
+    }
+  },
+  "reverse_string": {
+    "bl_idname": "FunctionNodeReverseString",
+    "inputs": {
+      "String": {
+        "index": 0,
+        "type": "STRING",
+        "identifier": "String"
+      }
+    },
+    "outputs": {
+      "String": {
+        "index": 0,
+        "type": "STRING",
+        "identifier": "String"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "FunctionNodeReverseString"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Reverse String"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Reverse the order of the characters in a string"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      }
+    }
+  },
+  "set_string_case": {
+    "bl_idname": "FunctionNodeSetStringCase",
+    "inputs": {
+      "String": {
+        "index": 0,
+        "type": "STRING",
+        "identifier": "String"
+      },
+      "Case": {
+        "index": 1,
+        "type": "MENU",
+        "identifier": "Case"
+      }
+    },
+    "outputs": {
+      "String": {
+        "index": 0,
+        "type": "STRING",
+        "identifier": "String"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "FunctionNodeSetStringCase"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Set String Case"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Convert the case of a string"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      }
+    }
+  },
+  "slice_string": {
+    "bl_idname": "FunctionNodeSliceString",
+    "inputs": {
+      "String": {
+        "index": 0,
+        "type": "STRING",
+        "identifier": "String"
+      },
+      "Position": {
+        "index": 1,
+        "type": "INT",
+        "identifier": "Position"
+      },
+      "Length": {
+        "index": 2,
+        "type": "INT",
+        "identifier": "Length"
+      }
+    },
+    "outputs": {
+      "String": {
+        "index": 0,
+        "type": "STRING",
+        "identifier": "String"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "FunctionNodeSliceString"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Slice String"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Extract a string segment from a larger string"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      }
+    }
+  },
+  "string_length": {
+    "bl_idname": "FunctionNodeStringLength",
+    "inputs": {
+      "String": {
+        "index": 0,
+        "type": "STRING",
+        "identifier": "String"
+      }
+    },
+    "outputs": {
+      "Length": {
+        "index": 0,
+        "type": "INT",
+        "identifier": "Length"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "FunctionNodeStringLength"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "String Length"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Output the number of characters in the given string"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      }
+    }
+  },
+  "string_to_value": {
+    "bl_idname": "FunctionNodeStringToValue",
+    "inputs": {
+      "String": {
+        "index": 0,
+        "type": "STRING",
+        "identifier": "String"
+      },
+      "Base": {
+        "index": 1,
+        "type": "INT",
+        "identifier": "Base"
+      }
+    },
+    "outputs": {
+      "Value": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Value"
+      },
+      "Length": {
+        "index": 1,
+        "type": "INT",
+        "identifier": "Length"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "FunctionNodeStringToValue"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "String to Value"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Derive a numeric value from a given string representation"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "data_type": {
+        "type": "ENUM",
+        "default": "FLOAT"
+      }
+    }
+  },
+  "trim_string": {
+    "bl_idname": "FunctionNodeTrimString",
+    "inputs": {
+      "String": {
+        "index": 0,
+        "type": "STRING",
+        "identifier": "String"
+      },
+      "Characters": {
+        "index": 1,
+        "type": "STRING",
+        "identifier": "Characters"
+      },
+      "Whitespace": {
+        "index": 2,
+        "type": "BOOLEAN",
+        "identifier": "Whitespace"
+      },
+      "Start": {
+        "index": 3,
+        "type": "BOOLEAN",
+        "identifier": "Start"
+      },
+      "End": {
+        "index": 4,
+        "type": "BOOLEAN",
+        "identifier": "End"
+      }
+    },
+    "outputs": {
+      "String": {
+        "index": 0,
+        "type": "STRING",
+        "identifier": "String"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "FunctionNodeTrimString"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Trim String"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Remove characters from the beginning and end of a string"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      }
+    }
+  },
+  "value_to_string": {
+    "bl_idname": "FunctionNodeValueToString",
+    "inputs": {
+      "Value": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Value"
+      },
+      "Decimals": {
+        "index": 1,
+        "type": "INT",
+        "identifier": "Decimals"
+      },
+      "Base": {
+        "index": 2,
+        "type": "INT",
+        "identifier": "Base"
+      },
+      "Padding": {
+        "index": 3,
+        "type": "INT",
+        "identifier": "Padding"
+      }
+    },
+    "outputs": {
+      "String": {
+        "index": 0,
+        "type": "STRING",
+        "identifier": "String"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "FunctionNodeValueToString"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Value to String"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Generate a string representation of the given input value"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "data_type": {
+        "type": "ENUM",
+        "default": "FLOAT"
+      }
+    }
+  },
+  "index_switch": {
+    "bl_idname": "GeometryNodeIndexSwitch",
+    "inputs": {
+      "Index": {
+        "index": 0,
+        "type": "INT",
+        "identifier": "Index"
+      },
+      "0": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Item_0"
+      },
+      "1": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "Item_1"
+      },
+      "": {
+        "index": 3,
+        "type": "CUSTOM",
+        "identifier": "__extend__"
+      }
+    },
+    "outputs": {
+      "Output": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Output"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "GeometryNodeIndexSwitch"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Index Switch"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Choose between an arbitrary number of values with an index"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "data_type": {
+        "type": "ENUM",
+        "default": "FLOAT"
       }
     }
   },
@@ -803,6 +2478,209 @@
       }
     }
   },
+  "switch": {
+    "bl_idname": "GeometryNodeSwitch",
+    "inputs": {
+      "Switch": {
+        "index": 0,
+        "type": "BOOLEAN",
+        "identifier": "Switch"
+      },
+      "False": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "False"
+      },
+      "True": {
+        "index": 2,
+        "type": "VALUE",
+        "identifier": "True"
+      }
+    },
+    "outputs": {
+      "Output": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Output"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "GeometryNodeSwitch"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Switch"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Switch between two inputs"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "input_type": {
+        "type": "ENUM",
+        "default": "FLOAT"
+      }
+    }
+  },
+  "warning": {
+    "bl_idname": "GeometryNodeWarning",
+    "inputs": {
+      "Show": {
+        "index": 0,
+        "type": "BOOLEAN",
+        "identifier": "Show"
+      },
+      "Message": {
+        "index": 1,
+        "type": "STRING",
+        "identifier": "Message"
+      }
+    },
+    "outputs": {
+      "Show": {
+        "index": 0,
+        "type": "BOOLEAN",
+        "identifier": "Show"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "GeometryNodeWarning"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Warning"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Create custom warnings in node groups"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "warning_type": {
+        "type": "ENUM",
+        "default": "ERROR"
+      }
+    }
+  },
   "closure_input": {
     "bl_idname": "NodeClosureInput",
     "inputs": {},
@@ -1084,6 +2962,187 @@
       "define_signature": {
         "type": "BOOLEAN",
         "default": false
+      }
+    }
+  },
+  "comment": {
+    "bl_idname": "NodeComment",
+    "inputs": {},
+    "outputs": {},
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "NodeComment"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Comment"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Add explanations to the node group"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 200.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "text": {
+        "type": "STRING",
+        "default": "## Comment"
+      }
+    }
+  },
+  "enable_output": {
+    "bl_idname": "NodeEnableOutput",
+    "inputs": {
+      "Enable": {
+        "index": 0,
+        "type": "BOOLEAN",
+        "identifier": "Enable"
+      },
+      "Value": {
+        "index": 1,
+        "type": "VALUE",
+        "identifier": "Value"
+      }
+    },
+    "outputs": {
+      "Value": {
+        "index": 0,
+        "type": "VALUE",
+        "identifier": "Value"
+      }
+    },
+    "properties": {
+      "location_absolute": {
+        "type": "FLOAT",
+        "default": [
+          0.0,
+          0.0
+        ]
+      },
+      "warning_propagation": {
+        "type": "ENUM",
+        "default": "ALL"
+      },
+      "show_options": {
+        "type": "BOOLEAN",
+        "default": true
+      },
+      "show_preview": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "hide": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "mute": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "show_texture": {
+        "type": "BOOLEAN",
+        "default": false
+      },
+      "bl_idname": {
+        "type": "STRING",
+        "default": "NodeEnableOutput"
+      },
+      "bl_label": {
+        "type": "STRING",
+        "default": "Enable Output"
+      },
+      "bl_description": {
+        "type": "STRING",
+        "default": "Either pass through the input value or output the fallback value"
+      },
+      "bl_icon": {
+        "type": "ENUM",
+        "default": "NONE"
+      },
+      "bl_width_default": {
+        "type": "FLOAT",
+        "default": 140.0
+      },
+      "bl_width_min": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_width_max": {
+        "type": "FLOAT",
+        "default": 700.0
+      },
+      "bl_height_default": {
+        "type": "FLOAT",
+        "default": 100.0
+      },
+      "bl_height_min": {
+        "type": "FLOAT",
+        "default": 30.0
+      },
+      "bl_height_max": {
+        "type": "FLOAT",
+        "default": 3.4028234663852886e+38
+      },
+      "data_type": {
+        "type": "ENUM",
+        "default": "FLOAT"
       }
     }
   },
